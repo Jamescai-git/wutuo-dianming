@@ -606,6 +606,12 @@ function parseGroup(g) {
     gd = digitOf(m[1]);
     if (gd != null) return { grade: gd, cls: +m[2], raw: s };
   }
+  /* 2b) 一(1) / 一(1)班 / 一（1） */
+  m = s.match(/^([一二三四五六七八九十]|\d)\s*[（(]\s*(\d{1,2})\s*[)）]\s*班?/);
+  if (m) {
+    gd = digitOf(m[1]);
+    if (gd != null) return { grade: gd, cls: +m[2], raw: s };
+  }
   /* 3) 一班 / 1班 */
   m = s.match(/^([一二三四五六七八九十]|\d)\s*班/);
   if (m) {

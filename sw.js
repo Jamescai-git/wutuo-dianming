@@ -3,7 +3,7 @@
    升级方式：改动 index.html 等文件后，把 VERSION 改一个号再部署。
    ===================================================================== */
 
-var VERSION = "wudian-v1.1.0";
+var VERSION = "wudian-v1.1.1";
 var CACHE = "wudian-shell-" + VERSION;
 
 /* 外壳资源：断网也要能打开，所以 index.html 必须进预缓存 */
