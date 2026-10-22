@@ -98,15 +98,21 @@ input[type=date]{-webkit-appearance:none; appearance:none;}
 .dlabel input[type=date]{
   position:absolute; inset:0; opacity:0; width:100%; height:100%; border:0;
 }
-/* 时段 */
-.slots{display:flex; gap:8px; padding:2px 0 10px;}
-.chip{
-  height:34px; padding:0 14px; border-radius:17px; background:var(--card);
-  border:1px solid var(--line); color:var(--muted); font-size:14px; font-weight:500;
-  display:inline-flex; align-items:center; gap:6px;
+/* 状态栏：固定在头部，学生列表滚动时始终可见 */
+.brush{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; padding:2px 0 8px;}
+.brush button{
+  height:46px; border-radius:12px; border:1px solid var(--line); background:var(--card);
+  display:flex; align-items:center; justify-content:center; gap:6px;
+  font-size:15px; font-weight:600; color:var(--text);
+  transition:background var(--dur) ease, border-color var(--dur) ease, transform 120ms ease;
 }
-.chip:active{transform:scale(.97);}
-.chip.on{background:var(--text); border-color:var(--text); color:var(--bg); font-weight:600;}
+.brush button:active{transform:scale(.97);}
+.brush button i{width:9px; height:9px; border-radius:50%; display:block;}
+.brush button.on{color:#fff; border-color:transparent;}
+.brush button.on[data-k=dao]{background:var(--s-dao);}
+.brush button.on[data-k=leave]{background:var(--s-leave);}
+.brush button.on[data-k=duty]{background:var(--s-duty);}
+.brush button.on i{background:#fff !important;}
 /* 进度 */
 .prog{display:flex; align-items:center; gap:10px; padding:0 2px 8px;}
 .prog b{font-size:13px; font-weight:600; color:var(--muted); white-space:nowrap;}
@@ -162,12 +168,8 @@ input[type=date]{-webkit-appearance:none; appearance:none;}
 /* 选中态：边框色 + 淡底 + 左上角文字标签，三通道（不再依赖头像环） */
 .card.st-dao{background:color-mix(in srgb, var(--s-dao) 7%, var(--card)); border-color:color-mix(in srgb, var(--s-dao) 46%, var(--line));}
 .card.st-dao .dot{background:var(--s-dao);}
-.card.st-late{background:color-mix(in srgb, var(--s-late) 8%, var(--card)); border-color:color-mix(in srgb, var(--s-late) 48%, var(--line));}
-.card.st-late .dot{background:var(--s-late);}
 .card.st-leave{background:color-mix(in srgb, var(--s-leave) 9%, var(--card)); border-color:color-mix(in srgb, var(--s-leave) 48%, var(--line));}
 .card.st-leave .dot{background:var(--s-leave);}
-.card.st-absent{background:color-mix(in srgb, var(--s-absent) 8%, var(--card)); border-color:color-mix(in srgb, var(--s-absent) 48%, var(--line));}
-.card.st-absent .dot{background:var(--s-absent);}
 .card.st-duty{background:color-mix(in srgb, var(--s-duty) 8%, var(--card)); border-color:color-mix(in srgb, var(--s-duty) 48%, var(--line));}
 .card.st-duty .dot{background:var(--s-duty);}
 /* 状态文字徽标（不靠颜色单独区分） */
@@ -177,9 +179,7 @@ input[type=date]{-webkit-appearance:none; appearance:none;}
 }
 .card[data-st]:not([data-st=""]) .tag{display:block;}
 .card[data-st=dao] .tag{background:var(--s-dao);}
-.card[data-st=late] .tag{background:var(--s-late);}
 .card[data-st=leave] .tag{background:var(--s-leave);}
-.card[data-st=absent] .tag{background:var(--s-absent);}
 .card[data-st=duty] .tag{background:var(--s-duty);}
 
 /* 空状态 */
@@ -268,7 +268,7 @@ input[type=date]{-webkit-appearance:none; appearance:none;}
 .hint{font-size:12px; color:var(--muted-2); line-height:1.5; margin-top:6px;}
 
 /* 状态选择器（长按弹层 / 编辑用） */
-.stpick{display:grid; grid-template-columns:repeat(5, 1fr); gap:6px;}
+.stpick{display:grid; grid-template-columns:repeat(3, 1fr); gap:6px;}
 .stpick button{
   height:56px; border-radius:13px; border:1px solid var(--line); background:var(--card-2);
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
@@ -277,9 +277,7 @@ input[type=date]{-webkit-appearance:none; appearance:none;}
 .stpick button i{width:9px; height:9px; border-radius:50%; display:block;}
 .stpick button.on{color:#fff; border-color:transparent;}
 .stpick button.on[data-k=dao]{background:var(--s-dao);}
-.stpick button.on[data-k=late]{background:var(--s-late);}
 .stpick button.on[data-k=leave]{background:var(--s-leave);}
-.stpick button.on[data-k=absent]{background:var(--s-absent);}
 .stpick button.on[data-k=duty]{background:var(--s-duty);}
 .stpick button.on i{background:#fff !important;}
 
@@ -353,10 +351,7 @@ table.tb td{font-variant-numeric:tabular-nums;}
       </div>
       <button class="dnav" id="nextDay" aria-label="后一天">›</button>
     </div>
-    <div class="slots" id="slotBar">
-      <button class="chip on" data-slot="lunch">午餐</button>
-      <button class="chip" data-slot="nap">午休</button>
-    </div>
+    <div class="brush" id="brushBar" aria-label="点名状态"></div>
     <div class="prog" id="progBar">
       <b id="progText">已点 0/0</b>
       <span class="bar"><i id="progFill"></i></span>
@@ -401,21 +396,19 @@ table.tb td{font-variant-numeric:tabular-nums;}
    ===================================================================== */
 
 /* ---------------------- 常量 ---------------------- */
-var APP_VERSION = "1.1.0";
+var APP_VERSION = "1.2.0";
 var DB_NAME = "wudian-db";
 var DB_VER = 1;
 var UNDO_LIMIT = 20;          /* 撤销栈深度 */
 var LONGPRESS_MS = 500;       /* 长按阈值 */
 
+/* v1.2：一天只点名一次，固定记在午餐时段 */
 var SLOTS = [
-  { k: "lunch", n: "午餐" },
-  { k: "nap",   n: "午休" }
+  { k: "lunch", n: "午餐" }
 ];
 var STATUS = [
   { k: "dao",    n: "到",   c: "#2E8B57" },
-  { k: "late",   n: "迟到", c: "#D9A21B" },
   { k: "leave",  n: "请假", c: "#3BB7DD" },
-  { k: "absent", n: "未到", c: "#D9534F" },
   { k: "duty",   n: "值日", c: "#7C5CD6" }
 ];
 var ST = {};
@@ -541,7 +534,7 @@ var S = {
   slot: "lunch",
   brush: "dao",                /* 当前状态笔 */
   search: "",
-  filter: "all",               /* all | none | dao | late | leave | absent | duty */
+  filter: "all",               /* all | none | dao | leave | duty */
   students: [],                /* {id,name,group,seq,note,active,avatarId} */
   records: new Map(),          /* key "date|slot|sid" -> {key,date,slot,studentId,status,updatedAt} */
   avatarUrls: new Map(),       /* avatarId -> objectURL */
@@ -549,7 +542,8 @@ var S = {
   recSeg: "day",               /* 记录页分段：day | stat | data */
   statMonth: monthOf(todayStr()),
   recSearch: "",
-  rosterSearch: ""
+  rosterSearch: "",
+  purgedCount: 0
 };
 
 var PREF_KEY = "wudian.pref.v1";
@@ -557,14 +551,12 @@ function loadPref() {
   try {
     var p = JSON.parse(localStorage.getItem(PREF_KEY) || "{}");
     if (p.date && /^\d{4}-\d{2}-\d{2}$/.test(p.date)) S.date = p.date;
-    if (p.slot && S.slots_ok(p.slot)) S.slot = p.slot;
-    if (p.brush && ST[p.brush]) S.brush = p.brush;
+    if (p.brush && STATUS.some(function (s) { return s.k === p.brush; })) S.brush = p.brush;
   } catch (e) { /* 偏好损坏就忽略 */ }
 }
-S.slots_ok = function (k) { return SLOTS.some(function (s) { return s.k === k; }); };
 function savePref() {
   try {
-    localStorage.setItem(PREF_KEY, JSON.stringify({ date: S.date, slot: S.slot, brush: S.brush }));
+    localStorage.setItem(PREF_KEY, JSON.stringify({ date: S.date, brush: S.brush }));
   } catch (e) { /* 隐私模式下可能失败，忽略 */ }
 }
 
@@ -727,7 +719,7 @@ $("#mask").addEventListener("click", closeSheet);
    点名页
    ===================================================================== */
 function countByStatus(date, slot, list) {
-  var out = { dao: 0, late: 0, leave: 0, absent: 0, duty: 0, none: 0, total: list.length };
+  var out = { dao: 0, leave: 0, duty: 0, none: 0, total: list.length };
   list.forEach(function (s) {
     var r = getRec(s.id, date, slot);
     if (r && out[r.status] != null) out[r.status]++; else out.none++;
@@ -747,27 +739,6 @@ function buildRollView() {
     wrap.appendChild(e1);
     return { node: wrap, empty: "no-student" };
   }
-
-  /* 状态笔 */
-  var brushWrap = el("div");
-  brushWrap.style.cssText = "display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:8px 0 2px";
-  STATUS.forEach(function (s) {
-    var b = el("button", "stpickbtn");
-    b.dataset.brush = s.k;
-    b.style.cssText = "height:42px;border-radius:12px;border:1px solid var(--line);display:flex;" +
-      "align-items:center;justify-content:center;gap:5px;font-size:13px;font-weight:600;" +
-      "background:var(--card);color:var(--text)";
-    b.innerHTML = '<i style="width:9px;height:9px;border-radius:50%;display:block;background:' + s.c + '"></i>' + s.n;
-    if (S.brush === s.k) {
-      b.style.background = s.c; b.style.borderColor = s.c; b.style.color = "#fff";
-      b.querySelector("i").style.background = "#fff";
-    }
-    b.addEventListener("click", function () {
-      S.brush = s.k; savePref(); render();
-    });
-    brushWrap.appendChild(b);
-  });
-  wrap.appendChild(brushWrap);
 
   /* 搜索 */
   var se = el("div", "search");
@@ -837,7 +808,7 @@ function displayName(name) {
 function cardHtml(s) {
   var r = getRec(s.id);
   var st = r ? r.status : "";
-  return '<span class="tag">' + (st ? ST[st].n : "") + "</span>" +
+  return '<span class="tag">' + (st ? ((ST[st] || {}).n || "") : "") + "</span>" +
     '<span class="dot"></span>' +
     '<span class="nm">' + esc(displayName(s.name)) + "</span>" +
     '<span class="gp">' + esc(s.group || "\u00a0") + "</span>";
@@ -854,6 +825,12 @@ function renderGridOnly() {
   var grid = $("#grid");
   if (!grid) return;
   var list = sortStudents(activeStudents()).filter(matchFilters);
+  /* v1.2：未点名的始终在上，已点名的沉底；两组内部都保持年级升序 */
+  list.sort(function (a, b) {
+    var ma = getRec(a.id) ? 1 : 0, mb = getRec(b.id) ? 1 : 0;
+    if (ma !== mb) return ma - mb;
+    return compareStudents(a, b);
+  });
   var frag = document.createDocumentFragment();
   list.forEach(function (s) {
     var b = el("button", "card");
@@ -892,6 +869,17 @@ function refreshRollChrome() {
     '<span class="l"><i style="background:var(--line)"></i>未点</span></div>';
   sb.innerHTML = html + '<button class="undo" id="undoBtn"' + (S.undo.length ? "" : " disabled") + ">" +
     "↶ 撤销" + (S.undo.length ? "<b>" + S.undo.length + "</b>" : "") + "</button>";
+
+  /* 筛选条计数跟随点名结果同步 */
+  var fw = $(".filters");
+  if (fw) {
+    fw.querySelectorAll(".fchip").forEach(function (b) {
+      var k = b.dataset.filter;
+      var n = k === "all" ? c.total : (k === "none" ? c.none : c[k]);
+      var cnt = b.querySelector(".cnt");
+      if (cnt) cnt.textContent = n;
+    });
+  }
 }
 
 /* 应用一个状态（幂等） */
@@ -908,8 +896,7 @@ function applyStatus(sid, status) {
   return idbPut("records", rec).then(function () {
     S.records.set(key, rec);
     pushUndo({ key: key, studentId: sid, date: S.date, slot: S.slot, prev: cur ? cloneRec(cur) : null });
-    paintCard(sid);
-    refreshRollChrome();
+    renderGridOnly();     /* 重新排序：已点名的沉到底部 */
     return { changed: true };
   });
 }
@@ -920,22 +907,6 @@ function pushUndo(op) {
   S.undo.push(op);
   if (S.undo.length > UNDO_LIMIT) S.undo.shift();
 }
-function paintCard(sid) {
-  var grid = $("#grid");
-  if (!grid) return;
-  var b = grid.querySelector('.card[data-id="' + sid + '"]');
-  if (!b) return;
-  var st = (getRec(sid) || {}).status || "";
-  b.dataset.st = st;
-  b.className = "card " + (st ? "st-" + st : "st-none");
-  var tag = b.querySelector(".tag");
-  if (tag) tag.textContent = st ? ST[st].n : "";
-  b.animate && b.animate(
-    [{ transform: "scale(.94)" }, { transform: "scale(1.02)" }, { transform: "scale(1)" }],
-    { duration: 150, easing: "ease-out" }
-  );
-}
-
 /* 长按状态选择弹层 */
 function openStudentSheet(sid) {
   var s = studentById(sid);
@@ -970,7 +941,7 @@ function openStudentSheet(sid) {
         idbDel("records", key).then(function () {
           S.records.delete(key);
           pushUndo({ key: key, studentId: sid, date: S.date, slot: S.slot, prev: cloneRec(prev) });
-          paintCard(sid); refreshRollChrome(); closeSheet();
+          renderGridOnly(); closeSheet();
           toast("已清除 " + s.name + " 的本次记录");
         });
       });
@@ -993,7 +964,6 @@ function undoOnce() {
     if (op.date !== S.date || op.slot !== S.slot) {
       S.date = op.date; S.slot = op.slot; savePref(); render();
     } else {
-      paintCard(op.studentId);
       renderGridOnly();
     }
     var stName = op.prev ? ST[op.prev.status].n : "未点";
@@ -1387,7 +1357,7 @@ function monthlyStats(month, onlyActive) {
   var rows = new Map();
   var pool = sortStudents(onlyActive ? activeStudents() : S.students);
   pool.forEach(function (s) {
-    rows.set(s.id, { s: s, dao: 0, late: 0, leave: 0, absent: 0, duty: 0, total: 0 });
+    rows.set(s.id, { s: s, dao: 0, leave: 0, duty: 0, total: 0 });
   });
   allRecords().forEach(function (r) {
     if (monthOf(r.date) !== month) return;
@@ -1498,13 +1468,13 @@ function openStudentHistory(sid) {
   var from = addDays(todayStr(), -60);
   var rows = allRecords().filter(function (r) { return r.studentId === sid && r.date >= from; })
     .sort(function (a, b) { return a.date === b.date ? slotOrder(a.slot) - slotOrder(b.slot) : (a.date < b.date ? 1 : -1); });
-  var cnt = { dao: 0, late: 0, leave: 0, absent: 0, duty: 0 };
+  var cnt = { dao: 0, leave: 0, duty: 0 };
   rows.forEach(function (r) { if (cnt[r.status] != null) cnt[r.status]++; });
 
   var h = '<div class="grab"></div><div class="sh-hd"><h3>' + esc(s.name) +
     ' <span style="font-size:12px;font-weight:500;color:var(--muted-2)">最近 60 天 · ' + rows.length + ' 条</span></h3>' +
     '<button class="x" data-close>✕</button></div><div class="sh-bd">';
-  h += '<div class="panel" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;text-align:center;padding:10px 6px">';
+  h += '<div class="panel" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center;padding:10px 6px">';
   STATUS.forEach(function (st) {
     h += '<div><div style="font-size:17px;font-weight:700;color:' + st.c + '">' + cnt[st.k] + "</div>" +
       '<div style="font-size:10.5px;color:var(--muted-2);margin-top:2px">' + st.n + "</div></div>";
@@ -1535,18 +1505,18 @@ function renderStatSeg() {
   var h = "";
   h += '<div class="sec"><h2>月度统计</h2></div>';
   h += '<div class="monthbar"><input type="month" id="monthInput" value="' + esc(month) + '"></div>';
-  h += '<div class="hint">出勤率 =（到 + 迟到 + 值日）÷ 应点次数；应点次数 = 该月该生所有记录条数。</div>';
+  h += '<div class="hint">出勤率 =（到 + 值日）÷ 应点次数；应点次数 = 该月该生所有记录条数。</div>';
   if (!rows.length) {
     h += '<div class="empty"><div class="big">还没有在册学生</div>先去名单页导入。</div>';
     return h;
   }
   h += '<div class="panel" style="margin-top:10px;padding:2px 8px 6px"><div class="tbwrap"><table class="tb">';
-  h += "<thead><tr><th>姓名</th><th>到</th><th>迟到</th><th>请假</th><th>未到</th><th>值日</th><th>应点</th><th>出勤率</th></tr></thead><tbody>";
+  h += "<thead><tr><th>姓名</th><th>到</th><th>请假</th><th>值日</th><th>应点</th><th>出勤率</th></tr></thead><tbody>";
   withData.forEach(function (r) {
-    var rate = r.total ? Math.round((r.dao + r.late + r.duty) / r.total * 1000) / 10 : 0;
+    var rate = r.total ? Math.round((r.dao + r.duty) / r.total * 1000) / 10 : 0;
     h += "<tr><td>" + esc(r.s.name) + "</td>" +
-      "<td>" + r.dao + "</td><td>" + r.late + "</td><td>" + r.leave + "</td>" +
-      "<td>" + r.absent + "</td><td>" + r.duty + "</td><td>" + r.total + "</td>" +
+      "<td>" + r.dao + "</td><td>" + r.leave + "</td><td>" + r.duty + "</td>" +
+      "<td>" + r.total + "</td>" +
       '<td style="font-weight:700">' + rate.toFixed(1) + "%</td></tr>";
   });
   h += "</tbody></table></div>";
@@ -1572,7 +1542,7 @@ function renderDataSeg() {
   h += '<div class="sec"><h2>概况</h2></div>';
   var ds = dateList();
   var recs = allRecords();
-  var cnt = { dao: 0, late: 0, leave: 0, absent: 0, duty: 0 };
+  var cnt = { dao: 0, leave: 0, duty: 0 };
   recs.forEach(function (r) { if (cnt[r.status] != null) cnt[r.status]++; });
   h += '<div class="panel">' +
     '<div class="kv"><span class="k">在册学生</span><span class="v">' + S.students.length + " 人（在用 " + activeStudents().length + "）</span></div>" +
@@ -1597,7 +1567,7 @@ function openDaySheet(date) {
   SLOTS.forEach(function (sl) {
     var rs = rows.filter(function (r) { return r.slot === sl.k; });
     if (!rs.length) return;
-    var c = { dao: 0, late: 0, leave: 0, absent: 0, duty: 0 };
+    var c = { dao: 0, leave: 0, duty: 0 };
     rs.forEach(function (r) { if (c[r.status] != null) c[r.status]++; });
     h += '<div class="sec" style="margin-top:4px"><h2>' + sl.n + " · " + rs.length + " 条</h2></div>";
     h += '<div class="panel" style="padding:10px 12px;margin-bottom:6px">' +
@@ -1788,11 +1758,26 @@ function renderHeader() {
   $("#dateText").textContent = dateLabel(S.date);
   $("#todayTag").hidden = (S.date !== todayStr());
   $("#datePick").value = S.date;
-  $("#slotBar").querySelectorAll(".chip").forEach(function (b) {
-    b.classList.toggle("on", b.dataset.slot === S.slot);
+  /* 状态栏与进度条只属于点名页；状态栏在头部，列表滚动时不动 */
+  $("#brushBar").style.display = (S.tab === "roll") ? "" : "none";
+  $("#progBar").style.display = (S.tab === "roll") ? "" : "none";
+  renderBrush();
+}
+
+function renderBrush() {
+  var bar = $("#brushBar");
+  if (!bar) return;
+  bar.innerHTML = "";
+  STATUS.forEach(function (s) {
+    var b = el("button");
+    b.dataset.k = s.k;
+    if (S.brush === s.k) b.className = "on";
+    b.innerHTML = '<i style="background:' + s.c + '"></i>' + s.n;
+    b.addEventListener("click", function () {
+      S.brush = s.k; savePref(); renderBrush();
+    });
+    bar.appendChild(b);
   });
-  /* 只有点名页需要进度条，但保留占位避免跳动 */
-  $("#progBar").style.visibility = (S.tab === "roll") ? "visible" : "hidden";
 }
 
 function render() {
@@ -1830,11 +1815,6 @@ function bindChrome() {
     if (typeof p.showPicker === "function") { try { p.showPicker(); return; } catch (err) {} }
     p.focus();
   });
-  $("#slotBar").addEventListener("click", function (e) {
-    var b = e.target.closest(".chip");
-    if (!b) return;
-    S.slot = b.dataset.slot; savePref(); render();
-  });
   $("#tabBar").addEventListener("click", function (e) {
     var b = e.target.closest(".tab");
     if (!b) return;
@@ -1844,14 +1824,14 @@ function bindChrome() {
   $("#statsBar").addEventListener("click", function (e) {
     if (e.target.closest("#undoBtn")) undoOnce();
   });
-  /* 键盘快捷键（桌面自测方便）：← → 切日，1-5 换笔，Ctrl+Z 撤销 */
+  /* 键盘快捷键（桌面自测方便）：← → 切日，1-3 换笔，Ctrl+Z 撤销 */
   document.addEventListener("keydown", function (e) {
     if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
     if (e.key === "ArrowLeft") { S.date = addDays(S.date, -1); savePref(); render(); }
     else if (e.key === "ArrowRight") { S.date = addDays(S.date, 1); savePref(); render(); }
     else if (e.key === "z" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); undoOnce(); }
-    else if (/^[1-5]$/.test(e.key) && S.tab === "roll") {
-      S.brush = STATUS[+e.key - 1].k; savePref(); render();
+    else if (/^[1-3]$/.test(e.key) && S.tab === "roll") {
+      S.brush = STATUS[+e.key - 1].k; savePref(); renderBrush();
     }
   });
   /* 阻止 iOS 上长按弹出系统菜单 */
@@ -1871,7 +1851,15 @@ function boot(skipPref) {
     (res[1] || []).forEach(function (r) {
       if (r && r.key) S.records.set(r.key, r);
     });
-    return loadAvatars();
+    S.slot = "lunch";
+    /* v1.2 一次性清理：迟到 / 未到 / 午休旧记录（按老蔡 2026-10-22 确认的 B 方案） */
+    var stale = [];
+    S.records.forEach(function (r, k) {
+      if (!ST[r.status] || r.slot !== "lunch") stale.push(k);
+    });
+    stale.forEach(function (k) { S.records.delete(k); });
+    S.purgedCount = stale.length;
+    return Promise.all(stale.map(function (k) { return idbDel("records", k); })).then(loadAvatars);
   });
 }
 
@@ -1905,6 +1893,7 @@ boot().then(function () {
   bindChrome();
   render();
   registerSw();
+  if (S.purgedCount) toast("已清理 " + S.purgedCount + " 条旧记录（迟到 / 未到 / 午休）");
   window.__ready = true;
 }).catch(function (err) {
   document.getElementById("view").innerHTML =
