@@ -138,30 +138,30 @@ input[type=date]{-webkit-appearance:none; appearance:none;}
 .fchip.on .cnt{color:rgba(255,255,255,.72);}
 @media (prefers-color-scheme: dark){ .fchip.on .cnt{color:rgba(0,0,0,.5);} }
 
-/* 学生网格 */
-.grid{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px;}
+/* 学生网格（v1.1：2 列大名片，点名页不再渲染头像圆） */
+.grid{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px;}
 .card{
   position:relative; background:var(--card); border-radius:var(--r); border:1px solid var(--line-2);
-  padding:10px 6px 9px; display:flex; flex-direction:column; align-items:center; gap:5px;
+  padding:20px 10px 14px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+  text-align:center;
   box-shadow:var(--shadow-s); transition:transform 130ms ease, box-shadow 130ms ease, background 130ms ease, border-color 130ms ease;
-  min-height:96px; overflow:hidden;
+  min-height:108px; overflow:hidden;
 }
-.card:active{transform:scale(.955);}
+.card:active{transform:scale(.965);}
 .card .dot{position:absolute; top:7px; right:7px; width:8px; height:8px; border-radius:50%; background:var(--line);}
-.card .ava{
-  width:40px; height:40px; border-radius:50%; display:grid; place-items:center;
-  font-size:16px; font-weight:600; color:#fff; background:#B9BEB7; overflow:hidden; flex:0 0 40px;
-}
-.card .ava img{width:100%; height:100%; object-fit:cover; display:block;}
+/* 主显示名：>=22px / 700 / 单行不截断 */
 .card .nm{
-  font-size:13px; font-weight:600; line-height:1.15; text-align:center; max-width:100%;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  font-size:22px; font-weight:700; line-height:1.2; letter-spacing:.3px; max-width:100%;
+  white-space:nowrap;
 }
-.card .gp{font-size:10px; color:var(--muted-2); line-height:1; max-width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-/* 选中态：环形描边 + 淡底，颜色与文字双通道 */
+/* 名字下方一行班级小字：12px / muted / 可截断不换行 */
+.card .gp{
+  font-size:12px; color:var(--muted); line-height:1.3; max-width:100%;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:1px;
+}
+/* 选中态：边框色 + 淡底 + 左上角文字标签，三通道（不再依赖头像环） */
 .card.st-dao{background:color-mix(in srgb, var(--s-dao) 7%, var(--card)); border-color:color-mix(in srgb, var(--s-dao) 46%, var(--line));}
 .card.st-dao .dot{background:var(--s-dao);}
-.card.st-dao .ava{box-shadow:0 0 0 2px var(--card), 0 0 0 4px color-mix(in srgb, var(--s-dao) 70%, transparent);}
 .card.st-late{background:color-mix(in srgb, var(--s-late) 8%, var(--card)); border-color:color-mix(in srgb, var(--s-late) 48%, var(--line));}
 .card.st-late .dot{background:var(--s-late);}
 .card.st-leave{background:color-mix(in srgb, var(--s-leave) 9%, var(--card)); border-color:color-mix(in srgb, var(--s-leave) 48%, var(--line));}
@@ -170,7 +170,6 @@ input[type=date]{-webkit-appearance:none; appearance:none;}
 .card.st-absent .dot{background:var(--s-absent);}
 .card.st-duty{background:color-mix(in srgb, var(--s-duty) 8%, var(--card)); border-color:color-mix(in srgb, var(--s-duty) 48%, var(--line));}
 .card.st-duty .dot{background:var(--s-duty);}
-.card.st-late .ava,.card.st-leave .ava,.card.st-absent .ava,.card.st-duty .ava{opacity:.94;}
 /* 状态文字徽标（不靠颜色单独区分） */
 .card .tag{
   position:absolute; left:6px; top:6px; font-size:9px; font-weight:700; line-height:1;
@@ -402,7 +401,7 @@ table.tb td{font-variant-numeric:tabular-nums;}
    ===================================================================== */
 
 /* ---------------------- 常量 ---------------------- */
-var APP_VERSION = "1.0.0";
+var APP_VERSION = "1.1.0";
 var DB_NAME = "wudian-db";
 var DB_VER = 1;
 var UNDO_LIMIT = 20;          /* 撤销栈深度 */
@@ -579,7 +578,44 @@ function studentById(id) {
   for (var i = 0; i < S.students.length; i++) if (S.students[i].id === id) return S.students[i];
   return null;
 }
-/* 排序：分组（数字优先按数值）→ 序号 → 姓名 */
+/* ---------- 分组文本 → 年级/班（v1.1 排序用） ----------
+   认得这些写法：一 / 一1班 / 二3班 / 三年级 / 3年级 / 三年级2班 / 301班（＝3 年级 1 班）
+   解析不出的一律 null → 排到最后 */
+var CN_DIGIT = { "一": 1, "二": 2, "三": 3, "四": 4, "五": 5, "六": 6, "七": 7, "八": 8, "九": 9, "十": 10 };
+function digitOf(ch) {
+  if (ch == null || ch === "") return null;
+  if (/^\d$/.test(ch)) return +ch;
+  return CN_DIGIT[ch] || null;
+}
+function parseGroup(g) {
+  var s = String(g == null ? "" : g).trim();
+  if (!s) return null;
+  /* 全角数字→半角，去空白，避免「三 2 班」「三年级２班」认不出 */
+  s = s.replace(/[０-９]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+       .replace(/\s+/g, "");
+  var m, gd;
+  /* 1) 三年级 / 3年级 / 三年级2班 */
+  m = s.match(/^([一二三四五六七八九十]|\d)\s*年级\s*(\d{1,2})?\s*班?/);
+  if (m) {
+    gd = digitOf(m[1]);
+    if (gd != null) return { grade: gd, cls: m[2] ? +m[2] : null, raw: s };
+  }
+  /* 2) 一1班 / 二3班 / 301班 */
+  m = s.match(/^([一二三四五六七八九十]|\d)\s*(\d{1,2})\s*班/);
+  if (m) {
+    gd = digitOf(m[1]);
+    if (gd != null) return { grade: gd, cls: +m[2], raw: s };
+  }
+  /* 3) 一班 / 1班 */
+  m = s.match(/^([一二三四五六七八九十]|\d)\s*班/);
+  if (m) {
+    gd = digitOf(m[1]);
+    if (gd != null) return { grade: gd, cls: null, raw: s };
+  }
+  return null;
+}
+
+/* 旧规则：分组（数字优先按数值）→ 序号 → 姓名，仅供记录页/CSV 沿用 */
 function cmpGroup(a, b) {
   var ga = String(a || "").trim(), gb = String(b || "").trim();
   if (!ga && gb) return 1;      /* 未分组排最后 */
@@ -590,14 +626,29 @@ function cmpGroup(a, b) {
   if (an !== bn) return an ? -1 : 1;
   return ga.localeCompare(gb, "zh-Hans-CN");
 }
+
+/* 统一比较器（点名页 + 名单页共用）：
+   年级升序 → 班级（班号优先，否则组名 localeCompare）→ 序号 → 姓名
+   解析不出年级的分组一律排最后，组内沿用旧规则 */
+function compareStudents(a, b) {
+  var pa = parseGroup(a.group), pb = parseGroup(b.group);
+  if (pa && pb) {
+    if (pa.grade !== pb.grade) return pa.grade - pb.grade;
+    if (pa.cls != null && pb.cls != null && pa.cls !== pb.cls) return pa.cls - pb.cls;
+    var cn = String(a.group || "").localeCompare(String(b.group || ""), "zh-Hans-CN");
+    if (cn) return cn;
+  } else if (pa || pb) {
+    return pa ? -1 : 1;
+  } else {
+    var og = cmpGroup(a.group, b.group);
+    if (og) return og;
+  }
+  var sa = (a.seq == null ? 1e9 : a.seq), sb = (b.seq == null ? 1e9 : b.seq);
+  if (sa !== sb) return sa - sb;
+  return String(a.name).localeCompare(String(b.name), "zh-Hans-CN");
+}
 function sortStudents(list) {
-  return list.slice().sort(function (a, b) {
-    var g = cmpGroup(a.group, b.group);
-    if (g) return g;
-    var sa = (a.seq == null ? 1e9 : a.seq), sb = (b.seq == null ? 1e9 : b.seq);
-    if (sa !== sb) return sa - sb;
-    return String(a.name).localeCompare(String(b.name), "zh-Hans-CN");
-  });
+  return list.slice().sort(compareStudents);
 }
 function slotOrder(k) {
   for (var i = 0; i < SLOTS.length; i++) if (SLOTS[i].k === k) return i;
@@ -766,19 +817,26 @@ function matchFilters(s) {
   return st === S.filter;
 }
 
+/* 点名页主显示名（只影响显示，不改数据）
+   ≤3 字 → 全名；4 字 → 后 2 字；≥5 字 → 后 3 字 */
+function displayName(name) {
+  var n = normName(name);
+  var len = Array.from(n).length;
+  if (len <= 3) return n;
+  if (len === 4) return n.slice(n.length - 2);
+  return n.slice(n.length - 3);
+}
+
+/* 卡片：无头像圆，只有 状态标签 + 状态点 + 大名字 + 班级小字 */
 function cardHtml(s) {
   var r = getRec(s.id);
   var st = r ? r.status : "";
-  var av = avatarUrl(s.avatarId);
-  var inner = av
-    ? '<span class="ava"><img src="' + esc(av) + '" alt=""></span>'
-    : '<span class="ava" style="background:' + colorFor(s.name) + '">' + esc(surname(s.name)) + "</span>";
   return '<span class="tag">' + (st ? ST[st].n : "") + "</span>" +
-    '<span class="dot"></span>' + inner +
-    '<span class="nm">' + esc(s.name) + "</span>" +
+    '<span class="dot"></span>' +
+    '<span class="nm">' + esc(displayName(s.name)) + "</span>" +
     '<span class="gp">' + esc(s.group || "\u00a0") + "</span>";
 }
-/* 名字 -> 稳定色（无头像时的色块） */
+/* 名字 -> 稳定色（名单页/记录页无头像时的色块用） */
 var PALETTE = ["#8E9BA8", "#A8917C", "#7E9A8A", "#9A8AA8", "#A8957E", "#7F93A8", "#A88282"];
 function colorFor(name) {
   var n = String(name || ""), h = 0;
@@ -1831,6 +1889,9 @@ window.__test = {
   recordsCsv: recordsCsv,
   studentsCsv: studentsCsv,
   countNow: function () { return countByStatus(S.date, S.slot, activeStudents()); },
+  displayName: displayName,
+  parseGroup: parseGroup,
+  sortStudents: sortStudents,
   appVersion: APP_VERSION
 };
 
