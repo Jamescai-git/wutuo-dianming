@@ -34,11 +34,13 @@
   --safe-l:env(safe-area-inset-left, 0px);
   --safe-r:env(safe-area-inset-right, 0px);
   /* 状态色 */
-  --s-dao:#2E8B57;
-  --s-late:#D9A21B;
-  --s-leave:#3BB7DD;
+  --s-dao:#22C55E;
+  --s-late:#F59E0B;
+  --s-leave:#0EA5E9;
   --s-absent:#D9534F;
-  --s-duty:#7C5CD6;
+  --s-duty:#8B5CF6;
+  --row-a:#FFE58F;
+  --row-b:#BFE9FF;
   --dur:150ms;
 }
 @media (prefers-color-scheme: dark){
@@ -52,6 +54,8 @@
     --muted:#9BA1A6;
     --muted-2:#7E848A;
     --accent:#3FA36B;
+    --row-a:#3A3116;
+    --row-b:#17303D;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 6px 16px rgba(0,0,0,.35);
     --shadow-s:0 1px 2px rgba(0,0,0,.35);
   }
@@ -108,7 +112,7 @@ input[type=date]{-webkit-appearance:none; appearance:none;}
 }
 .brush button:active{transform:scale(.97);}
 .brush button i{width:9px; height:9px; border-radius:50%; display:block;}
-.brush button.on{color:#fff; border-color:transparent;}
+.brush button.on{color:#101613; border-color:transparent;}
 .brush button.on[data-k=dao]{background:var(--s-dao);}
 .brush button.on[data-k=leave]{background:var(--s-leave);}
 .brush button.on[data-k=duty]{background:var(--s-duty);}
@@ -146,8 +150,11 @@ input[type=date]{-webkit-appearance:none; appearance:none;}
 
 /* 学生网格（v1.1：2 列大名片，点名页不再渲染头像圆） */
 .grid{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px;}
+/* 行斑马纹：两列一行，单数行暖黄 / 双数行浅蓝 */
+.grid .card:nth-child(4n+1), .grid .card:nth-child(4n+2){--row-bg:var(--row-a);}
+.grid .card:nth-child(4n+3), .grid .card:nth-child(4n+4){--row-bg:var(--row-b);}
 .card{
-  position:relative; background:var(--card); border-radius:var(--r); border:1px solid var(--line-2);
+  position:relative; background:var(--row-bg, var(--card)); border-radius:var(--r); border:1px solid var(--line-2);
   padding:20px 10px 14px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
   text-align:center;
   box-shadow:var(--shadow-s); transition:transform 130ms ease, box-shadow 130ms ease, background 130ms ease, border-color 130ms ease;
@@ -166,16 +173,16 @@ input[type=date]{-webkit-appearance:none; appearance:none;}
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:1px;
 }
 /* 选中态：边框色 + 淡底 + 左上角文字标签，三通道（不再依赖头像环） */
-.card.st-dao{background:color-mix(in srgb, var(--s-dao) 7%, var(--card)); border-color:color-mix(in srgb, var(--s-dao) 46%, var(--line));}
+.card.st-dao{background:color-mix(in srgb, var(--s-dao) 45%, var(--row-bg)); border-color:var(--s-dao);}
 .card.st-dao .dot{background:var(--s-dao);}
-.card.st-leave{background:color-mix(in srgb, var(--s-leave) 9%, var(--card)); border-color:color-mix(in srgb, var(--s-leave) 48%, var(--line));}
+.card.st-leave{background:color-mix(in srgb, var(--s-leave) 45%, var(--row-bg)); border-color:var(--s-leave);}
 .card.st-leave .dot{background:var(--s-leave);}
-.card.st-duty{background:color-mix(in srgb, var(--s-duty) 8%, var(--card)); border-color:color-mix(in srgb, var(--s-duty) 48%, var(--line));}
+.card.st-duty{background:color-mix(in srgb, var(--s-duty) 45%, var(--row-bg)); border-color:var(--s-duty);}
 .card.st-duty .dot{background:var(--s-duty);}
 /* 状态文字徽标（不靠颜色单独区分） */
 .card .tag{
   position:absolute; left:6px; top:6px; font-size:9px; font-weight:700; line-height:1;
-  padding:3px 4px; border-radius:5px; color:#fff; display:none;
+  padding:3px 4px; border-radius:5px; color:#101613; display:none;
 }
 .card[data-st]:not([data-st=""]) .tag{display:block;}
 .card[data-st=dao] .tag{background:var(--s-dao);}
@@ -396,7 +403,7 @@ table.tb td{font-variant-numeric:tabular-nums;}
    ===================================================================== */
 
 /* ---------------------- 常量 ---------------------- */
-var APP_VERSION = "1.2.0";
+var APP_VERSION = "1.2.1";
 var DB_NAME = "wudian-db";
 var DB_VER = 1;
 var UNDO_LIMIT = 20;          /* 撤销栈深度 */
@@ -407,9 +414,9 @@ var SLOTS = [
   { k: "lunch", n: "午餐" }
 ];
 var STATUS = [
-  { k: "dao",    n: "到",   c: "#2E8B57" },
-  { k: "leave",  n: "请假", c: "#3BB7DD" },
-  { k: "duty",   n: "值日", c: "#7C5CD6" }
+  { k: "dao",    n: "到",   c: "#22C55E", ink: "#15803D" },
+  { k: "leave",  n: "请假", c: "#0EA5E9", ink: "#0369A1" },
+  { k: "duty",   n: "值日", c: "#8B5CF6", ink: "#6D28D9" }
 ];
 var ST = {};
 STATUS.forEach(function (s) { ST[s.k] = s; });
@@ -862,7 +869,7 @@ function refreshRollChrome() {
   var sb = $("#statsBar");
   var html = "";
   STATUS.forEach(function (s) {
-    html += '<div class="st"><span class="n" style="color:' + s.c + '">' + c[s.k] + "</span>" +
+    html += '<div class="st"><span class="n" style="color:' + (s.ink || s.c) + '">' + c[s.k] + "</span>" +
       '<span class="l"><i style="background:' + s.c + '"></i>' + s.n + "</span></div>";
   });
   html += '<div class="st total"><span class="n">' + c.none + "</span>" +
@@ -1476,7 +1483,7 @@ function openStudentHistory(sid) {
     '<button class="x" data-close>✕</button></div><div class="sh-bd">';
   h += '<div class="panel" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center;padding:10px 6px">';
   STATUS.forEach(function (st) {
-    h += '<div><div style="font-size:17px;font-weight:700;color:' + st.c + '">' + cnt[st.k] + "</div>" +
+    h += '<div><div style="font-size:17px;font-weight:700;color:' + (st.ink || st.c) + '">' + cnt[st.k] + "</div>" +
       '<div style="font-size:10.5px;color:var(--muted-2);margin-top:2px">' + st.n + "</div></div>";
   });
   h += "</div>";
@@ -1488,7 +1495,7 @@ function openStudentHistory(sid) {
       h += '<div class="drow"><div class="d1"><div class="t" style="font-size:13.5px">' + dateLabel(r.date) +
         ' <span style="font-size:11px;color:var(--muted-2);font-weight:400">' + slotName(r.slot) + "</span></div>" +
         '<div class="s">记录于 ' + tsLabel(r.updatedAt) + "</div></div>" +
-        '<span style="font-size:12px;font-weight:700;color:' + ST[r.status].c + '">' + ST[r.status].n + "</span></div>";
+      '<span style="font-size:12px;font-weight:700;color:' + (ST[r.status].ink || ST[r.status].c) + '">' + ST[r.status].n + "</span></div>";
     });
     h += "</div>";
   }
@@ -1588,7 +1595,7 @@ function openDaySheet(date) {
         esc(s ? s.name : "（已删除）") + ' <span style="font-size:11px;color:var(--muted-2);font-weight:400">' +
         esc(s ? (s.group || "未分组") : "") + "</span></div>" +
         '<div class="s">' + tsLabel(r.updatedAt) + "</div></div>" +
-        '<span style="font-size:12px;font-weight:700;color:' + ST[r.status].c + '">' + ST[r.status].n + "</span></div>";
+        '<span style="font-size:12px;font-weight:700;color:' + (ST[r.status].ink || ST[r.status].c) + '">' + ST[r.status].n + "</span></div>";
     });
     h += "</div>";
   });
