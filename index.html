@@ -88,6 +88,15 @@ input[type=date]{-webkit-appearance:none; appearance:none;}
   border-bottom:1px solid var(--line-2);
 }
 .datebar{display:flex; align-items:center; gap:8px; height:44px;}
+/* v1.5 模式切换：日期栏下方的二段切换，午托 / 培训各一套底部导航 */
+.modeswitch{
+  display:flex; gap:4px; background:var(--line-2); padding:3px; border-radius:11px;
+  margin:8px 0 2px;
+}
+.modeswitch button{
+  flex:1 1 0; height:32px; border-radius:9px; font-size:13px; font-weight:600; color:var(--muted);
+}
+.modeswitch button.on{background:var(--card); color:var(--text); box-shadow:var(--shadow-s);}
 .dnav{
   width:44px; height:44px; flex:0 0 44px; display:grid; place-items:center;
   border-radius:12px; color:var(--muted); font-size:20px; line-height:1;
@@ -304,6 +313,20 @@ input[type=date]{-webkit-appearance:none; appearance:none;}
   flex:0 0 auto; display:inline-flex; align-items:center;
 }
 .row .mini.warn{color:var(--s-absent);}
+/* 培训档案：停用徽标 / 元信息 */
+.pill{
+  display:inline-block; font-size:10px; font-weight:600; line-height:1;
+  padding:3px 5px; border-radius:6px; vertical-align:middle; margin-left:6px;
+  color:var(--muted-2); border:1px solid var(--line); background:var(--card-2);
+}
+.pill.off{color:var(--s-absent); border-color:color-mix(in srgb, var(--s-absent) 34%, var(--line));}
+.pill.ok{color:var(--accent); border-color:color-mix(in srgb, var(--accent) 34%, var(--line));}
+.row .rowmain .sub .dot2{color:var(--muted-2);}
+.trsplit{display:flex; gap:6px; flex-wrap:wrap;}
+.trsplit > span{
+  font-size:11px; color:var(--muted-2); background:var(--line-2);
+  border-radius:6px; padding:2px 6px;
+}
 
 /* 通用块 */
 .sec{margin:12px 0 6px; display:flex; align-items:center; justify-content:space-between; gap:8px;}
@@ -343,6 +366,59 @@ table.tb td{font-variant-numeric:tabular-nums;}
 }
 .toast.on{opacity:1; transform:translate(-50%, 0);}
 .sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0);}
+/* ============ 培训签到 / 统计（v1.4） ============ */
+.trsum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 4px;}
+.trsum .box{background:var(--card);border:1px solid var(--line-2);border-radius:12px;padding:9px 4px;text-align:center;box-shadow:var(--shadow-s);}
+.trsum b{display:block;font-size:18px;line-height:1.15;font-variant-numeric:tabular-nums;}
+.trsum span{display:block;font-size:11px;color:var(--muted);margin-top:3px;}
+.trcourse{width:100%;display:block;text-align:left;background:var(--card);border:1px solid var(--line-2);border-radius:14px;padding:12px 13px;margin-bottom:8px;box-shadow:var(--shadow-s);}
+.trcourse:active{transform:scale(.995);}
+.trcourse .top{display:flex;align-items:center;gap:9px;}
+.trcourse .tm{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;}
+.trcourse .who{flex:1 1 auto;min-width:0;font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.trcourse .sub{font-size:11.5px;color:var(--muted-2);margin-top:4px;}
+.trcourse .statline{display:flex;gap:10px;flex-wrap:wrap;font-size:11.5px;margin-top:7px;color:var(--muted);}
+.trcourse .statline b{font-weight:700;}
+.trstatus{display:inline-flex;align-items:center;gap:4px;}
+.trstatus i{width:7px;height:7px;border-radius:50%;display:block;}
+.trempty{padding:26px 12px;text-align:center;color:var(--muted);font-size:13px;line-height:1.7;}
+.trgrid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.trgrid2 .full{grid-column:1/-1;}
+.trgrid2 .field{margin-bottom:8px;}
+.trbulk{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 8px;}
+.trbulk button{height:32px;padding:0 9px;border-radius:9px;border:1px solid var(--line);background:var(--card);font-size:12px;color:var(--muted);}
+.trbulk button:active{background:var(--line-2);}
+.trpicksearch{width:100%;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--card-2);padding:0 11px;font-size:13px;margin-bottom:7px;}
+.trpicklist{max-height:42vh;overflow:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line-2);border-radius:12px;padding:4px;background:var(--card-2);}
+.trpick{display:flex;align-items:center;gap:8px;padding:7px 7px;border-radius:10px;margin:2px 0;background:transparent;}
+.trpick.sel{background:color-mix(in srgb,var(--accent) 9%,var(--card));}
+.trpick .tick{width:19px;height:19px;flex:0 0 19px;border-radius:6px;border:1.5px solid var(--line);display:grid;place-items:center;color:#fff;font-size:12px;font-weight:700;}
+.trpick.sel .tick{background:var(--accent);border-color:var(--accent);}
+.trpick .who{flex:1 1 auto;min-width:0;}
+.trpick .who .nm{font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.trpick .who .cls{font-size:10.5px;color:var(--muted-2);margin-top:1px;}
+.trpick .st{display:flex;gap:3px;flex:0 0 auto;}
+.trpick .st button{height:26px;padding:0 6px;border-radius:7px;border:1px solid var(--line);font-size:10.5px;color:var(--muted);background:var(--card);}
+.trpick .st button.on[data-st=present]{background:var(--s-dao);border-color:var(--s-dao);color:#102016;}
+.trpick .st button.on[data-st=late]{background:var(--s-late);border-color:var(--s-late);color:#2c1a02;}
+.trpick .st button.on[data-st=leave]{background:var(--s-leave);border-color:var(--s-leave);color:#06202b;}
+.trpick[hidden]{display:none;}
+.trstatsbar{display:flex;gap:6px;margin:8px 0 4px;}
+.trstatsbar button{flex:1 1 0;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--card);font-size:12px;color:var(--muted);}
+.trstatsbar button.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600;}
+.trselect{width:100%;height:42px;border-radius:11px;border:1px solid var(--line);background:var(--card);padding:0 10px;font-size:14px;margin:6px 0 8px;}
+.trstatcard{background:var(--card);border:1px solid var(--line-2);border-radius:14px;padding:12px;box-shadow:var(--shadow-s);margin-bottom:8px;}
+.trstatgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:8px;}
+.trstatgrid .cell{background:var(--card-2);border-radius:10px;padding:8px 4px;text-align:center;}
+.trstatgrid .cell b{display:block;font-size:17px;font-variant-numeric:tabular-nums;}
+.trstatgrid .cell span{display:block;font-size:10.5px;color:var(--muted);margin-top:2px;}
+.trlist{padding:2px 12px;}
+.trlist .drow{padding:9px 2px;}
+.trnote{font-size:11.5px;color:var(--muted-2);line-height:1.65;margin-top:6px;}
+.trdetailhead{background:var(--card-2);border-radius:12px;padding:11px;margin-bottom:10px;}
+.trdetailhead .tm{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;}
+.trdetailhead .meta{font-size:12.5px;color:var(--muted);margin-top:4px;}
+/* ============ 培训签到结束 ============ */
 </style>
 </head>
 <body>
@@ -357,6 +433,10 @@ table.tb td{font-variant-numeric:tabular-nums;}
         <input type="date" id="datePick" aria-label="选择日期">
       </div>
       <button class="dnav" id="nextDay" aria-label="后一天">›</button>
+    </div>
+    <div class="modeswitch" id="modeSeg" aria-label="模式切换">
+      <button data-mode="wudian" class="on">午托点名</button>
+      <button data-mode="training">培训签到</button>
     </div>
     <div class="brush" id="brushBar" aria-label="点名状态"></div>
     <div class="prog" id="progBar">
@@ -403,11 +483,19 @@ table.tb td{font-variant-numeric:tabular-nums;}
    ===================================================================== */
 
 /* ---------------------- 常量 ---------------------- */
-var APP_VERSION = "1.2.1";
+var APP_VERSION = "1.5.0";
 var DB_NAME = "wudian-db";
-var DB_VER = 1;
+/* v1.4：培训四张表（trTeachers / trStudents / trCourses / trAttendance）
+   v1.5：新增 trSubjects（培训科目档案）—— 只做加法，不动已有表，午托数据零迁移 */
+var DB_VER = 3;
+var TR_STORES = ["trTeachers", "trStudents", "trSubjects", "trCourses", "trAttendance"];
 var UNDO_LIMIT = 20;          /* 撤销栈深度 */
 var LONGPRESS_MS = 500;       /* 长按阈值 */
+
+/* v1.5：两套模式两套底部导航 */
+var WUDIAN_TABS = ["roll", "roster", "records"];                 /* 午托底部 */
+var TRAIN_TABS = ["signin", "archives", "stats", "info"];        /* 培训底部 */
+var ARCH_SEGS = ["students", "teachers", "subjects"];            /* 培训档案内部页签 */
 
 /* v1.2：一天只点名一次，固定记在午餐时段 */
 var SLOTS = [
@@ -484,10 +572,33 @@ function openDb() {
     var req = indexedDB.open(DB_NAME, DB_VER);
     req.onupgradeneeded = function (e) {
       var db = e.target.result;
+      /* ---- 午托（v1 起，永不重建，避免清空既有数据） ---- */
       if (!db.objectStoreNames.contains("students")) db.createObjectStore("students", { keyPath: "id" });
       if (!db.objectStoreNames.contains("records"))  db.createObjectStore("records",  { keyPath: "key" });
       if (!db.objectStoreNames.contains("avatars"))  db.createObjectStore("avatars",  { keyPath: "id" });
       if (!db.objectStoreNames.contains("kv"))       db.createObjectStore("kv");
+
+      /* ---- 培训（v2 新增，独立四张表，与午托完全分离） ---- */
+      if (!db.objectStoreNames.contains("trTeachers")) {
+        db.createObjectStore("trTeachers", { keyPath: "id" });
+      }
+      if (!db.objectStoreNames.contains("trStudents")) {
+        db.createObjectStore("trStudents", { keyPath: "id" });
+      }
+      /* v1.5：科目档案（由 v1.4 老师/课程的旧科目文本自动迁移而来） */
+      if (!db.objectStoreNames.contains("trSubjects")) {
+        var subs = db.createObjectStore("trSubjects", { keyPath: "id" });
+        subs.createIndex("byName", "name", { unique: false });
+      }
+      if (!db.objectStoreNames.contains("trCourses")) {
+        var cs = db.createObjectStore("trCourses", { keyPath: "id" });
+        cs.createIndex("byDate", "date", { unique: false });      /* 按日取课表 */
+        cs.createIndex("byTeacher", "teacherId", { unique: false });
+      }
+      if (!db.objectStoreNames.contains("trAttendance")) {
+        var as = db.createObjectStore("trAttendance", { keyPath: "key" });  /* 主键 courseId|studentId */
+        as.createIndex("byCourse", "courseId", { unique: false });
+      }
     };
     req.onsuccess = function () { resolve(req.result); };
     req.onerror = function () { reject(req.error); };
@@ -534,9 +645,837 @@ function idbClear(store) {
   });
 }
 
+/* =====================================================================
+   培训数据层与对外接口（v1.4 数据层 / v1.5 增加科目档案）
+   ---------------------------------------------------------------------
+   · 与午托完全隔离：五张独立表 + 独立 id 前缀（tch- / tst- / subj- / crs-）
+   · v1.5：trSubjects 科目档案，老师 subjectIds 多科任教，课程 subjectId + subjectName 快照
+   · 签到状态只有三种：出勤 / 迟到 / 请假（没有"待点名"）
+   · 同一学生一天多节课、同一老师一天多节课、同一时间多个老师上课 —— 都允许
+   · 对外稳定接口：window.Training（= TR.api），签到与统计页复用，不要改签名
+   ===================================================================== */
+var TR_SCHEMA = 2;   /* v1.5：快照增加 subjects 段 */
+var TR_STATUS = [
+  { k: "present", n: "出勤", c: "#22C55E", ink: "#15803D" },
+  { k: "late",    n: "迟到", c: "#F59E0B", ink: "#B45309" },
+  { k: "leave",   n: "请假", c: "#0EA5E9", ink: "#0369A1" }
+];
+var TR_ST = {};
+TR_STATUS.forEach(function (s) { TR_ST[s.k] = s; });
+
+var TR = {
+  teachers: [],
+  students: [],
+  subjects: [],               /* v1.5：科目档案 */
+  courses: [],
+  attendance: new Map(),      /* "courseId|studentId" -> {key,courseId,studentId,status,updatedAt} */
+  loaded: false,
+  loadPromise: null
+};
+
+/* ---------- 归一化小工具 ---------- */
+function trTxt(v) { return String(v == null ? "" : v).trim(); }
+/* 科目名归一化：去首尾空格、连续空白并作一个空格 */
+function trSubName(v) { return String(v == null ? "" : v).replace(/\s+/g, " ").trim(); }
+/* 科目判重键：忽略多余空白与大小写差异 */
+function trSubKey(v) { return trSubName(v).toLowerCase(); }
+function isYmd(s) { return /^\d{4}-\d{2}-\d{2}$/.test(String(s || "")); }
+/* "9:5" / "09:05" / "0905" -> "09:05"；认不出返回 "" */
+function trTime(v) {
+  var s = trTxt(v);
+  if (!s) return "";
+  var m = s.match(/^(\d{1,2})\s*[:：.]\s*(\d{1,2})$/);
+  if (!m) return "";
+  var h = +m[1], mi = +m[2];
+  if (h > 23 || mi > 59) return "";
+  return pad2(h) + ":" + pad2(mi);
+}
+function trUniqueIds(list) {
+  var out = [], seen = {};
+  (Array.isArray(list) ? list : []).forEach(function (id) {
+    var v = trTxt(id);
+    if (!v || seen[v]) return;
+    seen[v] = 1; out.push(v);
+  });
+  return out;
+}
+function trCourseKey(courseId, studentId) { return courseId + "|" + studentId; }
+function trTeacherById(id) {
+  for (var i = 0; i < TR.teachers.length; i++) if (TR.teachers[i].id === id) return TR.teachers[i];
+  return null;
+}
+function trStudentById(id) {
+  for (var i = 0; i < TR.students.length; i++) if (TR.students[i].id === id) return TR.students[i];
+  return null;
+}
+function trCourseById(id) {
+  for (var i = 0; i < TR.courses.length; i++) if (TR.courses[i].id === id) return TR.courses[i];
+  return null;
+}
+function trSubjectById(id) {
+  for (var i = 0; i < TR.subjects.length; i++) if (TR.subjects[i].id === id) return TR.subjects[i];
+  return null;
+}
+/* 科目名精确查找（忽略空白与大小写） */
+function trSubjectByName(name) {
+  var k = trSubKey(name);
+  if (!k) return null;
+  for (var i = 0; i < TR.subjects.length; i++) if (trSubKey(TR.subjects[i].name) === k) return TR.subjects[i];
+  return null;
+}
+/* subjectIds 清洗：去空、去重，只保留真实存在的科目 id */
+function trCleanSubjectIds(list) {
+  var out = [], seen = {};
+  (Array.isArray(list) ? list : []).forEach(function (id) {
+    var v = trTxt(id);
+    if (!v || seen[v]) return;
+    if (!trSubjectById(v)) return;
+    seen[v] = 1; out.push(v);
+  });
+  return out;
+}
+/* 老师 haystack 里拼上任教科目名，旧 subject 文本与科目档案都能搜到 */
+function trTeacherSubjectNames(t) {
+  return (t.subjectIds || []).map(function (id) {
+    var s = trSubjectById(id);
+    return s ? s.name : "";
+  }).filter(function (n) { return !!n; }).join(" ");
+}
+/* 老师行显示文本：任教科目用「、」连接（如 数学、奥数）；
+   没挂科目档案的老老师回退旧 subject 文本，再回退"未填科目" */
+function trTeacherSubjectText(t) {
+  if (!t) return "未填科目";
+  var ids = trCleanSubjectIds(t.subjectIds);
+  if (ids.length) {
+    var names = ids.map(function (id) {
+      var s = trSubjectById(id);
+      return s ? s.name : "";
+    }).filter(function (n) { return !!n; });
+    if (names.length) return names.join("、");
+  }
+  return trSubName(t.subject) || "未填科目";
+}
+/* 课程科目显示文本：优先名称快照（改名不改历史），再退旧文本，
+   再退老师任教科目，最后兜底；任何情况不出现 undefined */
+function trCourseSubjectText(c) {
+  if (!c) return "未填科目";
+  var snap = trSubName(c.subjectName) || trSubName(c.subject);
+  if (snap) return snap;
+  var viaId = c.subjectId ? trSubjectById(c.subjectId) : null;
+  if (viaId) return viaId.name;
+  var t = trTeacherById(c.teacherId);
+  if (t) {
+    var names = trCleanSubjectIds(t.subjectIds).map(function (id) {
+      var s = trSubjectById(id); return s ? s.name : "";
+    }).filter(function (n) { return !!n; });
+    if (names.length === 1) return names[0];
+  }
+  return "未填科目";
+}
+/* 统计归并桶：优先按 subjectId 归并；没有 subjectId 的旧课程按科目文本归并。
+   返回 { key -> { name, count } }，name 用当前档案名（按 ID 归并时）或原文（按文本归并时） */
+function trSubjectBuckets(courses) {
+  var out = {};
+  (courses || []).forEach(function (c) {
+    var id = trTxt(c && c.subjectId);
+    var text = trSubName(c && c.subjectName) || trSubName(c && c.subject);
+    var key, name;
+    if (id && trSubjectById(id)) {
+      key = "id:" + id;
+      name = trSubjectById(id).name;          /* 按 ID 归并：显示档案现名，旧文本保留在课程里 */
+    } else {
+      key = "txt:" + trSubKey(text || "未填科目");
+      name = text || "未填科目";               /* 无 ID 旧数据：按文本归并，保留原文 */
+    }
+    if (!out[key]) out[key] = { name: name, count: 0 };
+    out[key].count++;
+  });
+  return out;
+}
+function trSortSubjects() {
+  TR.subjects.sort(function (a, b) {
+    var oa = a.active === false ? 1 : 0, ob = b.active === false ? 1 : 0;
+    if (oa !== ob) return oa - ob;
+    return String(a.name).localeCompare(String(b.name), "zh-Hans-CN");
+  });
+}
+function trSortTeachers() {
+  TR.teachers.sort(function (a, b) {
+    var oa = a.active === false ? 1 : 0, ob = b.active === false ? 1 : 0;
+    if (oa !== ob) return oa - ob;
+    return String(a.name).localeCompare(String(b.name), "zh-Hans-CN");
+  });
+}
+function trSortStudents() {
+  TR.students.sort(function (a, b) {
+    var oa = a.active === false ? 1 : 0, ob = b.active === false ? 1 : 0;
+    if (oa !== ob) return oa - ob;
+    var ga = trTxt(a.gradeClass), gb = trTxt(b.gradeClass);
+    if (ga !== gb) {
+      var na = parseFloat(ga), nb = parseFloat(gb);
+      if (!isNaN(na) && !isNaN(nb) && na !== nb) return na - nb;
+      var c = ga.localeCompare(gb, "zh-Hans-CN");
+      if (c) return c;
+    }
+    return String(a.name).localeCompare(String(b.name), "zh-Hans-CN");
+  });
+}
+function trMatch(t, q) {
+  if (!q) return true;
+  var hay = [t.name, t.subject, trTeacherSubjectNames(t), t.gradeClass, t.contact, t.note].join(" ").toLowerCase();
+  return hay.indexOf(q) >= 0;
+}
+
+/* ---------- 科目档案（v1.5） ---------- */
+function trValidateSubject(d) {
+  if (!trSubName(d.name)) throw new Error("科目名称必填");
+}
+function trNewSubject(d) {
+  return {
+    id: "subj-" + uid(),
+    name: trSubName(d.name),
+    note: trTxt(d.note),
+    active: d.active !== false,
+    createdAt: Date.now(),
+    updatedAt: Date.now()
+  };
+}
+function trCreateSubject(d) {
+  return Promise.resolve().then(function () {
+    trValidateSubject(d || {});
+    var s = trNewSubject(d);
+    var dup = trSubjectByName(s.name);
+    if (dup) throw new Error("已存在同名科目：" + dup.name);
+    return idbPut("trSubjects", s).then(function () {
+      TR.subjects.push(s); trSortSubjects();
+      return s;
+    });
+  });
+}
+function trUpdateSubject(id, patch) {
+  return Promise.resolve().then(function () {
+    var base = trSubjectById(id);
+    if (!base) throw new Error("科目不存在：" + id);
+    var p = patch || {};
+    var merged = {
+      name: p.name !== undefined ? p.name : base.name,
+      note: p.note !== undefined ? p.note : base.note,
+      active: p.active !== undefined ? p.active !== false : base.active !== false
+    };
+    trValidateSubject(merged);
+    var next = {
+      id: base.id, name: trSubName(merged.name), note: trTxt(merged.note),
+      active: merged.active !== false,
+      createdAt: base.createdAt || Date.now(), updatedAt: Date.now()
+    };
+    var dup = trSubjectByName(next.name);
+    if (dup && dup.id !== next.id) throw new Error("已存在同名科目：" + dup.name);
+    return idbPut("trSubjects", next).then(function () {
+      var i = TR.subjects.findIndex(function (x) { return x.id === id; });
+      if (i >= 0) TR.subjects[i] = next; else TR.subjects.push(next);
+      trSortSubjects();
+      return next;
+    });
+  });
+}
+/* 已被老师或课程引用的科目不得硬删除，提示改用停用 */
+function trRemoveSubject(id) {
+  return Promise.resolve().then(function () {
+    var base = trSubjectById(id);
+    if (!base) throw new Error("科目不存在：" + id);
+    var usedByTeacher = TR.teachers.some(function (t) {
+      return (t.subjectIds || []).indexOf(id) >= 0;
+    });
+    var usedByCourse = TR.courses.some(function (c) { return c.subjectId === id; });
+    if (usedByTeacher || usedByCourse) {
+      throw new Error("科目「" + base.name + "」正在被老师或课程引用，不能删除，请改为停用");
+    }
+    return idbDel("trSubjects", id).then(function () {
+      TR.subjects = TR.subjects.filter(function (x) { return x.id !== id; });
+      return { removed: true };
+    });
+  });
+}
+
+/* ---------- v1.4 → v1.5 科目迁移（幂等，只补不删） ----------
+   · 老师旧 subject 文本、课程旧 subject 文本 → 科目档案（同名只录一条）
+   · 旧老师记录自动补 subjectIds（文本能对上科目时挂上）
+   · 旧课程补 subjectId + subjectName 快照；已有快照不得用科目现名覆盖——
+     科目改名后 reload，历史课程仍保留旧快照；仅当课程缺快照时才补写 */
+function trMigrateSubjects() {
+  var writes = [];
+  var changed = { subjects: 0, teachers: 0, courses: 0 };
+
+  /* 1) 收集老师/课程里的旧科目文本，缺科目档案就补建。
+     老师侧：已有 subjectIds 的老师，subject 只是多科合成快照（如「数学、奥数」），
+     不能再当成一个科目名归档；只有无任教科目的旧文本老师才归档 */
+  TR.teachers.forEach(function (t) {
+    if (trCleanSubjectIds(t.subjectIds).length) return;
+    var name = trSubName(t.subject);
+    if (name && !trSubjectByName(name)) {
+      var s = trNewSubject({ name: name });
+      TR.subjects.push(s);
+      writes.push(idbPut("trSubjects", s));
+      changed.subjects++;
+    }
+  });
+  TR.courses.forEach(function (c) {
+    var name = trSubName(c.subject);
+    if (name && !trSubjectByName(name)) {
+      var s = trNewSubject({ name: name });
+      TR.subjects.push(s);
+      writes.push(idbPut("trSubjects", s));
+      changed.subjects++;
+    }
+  });
+  trSortSubjects();
+
+  /* 2) 老师补 subjectIds：已有数组里合法 id ∪ 文本匹配科目；字段缺失视为旧记录 */
+  TR.teachers.forEach(function (t) {
+    var ids = trCleanSubjectIds(t.subjectIds);
+    var name = trSubName(t.subject);
+    var m = name ? trSubjectByName(name) : null;
+    if (m && ids.indexOf(m.id) < 0) ids.push(m.id);
+    var before = JSON.stringify(Array.isArray(t.subjectIds) ? t.subjectIds : []);
+    if (JSON.stringify(ids) !== before) {
+      t.subjectIds = ids;
+      writes.push(idbPut("trTeachers", t));
+      changed.teachers++;
+    }
+  });
+
+  /* 3) 课程补 subjectId / subjectName：文本能匹配就落 ID + 名称快照；
+        已有快照不覆盖（保留历史原貌），缺快照才补写；悬空 ID 清掉留文本 */
+  TR.courses.forEach(function (c) {
+    var dirty = false;
+    var cur = trSubjectById(c.subjectId);
+    if (cur) {
+      if (!trTxt(c.subjectName)) { c.subjectName = cur.name; dirty = true; }
+    } else {
+      var name = trSubName(c.subject);
+      var m = name ? trSubjectByName(name) : null;
+      if (m) {
+        if (c.subjectId !== m.id) { c.subjectId = m.id; dirty = true; }
+        if (!trTxt(c.subjectName)) { c.subjectName = m.name; dirty = true; }
+      } else if (c.subjectId && !trSubjectById(c.subjectId)) {
+        c.subjectId = "";          /* 指向不存在的科目：清掉悬空 ID，保留文本 */
+        dirty = true;
+      }
+    }
+    if (dirty) {
+      writes.push(idbPut("trCourses", c));
+      changed.courses++;
+    }
+    if (c.subjectName === undefined) {   /* 旧记录缺快照字段：补文本/空串，显示不出现 undefined */
+      c.subjectName = trTxt(c.subject);
+      writes.push(idbPut("trCourses", c));
+      changed.courses++;
+    }
+  });
+
+  return Promise.all(writes).then(function () { return changed; });
+}
+
+/* ---------- 读库 ---------- */
+function loadTraining() {
+  if (TR.loadPromise) return TR.loadPromise;
+  TR.loadPromise = Promise.all([
+    idbAll("trTeachers"), idbAll("trStudents"), idbAll("trSubjects"),
+    idbAll("trCourses"), idbAll("trAttendance")
+  ]).then(function (res) {
+    TR.teachers = res[0] || [];
+    TR.students = res[1] || [];
+    TR.subjects = res[2] || [];
+    TR.courses = res[3] || [];
+    TR.attendance = new Map();
+    (res[4] || []).forEach(function (a) {
+      if (a && a.key) TR.attendance.set(a.key, a);
+    });
+    trSortTeachers(); trSortStudents(); trSortSubjects();
+    /* v1.5：旧科目文本自动迁移（幂等，重复加载不重复建科目） */
+    return trMigrateSubjects().then(function () {
+      TR.loaded = true;
+    });
+  });
+  return TR.loadPromise;
+}
+
+/* ---------- 老师 ---------- */
+function trValidateTeacher(d) {
+  if (!trTxt(d.name)) throw new Error("老师姓名必填");
+}
+/* 老师 subjectIds 归并：
+   · 显式传 subjectIds → 以调用方为准（清洗后直接生效）
+   · 未传 → 沿用原 subjectIds ∪ 旧 subject 文本能对上的科目（旧文本兼容） */
+function trMergeTeacherSubjectIds(explicit, subjectText, baseIds) {
+  if (explicit !== undefined) return trCleanSubjectIds(explicit);
+  var ids = trCleanSubjectIds(baseIds);
+  var m = trSubName(subjectText) ? trSubjectByName(subjectText) : null;
+  if (m && ids.indexOf(m.id) < 0) ids.push(m.id);
+  return ids;
+}
+function trNewTeacher(d) {
+  return {
+    id: "tch-" + uid(),
+    name: trTxt(d.name),
+    subject: trTxt(d.subject),
+    subjectIds: trMergeTeacherSubjectIds(d.subjectIds, d.subject, []),
+    contact: trTxt(d.contact),
+    note: trTxt(d.note),
+    active: d.active !== false,
+    createdAt: Date.now(),
+    updatedAt: Date.now()
+  };
+}
+function trCreateTeacher(d) {
+  return Promise.resolve().then(function () {
+    trValidateTeacher(d);
+    var t = trNewTeacher(d);
+    var dup = TR.teachers.some(function (x) {
+      return x.name === t.name && trTxt(x.subject) === t.subject;
+    });
+    if (dup) throw new Error("已存在同名同科目的老师：" + t.name + (t.subject ? "（" + t.subject + "）" : ""));
+    return idbPut("trTeachers", t).then(function () {
+      TR.teachers.push(t); trSortTeachers();
+      return t;
+    });
+  });
+}
+function trUpdateTeacher(id, patch) {
+  return Promise.resolve().then(function () {
+    var base = trTeacherById(id);
+    if (!base) throw new Error("老师不存在：" + id);
+    var merged = {
+      name: patch.name !== undefined ? patch.name : base.name,
+      subject: patch.subject !== undefined ? patch.subject : base.subject,
+      subjectIds: trMergeTeacherSubjectIds(
+        patch.subjectIds,
+        patch.subject !== undefined ? patch.subject : base.subject,
+        base.subjectIds
+      ),
+      contact: patch.contact !== undefined ? patch.contact : base.contact,
+      note: patch.note !== undefined ? patch.note : base.note,
+      active: patch.active !== undefined ? patch.active !== false : base.active !== false
+    };
+    trValidateTeacher(merged);
+    var next = {
+      id: base.id, name: trTxt(merged.name), subject: trTxt(merged.subject),
+      subjectIds: trCleanSubjectIds(merged.subjectIds),
+      contact: trTxt(merged.contact), note: trTxt(merged.note),
+      active: merged.active !== false,
+      createdAt: base.createdAt || Date.now(), updatedAt: Date.now()
+    };
+    var dup = TR.teachers.some(function (x) {
+      return x.id !== next.id && x.name === next.name && trTxt(x.subject) === next.subject;
+    });
+    if (dup) throw new Error("已存在同名同科目的老师：" + next.name);
+    return idbPut("trTeachers", next).then(function () {
+      var i = TR.teachers.findIndex(function (x) { return x.id === id; });
+      if (i >= 0) TR.teachers[i] = next; else TR.teachers.push(next);
+      trSortTeachers();
+      return next;
+    });
+  });
+}
+
+/* ---------- 培训学生 ---------- */
+function trValidateStudent(d) {
+  if (!trTxt(d.name)) throw new Error("学生姓名必填");
+}
+function trNewStudent(d) {
+  return {
+    id: "tst-" + uid(),
+    name: trTxt(d.name),
+    gradeClass: trTxt(d.gradeClass),
+    contact: trTxt(d.contact),
+    note: trTxt(d.note),
+    active: d.active !== false,
+    createdAt: Date.now(),
+    updatedAt: Date.now()
+  };
+}
+function trCreateStudent(d) {
+  return Promise.resolve().then(function () {
+    trValidateStudent(d);
+    var s = trNewStudent(d);
+    var dup = TR.students.some(function (x) {
+      return x.name === s.name && trTxt(x.gradeClass) === s.gradeClass;
+    });
+    if (dup) throw new Error("已存在同名同班的学生：" + s.name + (s.gradeClass ? "（" + s.gradeClass + "）" : ""));
+    return idbPut("trStudents", s).then(function () {
+      TR.students.push(s); trSortStudents();
+      return s;
+    });
+  });
+}
+function trUpdateStudent(id, patch) {
+  return Promise.resolve().then(function () {
+    var base = trStudentById(id);
+    if (!base) throw new Error("学生不存在：" + id);
+    var merged = {
+      name: patch.name !== undefined ? patch.name : base.name,
+      gradeClass: patch.gradeClass !== undefined ? patch.gradeClass : base.gradeClass,
+      contact: patch.contact !== undefined ? patch.contact : base.contact,
+      note: patch.note !== undefined ? patch.note : base.note,
+      active: patch.active !== undefined ? patch.active !== false : base.active !== false
+    };
+    trValidateStudent(merged);
+    var next = {
+      id: base.id, name: trTxt(merged.name), gradeClass: trTxt(merged.gradeClass),
+      contact: trTxt(merged.contact), note: trTxt(merged.note),
+      active: merged.active !== false,
+      createdAt: base.createdAt || Date.now(), updatedAt: Date.now()
+    };
+    var dup = TR.students.some(function (x) {
+      return x.id !== next.id && x.name === next.name && trTxt(x.gradeClass) === next.gradeClass;
+    });
+    if (dup) throw new Error("已存在同名同班的学生：" + next.name);
+    return idbPut("trStudents", next).then(function () {
+      var i = TR.students.findIndex(function (x) { return x.id === id; });
+      if (i >= 0) TR.students[i] = next; else TR.students.push(next);
+      trSortStudents();
+      return next;
+    });
+  });
+}
+
+/* ---------- 课程 ---------- */
+function trNormCourseInput(d, base) {
+  var subjectId = trTxt(d.subjectId != null ? d.subjectId : (base && base.subjectId));
+  var subject = trTxt(d.subject != null ? d.subject : (base && base.subject));
+  /* v1.5：收到 subjectId 必须校验科目存在，并把当前科目名落成快照；
+     只收到旧式 subject 文本也照常可用——能对上科目就顺带落 ID，对不上保留文本 */
+  var subjectName = subject;
+  if (subjectId) {
+    var subj = trSubjectById(subjectId);
+    if (!subj) throw new Error("科目不存在：" + subjectId);
+    subjectName = subj.name;
+    if (d.subject == null && (!base || base.subject == null)) subject = subj.name;
+  } else {
+    var m = subject ? trSubjectByName(subject) : null;
+    if (m) { subjectId = m.id; subjectName = m.name; }
+  }
+  var out = {
+    date: trTxt(d.date != null ? d.date : (base && base.date)),
+    startTime: trTime(d.startTime != null ? d.startTime : (base && base.startTime)),
+    endTime: trTime(d.endTime != null ? d.endTime : (base && base.endTime)),
+    teacherId: trTxt(d.teacherId != null ? d.teacherId : (base && base.teacherId)),
+    subject: subject,
+    subjectId: subjectId,
+    subjectName: subjectName,
+    title: trTxt(d.title != null ? d.title : (base && base.title)),
+    room: trTxt(d.room != null ? d.room : (base && base.room)),
+    note: trTxt(d.note != null ? d.note : (base && base.note)),
+    studentIds: trUniqueIds(d.studentIds != null ? d.studentIds : (base && base.studentIds))
+  };
+  if (!isYmd(out.date)) throw new Error("上课日期格式应为 YYYY-MM-DD");
+  if (!out.teacherId) throw new Error("必须指定上课老师");
+  if (!trTeacherById(out.teacherId)) throw new Error("老师不存在：" + out.teacherId);
+  if (out.startTime && out.endTime && out.endTime < out.startTime) throw new Error("结束时间不能早于开始时间");
+  return out;
+}
+function trCreateCourse(d) {
+  return Promise.resolve().then(function () {
+    var v = trNormCourseInput(d || {});
+    var c = {
+      id: "crs-" + uid(),
+      date: v.date, startTime: v.startTime, endTime: v.endTime,
+      teacherId: v.teacherId, subject: v.subject,
+      subjectId: v.subjectId, subjectName: v.subjectName,
+      title: v.title, room: v.room,
+      studentIds: v.studentIds, note: v.note,
+      createdAt: Date.now(), updatedAt: Date.now()
+    };
+    return idbPut("trCourses", c).then(function () {
+      TR.courses.push(c);
+      return c;
+    });
+  });
+}
+function trUpdateCourse(id, patch) {
+  return Promise.resolve().then(function () {
+    var base = trCourseById(id);
+    if (!base) throw new Error("课程不存在：" + id);
+    var v = trNormCourseInput(patch || {}, base);
+    var next = {
+      id: base.id,
+      date: v.date, startTime: v.startTime, endTime: v.endTime,
+      teacherId: v.teacherId, subject: v.subject,
+      subjectId: v.subjectId, subjectName: v.subjectName,
+      title: v.title, room: v.room,
+      studentIds: v.studentIds, note: v.note,
+      createdAt: base.createdAt || Date.now(), updatedAt: Date.now()
+    };
+    /* 被移出名单的学生，其签到明细一并清掉，避免留下孤儿记录 */
+    var removed = (base.studentIds || []).filter(function (sid) { return v.studentIds.indexOf(sid) < 0; });
+    var jobs = removed.map(function (sid) {
+      var k = trCourseKey(id, sid);
+      TR.attendance.delete(k);
+      return idbDel("trAttendance", k);
+    });
+    return Promise.all(jobs).then(function () { return idbPut("trCourses", next); })
+      .then(function () {
+        var i = TR.courses.findIndex(function (x) { return x.id === id; });
+        if (i >= 0) TR.courses[i] = next; else TR.courses.push(next);
+        return next;
+      });
+  });
+}
+function trRemoveCourse(id) {
+  return Promise.resolve().then(function () {
+    var base = trCourseById(id);
+    if (!base) throw new Error("课程不存在：" + id);
+    var jobs = [];
+    TR.attendance.forEach(function (a, k) {
+      if (a.courseId === id) { TR.attendance.delete(k); jobs.push(idbDel("trAttendance", k)); }
+    });
+    return Promise.all(jobs).then(function () { return idbDel("trCourses", id); })
+      .then(function () {
+        TR.courses = TR.courses.filter(function (x) { return x.id !== id; });
+      });
+  });
+}
+function trListCourses(filter) {
+  var f = filter || {};
+  var out = TR.courses.filter(function (c) {
+    if (f.date && c.date !== f.date) return false;
+    if (f.from && c.date < f.from) return false;
+    if (f.to && c.date > f.to) return false;
+    if (f.teacherId && c.teacherId !== f.teacherId) return false;
+    if (f.studentId && (c.studentIds || []).indexOf(f.studentId) < 0) return false;
+    return true;
+  });
+  out.sort(function (a, b) {
+    if (a.date !== b.date) return a.date < b.date ? 1 : -1;   /* 日期倒序，最近的在前 */
+    var sa = a.startTime || "99:99", sb = b.startTime || "99:99";
+    if (sa !== sb) return sa < sb ? -1 : 1;
+    return String(a.id) < String(b.id) ? -1 : 1;
+  });
+  return out;
+}
+
+/* ---------- 签到明细 ---------- */
+function trListAttendance(courseId) {
+  var out = [];
+  TR.attendance.forEach(function (a) {
+    if (a.courseId === courseId) out.push({ studentId: a.studentId, status: a.status, updatedAt: a.updatedAt });
+  });
+  return out;
+}
+function trSetAttendance(courseId, studentId, status) {
+  return Promise.resolve().then(function () {
+    if (!TR_ST[status]) throw new Error("培训签到状态只能是 出勤 / 迟到 / 请假");
+    var c = trCourseById(courseId);
+    if (!c) throw new Error("课程不存在：" + courseId);
+    if ((c.studentIds || []).indexOf(studentId) < 0) throw new Error("该学生不在本节课名单中");
+    var key = trCourseKey(courseId, studentId);
+    var cur = TR.attendance.get(key);
+    if (cur && cur.status === status) return { changed: false, record: cur };  /* 幂等 */
+    var rec = { key: key, courseId: courseId, studentId: studentId, status: status, updatedAt: Date.now() };
+    return idbPut("trAttendance", rec).then(function () {
+      TR.attendance.set(key, rec);
+      return { changed: true, record: rec };
+    });
+  });
+}
+function trSetAttendanceBulk(courseId, rows) {
+  var list = Array.isArray(rows) ? rows : [];
+  var chain = Promise.resolve(), changed = 0;
+  list.forEach(function (r) {
+    chain = chain.then(function () {
+      return trSetAttendance(courseId, r.studentId, r.status).then(function (res) {
+        if (res.changed) changed++;
+      });
+    });
+  });
+  return chain.then(function () { return { changed: changed, total: list.length }; });
+}
+function trRemoveAttendance(courseId, studentId) {
+  var key = trCourseKey(courseId, studentId);
+  return idbDel("trAttendance", key).then(function () {
+    TR.attendance.delete(key);
+  });
+}
+
+/* ---------- 统计 ---------- */
+/* 默认口径：老师上课次数只算「已创建且至少有一名学生」的课程记录 */
+function trTeacherCourseCounts(opts) {
+  var requireStudent = !(opts && opts.includeEmpty === true);
+  var out = {};
+  TR.courses.forEach(function (c) {
+    if (requireStudent && (!c.studentIds || !c.studentIds.length)) return;
+    out[c.teacherId] = (out[c.teacherId] || 0) + 1;
+  });
+  return out;
+}
+
+/* ---------- 备份快照 ---------- */
+function trSnapshot() {
+  return {
+    schema: TR_SCHEMA,
+    subjects: TR.subjects.map(function (x) { return Object.assign({}, x); }),
+    teachers: TR.teachers.map(function (x) {
+      var o = Object.assign({}, x); o.subjectIds = (x.subjectIds || []).slice(); return o;
+    }),
+    students: TR.students.map(function (x) { return Object.assign({}, x); }),
+    courses: TR.courses.map(function (x) {
+      var o = Object.assign({}, x); o.studentIds = (x.studentIds || []).slice(); return o;
+    }),
+    attendance: Array.from(TR.attendance.values()).map(function (x) { return Object.assign({}, x); })
+  };
+}
+/* 恢复五张培训表：老师 / 学生 / 科目 / 课程 / 签到。
+   v1.4 旧快照没有 subjects 段也照常恢复——loadTraining 里的迁移会用
+   老师/课程的旧科目文本自动补建科目并补齐关联（幂等）。 */
+function trRestoreSnapshot(snap) {
+  var s = snap || {};
+  var subjects = Array.isArray(s.subjects) ? s.subjects : [];
+  var teachers = Array.isArray(s.teachers) ? s.teachers : [];
+  var students = Array.isArray(s.students) ? s.students : [];
+  var courses = Array.isArray(s.courses) ? s.courses : [];
+  var att = Array.isArray(s.attendance) ? s.attendance : [];
+  /* 只保留结构完整的条目，坏数据不入库 */
+  subjects = subjects.filter(function (x) { return x && x.id && trSubName(x.name); });
+  teachers = teachers.filter(function (t) { return t && t.id && trTxt(t.name); });
+  students = students.filter(function (t) { return t && t.id && trTxt(t.name); });
+  courses = courses.filter(function (c) { return c && c.id && isYmd(c.date); });
+  var courseIds = {};
+  courses.forEach(function (c) { courseIds[c.id] = 1; });
+  att = att.filter(function (a) {
+    return a && a.courseId && a.studentId && TR_ST[a.status] && courseIds[a.courseId];
+  });
+  return Promise.all(TR_STORES.map(idbClear)).then(function () {
+    var jobs = [];
+    subjects.forEach(function (x) { jobs.push(idbPut("trSubjects", x)); });
+    teachers.forEach(function (t) { jobs.push(idbPut("trTeachers", t)); });
+    students.forEach(function (t) { jobs.push(idbPut("trStudents", t)); });
+    courses.forEach(function (c) {
+      var cc = Object.assign({}, c);
+      cc.studentIds = trUniqueIds(c.studentIds);
+      jobs.push(idbPut("trCourses", cc));
+    });
+    att.forEach(function (a) {
+      var rec = Object.assign({}, a);
+      rec.key = trCourseKey(a.courseId, a.studentId);
+      jobs.push(idbPut("trAttendance", rec));
+    });
+    return Promise.all(jobs);
+  }).then(function () {
+    TR.loadPromise = null; TR.loaded = false;
+    return loadTraining().then(function () {
+      return {
+        subjects: TR.subjects.length,
+        teachers: TR.teachers.length,
+        students: TR.students.length,
+        courses: TR.courses.length,
+        attendance: TR.attendance.size
+      };
+    });
+  });
+}
+
+/* ---------- 对外稳定 API（签到与统计页使用） ---------- */
+var TR_API = {
+  version: APP_VERSION,
+  schema: TR_SCHEMA,
+  statuses: TR_STATUS.slice(),
+  ready: function () { return loadTraining(); },
+  reload: function () { TR.loadPromise = null; TR.loaded = false; return loadTraining(); },
+  /* 老师档案 */
+  listTeachers: function (opts) {
+    var o = opts || {}, q = trTxt(o.q).toLowerCase();
+    return TR.teachers.filter(function (t) {
+      if (o.activeOnly && t.active === false) return false;
+      return trMatch(t, q);
+    }).map(function (t) {
+      var c = Object.assign({}, t); c.subjectIds = (t.subjectIds || []).slice(); return c;
+    });
+  },
+  activeTeachers: function () { return TR_API.listTeachers({ activeOnly: true }); },
+  getTeacher: function (id) {
+    var t = trTeacherById(id);
+    if (!t) return null;
+    var c = Object.assign({}, t); c.subjectIds = (t.subjectIds || []).slice(); return c;
+  },
+  createTeacher: trCreateTeacher,
+  updateTeacher: trUpdateTeacher,
+  setTeacherActive: function (id, active) { return trUpdateTeacher(id, { active: active !== false }); },
+  /* 科目档案（v1.5） */
+  listSubjects: function (opts) {
+    var o = opts || {}, q = trSubKey(o.q);
+    return TR.subjects.filter(function (s) {
+      if (o.activeOnly && s.active === false) return false;
+      if (!q) return true;
+      return (trSubKey(s.name) + " " + trTxt(s.note).toLowerCase()).indexOf(q) >= 0;
+    }).map(function (s) { return Object.assign({}, s); });
+  },
+  activeSubjects: function () { return TR_API.listSubjects({ activeOnly: true }); },
+  getSubject: function (id) { var s = trSubjectById(id); return s ? Object.assign({}, s) : null; },
+  createSubject: trCreateSubject,
+  updateSubject: trUpdateSubject,
+  setSubjectActive: function (id, active) { return trUpdateSubject(id, { active: active !== false }); },
+  removeSubject: trRemoveSubject,
+  /* 科目名（含快照兜底）：优先科目档案现名，档案没了退回传入的 fallback */
+  subjectName: function (id, fallback) {
+    var s = id ? trSubjectById(id) : null;
+    return s ? s.name : trTxt(fallback);
+  },
+  /* 培训学生档案 */
+  listStudents: function (opts) {
+    var o = opts || {}, q = trTxt(o.q).toLowerCase();
+    return TR.students.filter(function (t) {
+      if (o.activeOnly && t.active === false) return false;
+      return trMatch(t, q);
+    }).map(function (t) { return Object.assign({}, t); });
+  },
+  activeStudents: function () { return TR_API.listStudents({ activeOnly: true }); },
+  getStudent: function (id) { var t = trStudentById(id); return t ? Object.assign({}, t) : null; },
+  createStudent: trCreateStudent,
+  updateStudent: trUpdateStudent,
+  setStudentActive: function (id, active) { return trUpdateStudent(id, { active: active !== false }); },
+  /* 课程（一节课一条，允许同日同时段多个老师 / 同老师多节 / 同学生多节） */
+  createCourse: trCreateCourse,
+  getCourse: function (id) {
+    var c = trCourseById(id);
+    if (!c) return null;
+    var o = Object.assign({}, c); o.studentIds = (c.studentIds || []).slice(); return o;
+  },
+  updateCourse: trUpdateCourse,
+  removeCourse: trRemoveCourse,
+  listCourses: function (filter) {
+    return trListCourses(filter).map(function (c) {
+      var o = Object.assign({}, c); o.studentIds = (c.studentIds || []).slice(); return o;
+    });
+  },
+  coursesOnDate: function (date, teacherId) {
+    return TR_API.listCourses({ date: date, teacherId: teacherId || null });
+  },
+  /* 签到明细 */
+  listAttendance: function (courseId) {
+    var out = trListAttendance(courseId);
+    out.sort(function (a, b) { return String(a.studentId).localeCompare(String(b.studentId)); });
+    return out;
+  },
+  attendanceMap: function (courseId) {
+    var m = {};
+    trListAttendance(courseId).forEach(function (a) { m[a.studentId] = a.status; });
+    return m;
+  },
+  setAttendance: function (courseId, studentId, status) { return trSetAttendance(courseId, studentId, status); },
+  setAttendanceBulk: function (courseId, rows) { return trSetAttendanceBulk(courseId, rows); },
+  removeAttendance: function (courseId, studentId) { return trRemoveAttendance(courseId, studentId); },
+  /* 统计 */
+  teacherCourseCounts: function (opts) { return trTeacherCourseCounts(opts); },
+  /* 备份 */
+  snapshot: trSnapshot,
+  restoreSnapshot: trRestoreSnapshot
+};
+/* 对外入口：签到与统计页直接调用 window.Training，签名保持不变 */
+window.Training = TR_API;
+
 /* ---------------------- 全局状态 ---------------------- */
 var S = {
-  tab: "roll",                 /* roll | roster | records */
+  tab: "roll",                 /* roll | roster | records | training */
   date: todayStr(),
   slot: "lunch",
   brush: "dao",                /* 当前状态笔 */
@@ -550,6 +1489,15 @@ var S = {
   statMonth: monthOf(todayStr()),
   recSearch: "",
   rosterSearch: "",
+  mode: "wudian",              /* v1.5 模式：wudian 午托点名 | training 培训签到 */
+  trTab: "signin",             /* v1.5 培训底部页：signin | archives | stats | info */
+  trArchSeg: "students",       /* v1.5 培训档案内部页签：students | teachers | subjects */
+  trSubActiveOnly: false,      /* v1.5 科目页「只看启用」过滤 */
+  trSearch: "",                /* 培训档案搜索词（重绘时保留） */
+  trStatsMode: "student",      /* 培训统计：student | teacher */
+  trStatsPeriod: "month",      /* 培训统计区间：today | week | month */
+  trStatsStudentId: "",
+  trStatsTeacherId: "",
   purgedCount: 0
 };
 
@@ -559,11 +1507,21 @@ function loadPref() {
     var p = JSON.parse(localStorage.getItem(PREF_KEY) || "{}");
     if (p.date && /^\d{4}-\d{2}-\d{2}$/.test(p.date)) S.date = p.date;
     if (p.brush && STATUS.some(function (s) { return s.k === p.brush; })) S.brush = p.brush;
+    /* v1.5：模式与两套页签各自记住上次位置 */
+    if (p.mode === "wudian" || p.mode === "training") S.mode = p.mode;
+    if (WUDIAN_TABS.indexOf(p.tab) >= 0) S.tab = p.tab;
+    if (TRAIN_TABS.indexOf(p.trTab) >= 0) S.trTab = p.trTab;
+    if (ARCH_SEGS.indexOf(p.trArchSeg) >= 0) S.trArchSeg = p.trArchSeg;
+    /* 旧版把「培训」当第四个底部标签；升级后落到培训模式的签到页 */
+    if (p.tab === "training") { S.mode = "training"; S.tab = "roll"; }
   } catch (e) { /* 偏好损坏就忽略 */ }
 }
 function savePref() {
   try {
-    localStorage.setItem(PREF_KEY, JSON.stringify({ date: S.date, brush: S.brush }));
+    localStorage.setItem(PREF_KEY, JSON.stringify({
+      date: S.date, brush: S.brush,
+      mode: S.mode, tab: S.tab, trTab: S.trTab, trArchSeg: S.trArchSeg
+    }));
   } catch (e) { /* 隐私模式下可能失败，忽略 */ }
 }
 
@@ -1345,6 +2303,909 @@ function openBulkSheet() {
 }
 
 /* =====================================================================
+   培训页（v1.4：签到 / 培训学生 / 培训老师 / 统计 / 概况）
+   ---------------------------------------------------------------------
+   签到与统计直接复用 window.Training；午托与培训档案始终隔离。
+   午托与培训的学生档案互不共用：这里读写的全是 trStudents / trTeachers。
+   ===================================================================== */
+function trRowHtml(kind, d) {
+  var isT = kind === "teacher";
+  var sub = [];
+  sub.push(isT ? trTeacherSubjectText(d) : (d.gradeClass || "未填班级"));
+  if (d.contact) sub.push(d.contact);
+  if (d.note) sub.push(d.note);
+  return '<div class="row' + (d.active === false ? " off" : "") + '" data-kind="' + kind + '" data-id="' + d.id + '">' +
+    '<span class="ava" style="background:' + colorFor(d.name) + '">' + esc(surname(d.name)) + "</span>" +
+    '<div class="rowmain"><div class="nm">' + esc(d.name) +
+    (d.active === false ? '<span class="pill off">已停用</span>' : "") + "</div>" +
+    '<div class="sub">' + esc(sub.join(" · ")) + "</div></div>" +
+    '<button class="mini" data-act="edit">编辑</button></div>';
+}
+
+function trInfoHtml() {
+  var counts = trTeacherCourseCounts();
+  var coursesWithStd = TR.courses.filter(function (c) { return (c.studentIds || []).length > 0; }).length;
+  var h = "";
+  h += '<div class="sec"><h2>培训档案概况</h2></div>';
+  h += '<div class="panel">' +
+    '<div class="kv"><span class="k">培训老师</span><span class="v">' + TR.teachers.length + " 人（在用 " + TR_API.activeTeachers().length + "）</span></div>" +
+    '<div class="kv"><span class="k">培训学生</span><span class="v">' + TR.students.length + " 人（在用 " + TR_API.activeStudents().length + "）</span></div>" +
+    '<div class="kv"><span class="k">科目档案</span><span class="v">' + TR.subjects.length + " 个（启用 " + TR_API.activeSubjects().length + "）</span></div>" +
+    '<div class="kv"><span class="k">课程记录</span><span class="v">' + TR.courses.length + " 节（含学生 " + coursesWithStd + " 节）</span></div>" +
+    '<div class="kv"><span class="k">签到明细</span><span class="v">' + TR.attendance.size + " 条</span></div>" +
+    "</div>";
+  var withCount = TR_API.activeTeachers().filter(function (t) { return counts[t.id]; });
+  if (withCount.length) {
+    h += '<div class="sec"><h2>老师上课次数</h2><span style="font-size:11.5px;color:var(--muted-2)">只算已排学生</span></div>';
+    h += '<div class="panel" style="padding:2px 12px">';
+    withCount.forEach(function (t) {
+      h += '<div class="drow"><div class="d1"><div class="t">' + esc(t.name) +
+        '</div><div class="s">' + esc(trTeacherSubjectText(t)) + "</div></div>" +
+        '<span style="font-size:13px;font-weight:700">' + counts[t.id] + " 节</span></div>";
+    });
+    h += "</div>";
+  }
+  h += '<div class="sec"><h2>说明</h2></div>';
+  h += '<div class="panel"><div class="hint" style="margin-top:0">' +
+    "① 培训档案与午托名单<b>完全分开</b>：午托学生不会出现在这里，培训数据也不会进午托点名。<br>" +
+    "② 签到状态只有 <b>出勤 / 迟到 / 请假</b> 三种；同一学生一天可有多节课，同一时间也可以有多个老师上课。<br>" +
+    "③ 签到按「日期 + 时间段 + 老师 + 科目 + 多名学生」记录；科目来自「档案 → 科目」，一位老师可任教多个科目，新建课程必须选科目。<br>" +
+    "④ 逐人标出勤 / 迟到 / 请假；统计可按当日、本周、本月查看，按科目归并优先走科目档案。<br>" +
+    "⑤ 全量备份 JSON 已包含培训五类数据（老师 / 学生 / 科目 / 课程 / 签到明细），恢复旧版午托备份不会动培训档案。" +
+    "</div></div>";
+  return h;
+}
+
+/* =====================================================================
+   培训签到与统计（v1.4）
+   ---------------------------------------------------------------------
+   · 一节课 = 日期 + 起止时间 + 老师 + 多名学生
+   · 学生状态只有 出勤 / 迟到 / 请假，提交前必须逐个归入状态
+   · 同一学生同一时间不能同时安排给两位老师；同一时间允许多位老师各自开课
+   ===================================================================== */
+function trTeacherName(id) { var t = trTeacherById(id); return t ? t.name : "老师已停用"; }
+function trStudentName(id) { var t = trStudentById(id); return t ? t.name : "学生已停用"; }
+function trStudentClass(id) { var t = trStudentById(id); return t ? (t.gradeClass || "") : ""; }
+function trOverlaps(aS, aE, bS, bE) { return String(aS) < String(bE) && String(bS) < String(aE); }
+
+function trFindConflicts(studentIds, date, startTime, endTime, excludeCourseId) {
+  var out = [];
+  TR.courses.forEach(function (c) {
+    if (excludeCourseId && c.id === excludeCourseId) return;
+    if (c.date !== date || !c.startTime || !c.endTime) return;
+    if (!trOverlaps(startTime, endTime, c.startTime, c.endTime)) return;
+    studentIds.forEach(function (sid) {
+      if ((c.studentIds || []).indexOf(sid) < 0) return;
+      out.push({
+        studentId: sid, student: trStudentName(sid), teacher: trTeacherName(c.teacherId),
+        time: c.startTime + "-" + c.endTime, courseId: c.id
+      });
+    });
+  });
+  return out;
+}
+
+function trCourseStats(courseId) {
+  var c = trCourseById(courseId);
+  var out = { present: 0, late: 0, leave: 0, missing: 0, total: c ? (c.studentIds || []).length : 0 };
+  if (!c) return out;
+  var map = TR_API.attendanceMap(courseId);
+  (c.studentIds || []).forEach(function (sid) {
+    if (out[map[sid]] != null) out[map[sid]]++; else out.missing++;
+  });
+  return out;
+}
+
+function trSaveSignin(data) {
+  return Promise.resolve().then(function () {
+    var courseId = trTxt(data.courseId);
+    var date = trTxt(data.date);
+    var startTime = trTime(data.startTime);
+    var endTime = trTime(data.endTime);
+    var teacherId = trTxt(data.teacherId);
+    var studentIds = trUniqueIds(data.studentIds);
+    var subjectId = trTxt(data.subjectId);
+    var subject = trTxt(data.subject);
+    if (!isYmd(date)) throw new Error("请选择上课日期");
+    if (!teacherId) throw new Error("请选择老师");
+    if (!startTime || !endTime) throw new Error("请填写开始和结束时间");
+    if (endTime <= startTime) throw new Error("结束时间必须晚于开始时间");
+    if (!studentIds.length) throw new Error("请至少选择一名学生");
+    /* v1.5：新建课程必须选科目；编辑旧课程允许保留无科目的历史记录。
+       只传旧式科目文本也照常可用（文本能对上科目就顺带落 ID） */
+    if (!subjectId && subject) {
+      var m = trSubjectByName(subject);
+      if (m) subjectId = m.id;
+    }
+    if (!courseId && !subjectId && !subject) throw new Error("请选择科目");
+    if (subjectId && !trSubjectById(subjectId)) throw new Error("科目不存在：" + subjectId);
+
+    var rows = [], missing = [];
+    studentIds.forEach(function (sid) {
+      var st = data.statuses && data.statuses[sid];
+      if (!TR_ST[st]) missing.push(trStudentName(sid));
+      else rows.push({ studentId: sid, status: st });
+    });
+    if (missing.length) throw new Error("还有学生未选择状态：" + missing.join("、"));
+
+    var conflicts = trFindConflicts(studentIds, date, startTime, endTime, courseId);
+    if (conflicts.length) {
+      var c0 = conflicts[0];
+      throw new Error("时间冲突：" + c0.student + " 已在 " + c0.time + " 上" + c0.teacher + "的课");
+    }
+
+    var payload = {
+      date: date, startTime: startTime, endTime: endTime, teacherId: teacherId,
+      subjectId: subjectId,
+      title: trTxt(data.title), room: trTxt(data.room),
+      note: trTxt(data.note), studentIds: studentIds
+    };
+    /* 只在明确给了科目时才覆盖文本；编辑旧课程未选科目时保留历史 subject 文本 */
+    if (subject) payload.subject = subject;
+    var createdId = courseId;
+    var p = courseId ? TR_API.updateCourse(courseId, payload) : TR_API.createCourse(payload);
+    return p.then(function (c) {
+      createdId = c.id;
+      return TR_API.setAttendanceBulk(c.id, rows);
+    }).then(function () {
+      return TR_API.getCourse(createdId);
+    }).catch(function (err) {
+      if (!courseId && createdId) return TR_API.removeCourse(createdId).then(function () { throw err; });
+      throw err;
+    });
+  });
+}
+
+function trStatusChipHtml(sid, status, on) {
+  return '<div class="st">' + TR_STATUS.map(function (s) {
+    return '<button type="button" data-st="' + s.k + '" data-sid="' + esc(sid) + '"' +
+      (on && status === s.k ? ' class="on"' : "") + ">" + s.n + "</button>";
+  }).join("") + "</div>";
+}
+
+/* v1.5 签到选科：老师任教科目优先（含停用但仍在任教的历史科目），
+   老师没配置科目时回退到全部启用科目；当前值不在候选里就补在最前并标注 */
+function trSubjectOptionsFor(teacherId, currentId) {
+  var t = trTeacherById(teacherId);
+  var mine = t ? trCleanSubjectIds(t.subjectIds) : [];
+  var list, used = {};
+  if (mine.length) {
+    list = mine.map(function (id) { return trSubjectById(id); }).filter(Boolean);
+  } else {
+    list = TR.subjects.filter(function (s) { return s.active !== false; });
+  }
+  var opts = [];
+  list.forEach(function (s) {
+    if (used[s.id]) return;
+    used[s.id] = 1;
+    opts.push({ id: s.id, name: s.name, off: s.active === false });
+  });
+  var cur = currentId ? trSubjectById(currentId) : null;
+  if (cur && !used[cur.id]) {
+    opts.unshift({ id: cur.id, name: cur.name, off: cur.active === false });
+    used[cur.id] = 1;
+  }
+  return opts;
+}
+function trSubjectSelectHtml(teacherId, currentId, hasCourse) {
+  var opts = trSubjectOptionsFor(teacherId, currentId);
+  var h = '<option value="">' + (hasCourse ? "（保持未填科目）" : "请选择科目") + "</option>";
+  opts.forEach(function (o) {
+    h += '<option value="' + esc(o.id) + '"' + (currentId === o.id ? " selected" : "") + ">" +
+      esc(o.name) + (o.off ? "（已停用）" : "") + "</option>";
+  });
+  return h;
+}
+
+function trSigninHtml() {
+  var list = TR_API.coursesOnDate(S.date);
+  var sum = { present: 0, late: 0, leave: 0, missing: 0, people: 0 };
+  list.forEach(function (c) {
+    var st = trCourseStats(c.id);
+    sum.present += st.present; sum.late += st.late; sum.leave += st.leave;
+    sum.missing += st.missing; sum.people += st.total;
+  });
+  var h = "";
+  h += '<div class="actions">' +
+    '<button class="btn primary" id="trNewCourse">＋ 新增培训签到</button>' +
+    '<button class="btn" id="trExportToday">导出当日签到</button></div>';
+  h += '<div class="trsum">' +
+    '<div class="box"><b>' + list.length + '</b><span>当日课程</span></div>' +
+    '<div class="box"><b>' + sum.people + '</b><span>签到人次</span></div>' +
+    '<div class="box"><b>' + sum.present + '</b><span>出勤</span></div>' +
+    '<div class="box"><b style="color:var(--s-late)">' + sum.late + '</b><span>迟到</span></div>' +
+    '<div class="box"><b style="color:var(--s-leave)">' + sum.leave + '</b><span>请假</span></div>' +
+    '<div class="box"><b>' + (sum.people - sum.present - sum.late - sum.leave) + '</b><span>未归状态</span></div>' +
+    '</div>';
+  h += '<div class="sec"><h2>' + dateLabel(S.date) + ' 课程</h2><span style="font-size:11.5px;color:var(--muted-2)">点一节可修改</span></div>';
+  if (!list.length) {
+    h += '<div class="trempty">当天还没有培训签到。<br>点上方「新增培训签到」开始。</div>';
+  } else {
+    list.forEach(function (c) {
+      var st = trCourseStats(c.id);
+      h += '<button type="button" class="trcourse" data-course="' + esc(c.id) + '">' +
+        '<div class="top"><span class="tm">' + esc((c.startTime || "--:--") + "-" + (c.endTime || "--:--")) + '</span>' +
+        '<span class="who">' + esc(trTeacherName(c.teacherId)) + '</span>' +
+        '<span class="sub">' + esc(trCourseSubjectText(c)) + '</span></div>' +
+        '<div class="sub">' + esc((c.studentIds || []).length + " 名学生") + (c.note ? " · " + esc(c.note) : "") + '</div>' +
+        '<div class="statline">' +
+        '<span class="trstatus"><i style="background:var(--s-dao)"></i>出勤 <b>' + st.present + '</b></span>' +
+        '<span class="trstatus"><i style="background:var(--s-late)"></i>迟到 <b>' + st.late + '</b></span>' +
+        '<span class="trstatus"><i style="background:var(--s-leave)"></i>请假 <b>' + st.leave + '</b></span>' +
+        (st.missing ? '<span style="color:var(--s-absent)">未归状态 ' + st.missing + '</span>' : "") +
+        '</div></button>';
+    });
+  }
+  h += '<div class="trnote">同一时间可以有多个老师分别上课；同一名学生同一时间段只能在一节课里。修改课程时间或老师后，系统会重新检查冲突。</div>';
+  return h;
+}
+
+function openTrCourseSheet(courseId) {
+  var course = courseId ? TR_API.getCourse(courseId) : null;
+  var teachers = TR_API.activeTeachers();
+  if (course && trTeacherById(course.teacherId) && trTeacherById(course.teacherId).active === false) {
+    teachers = teachers.concat([trTeacherById(course.teacherId)]);
+  }
+  if (!teachers.length) { toast("请先在「培训老师」里添加老师"); return; }
+  var students = TR_API.activeStudents();
+  if (course) {
+    (course.studentIds || []).forEach(function (sid) {
+      var s = trStudentById(sid);
+      if (s && students.every(function (x) { return x.id !== s.id; })) students.push(s);
+    });
+  }
+  if (!students.length) { toast("请先在「培训学生」里添加学生"); return; }
+
+  var base = course || {
+    date: S.date, startTime: "", endTime: "", teacherId: "", subjectId: "", subject: "", note: "", studentIds: []
+  };
+  var sel = {}, status = {};
+  var amap = course ? TR_API.attendanceMap(course.id) : {};
+  (base.studentIds || []).forEach(function (sid) { sel[sid] = 1; if (TR_ST[amap[sid]]) status[sid] = amap[sid]; });
+
+  var h = '<div class="grab"></div><div class="sh-hd"><h3>' +
+    (course ? "修改培训课程" : "新增培训签到") + '</h3><button class="x" data-close>✕</button></div><div class="sh-bd">';
+  h += '<div class="trgrid2">' +
+    '<div class="field full"><label>日期 *</label><input type="date" id="trDate" value="' + esc(base.date) + '"></div>' +
+    '<div class="field"><label>开始时间 *</label><input type="time" id="trStart" value="' + esc(base.startTime || "") + '"></div>' +
+    '<div class="field"><label>结束时间 *</label><input type="time" id="trEnd" value="' + esc(base.endTime || "") + '"></div>' +
+    '<div class="field full"><label>老师 *</label><select id="trTeacher" class="trselect">' +
+    '<option value="">请选择老师</option>' +
+    teachers.map(function (t) {
+      return '<option value="' + esc(t.id) + '"' + (base.teacherId === t.id ? " selected" : "") + '>' +
+        esc(t.name) + " · " + esc(trTeacherSubjectText(t)) + (t.active === false ? "（已停用）" : "") + "</option>";
+    }).join("") + '</select></div>' +
+    '<div class="field full"><label>科目 *</label><select id="trSubject" class="trselect">' +
+    trSubjectSelectHtml(base.teacherId, base.subjectId, !!course) + '</select></div>' +
+    '<div class="field full"><label>备注（可选）</label><input type="text" id="trNote" value="' + esc(base.note || "") + '" placeholder="如 补课 / 临时调课"></div>' +
+    '</div>';
+  h += '<div class="sec"><h2>选择学生</h2><span id="trSelCount" style="font-size:11.5px;color:var(--muted-2)">已选 0 人</span></div>';
+  h += '<div class="trbulk">' +
+    '<button type="button" data-bulk="present">批量出勤</button>' +
+    '<button type="button" data-bulk="late">批量迟到</button>' +
+    '<button type="button" data-bulk="leave">批量请假</button>' +
+    '<button type="button" id="trClearSel">清空选择</button></div>';
+  h += '<input class="trpicksearch" id="trPickSearch" type="search" placeholder="搜索学生姓名 / 班级">';
+  h += '<div class="trpicklist" id="trPickList">';
+  students.forEach(function (s) {
+    var q = [s.name, s.gradeClass, s.contact].join(" ").toLowerCase();
+    h += '<div class="trpick" data-sid="' + esc(s.id) + '" data-q="' + esc(q) + '">' +
+      '<span class="tick">✓</span><div class="who"><div class="nm">' + esc(s.name) + '</div>' +
+      '<div class="cls">' + esc(s.gradeClass || "未填班级") + '</div></div>' +
+      trStatusChipHtml(s.id, status[s.id], false) + '</div>';
+  });
+  h += '</div><div id="trErr" class="field" style="display:none;color:var(--s-absent);font-size:12px;margin-top:8px"></div>';
+  h += '</div><div class="sh-ft"><button class="btn primary" id="trCourseSave">保存签到</button>' +
+    '<button class="btn" id="trCourseCancel">取消</button></div><div style="height:8px"></div>';
+
+  openSheet(h, {
+    onMount: function (sh) {
+      var countEl = sh.querySelector("#trSelCount"), errEl = sh.querySelector("#trErr");
+      function selectedIds() { return students.filter(function (s) { return sel[s.id]; }).map(function (s) { return s.id; }); }
+      function sync() {
+        sh.querySelectorAll(".trpick").forEach(function (row) {
+          var sid = row.dataset.sid, on = !!sel[sid];
+          row.classList.toggle("sel", on);
+          row.querySelectorAll("[data-st]").forEach(function (b) {
+            b.classList.toggle("on", on && status[sid] === b.dataset.st);
+          });
+        });
+        countEl.textContent = "已选 " + selectedIds().length + " 人 · 已标状态 " + selectedIds().filter(function (sid) { return !!TR_ST[status[sid]]; }).length + " 人";
+      }
+      function showErr(msg) { errEl.textContent = msg; errEl.style.display = "block"; toast(msg); }
+      function clearErr() { errEl.style.display = "none"; errEl.textContent = ""; }
+
+      sh.querySelector("[data-close]").addEventListener("click", closeSheet);
+      sh.querySelector("#trCourseCancel").addEventListener("click", closeSheet);
+      sh.querySelectorAll(".trpick").forEach(function (row) {
+        var sid = row.dataset.sid;
+        row.addEventListener("click", function (e) {
+          if (e.target.closest("[data-st]")) return;
+          if (sel[sid]) { delete sel[sid]; delete status[sid]; }
+          else { sel[sid] = 1; }
+          clearErr(); sync();
+        });
+        row.querySelectorAll("[data-st]").forEach(function (b) {
+          b.addEventListener("click", function (e) {
+            e.stopPropagation();
+            sel[sid] = 1; status[sid] = b.dataset.st; clearErr(); sync();
+          });
+        });
+      });
+      sh.querySelectorAll("[data-bulk]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          var ids = selectedIds();
+          if (!ids.length) { showErr("请先选择学生"); return; }
+          ids.forEach(function (sid) { status[sid] = b.dataset.bulk; });
+          clearErr(); sync();
+        });
+      });
+      sh.querySelector("#trClearSel").addEventListener("click", function () {
+        sel = {}; status = {}; clearErr(); sync();
+      });
+      sh.querySelector("#trPickSearch").addEventListener("input", function (e) {
+        var q = e.target.value.trim().toLowerCase();
+        sh.querySelectorAll(".trpick").forEach(function (row) {
+          row.hidden = q && row.dataset.q.indexOf(q) < 0;
+        });
+      });
+      var teacherSel = sh.querySelector("#trTeacher"), subSel = sh.querySelector("#trSubject");
+      /* v1.5：换老师后按新老师的任教科目重建科目候选；
+         老师只任教一个科目时自动预选，多科时留给前台明确选择 */
+      function applyTeacherSubjects(preselect) {
+        var tid = teacherSel.value;
+        subSel.innerHTML = trSubjectSelectHtml(tid, "", !!course);
+        if (preselect) {
+          var opts = trSubjectOptionsFor(tid, "");
+          if (opts.length === 1) subSel.value = opts[0].id;
+        }
+      }
+      teacherSel.addEventListener("change", function () { applyTeacherSubjects(true); });
+      if (course && base.teacherId && !base.subjectId) applyTeacherSubjects(true);  /* 编辑无科目旧课：跟老师科目走 */
+      sh.querySelector("#trCourseSave").addEventListener("click", function () {
+        clearErr();
+        var pickedId = subSel.value;
+        var picked = pickedId ? trSubjectById(pickedId) : null;
+        var data = {
+          courseId: course ? course.id : "",
+          date: sh.querySelector("#trDate").value,
+          startTime: sh.querySelector("#trStart").value,
+          endTime: sh.querySelector("#trEnd").value,
+          teacherId: teacherSel.value,
+          subjectId: pickedId,
+          subject: picked ? picked.name : "",
+          note: sh.querySelector("#trNote").value,
+          studentIds: selectedIds(),
+          statuses: status
+        };
+        trSaveSignin(data).then(function (c) {
+          closeSheet();
+          S.date = c.date; S.trTab = "signin"; savePref();
+          toast(course ? "课程已更新" : "签到已保存");
+          renderTraining();
+        }).catch(function (err) { showErr(err && err.message ? err.message : "保存失败"); });
+      });
+      sync();
+    }
+  });
+}
+
+function openTrCourseDetail(courseId) {
+  var c = trCourseById(courseId);
+  if (!c) { toast("课程不存在"); return; }
+  var map = TR_API.attendanceMap(courseId);
+  var h = '<div class="grab"></div><div class="sh-hd"><h3>课程签到明细</h3><button class="x" data-close>✕</button></div><div class="sh-bd">';
+  h += '<div class="trdetailhead"><div class="tm">' + esc((c.startTime || "--:--") + "-" + (c.endTime || "--:--")) + '</div>' +
+    '<div class="meta">' + esc(c.date) + " · " + esc(trTeacherName(c.teacherId)) + " · " + esc(trCourseSubjectText(c)) + " · " + (c.studentIds || []).length + " 人</div>" +
+    (c.note ? '<div class="meta">' + esc(c.note) + "</div>" : "") + "</div>";
+  h += '<div class="sec"><h2>学生状态</h2><span style="font-size:11.5px;color:var(--muted-2)">点状态即保存</span></div>';
+  (c.studentIds || []).forEach(function (sid) {
+    h += '<div class="trpick sel" data-sid="' + esc(sid) + '"><div class="who"><div class="nm">' + esc(trStudentName(sid)) +
+      '</div><div class="cls">' + esc(trStudentClass(sid) || "未填班级") + "</div></div>" +
+      trStatusChipHtml(sid, map[sid], true) + "</div>";
+  });
+  h += '<div class="trnote">状态只有出勤 / 迟到 / 请假。修改课程时间、老师或学生名单，请点下方「修改课程」。</div>';
+  h += '</div><div class="sh-ft"><button class="btn primary" id="trEditCourse">修改课程</button>' +
+    '<button class="btn" id="trDeleteCourse" style="color:var(--s-absent)">删除课程</button></div><div style="height:8px"></div>';
+  openSheet(h, {
+    onMount: function (sh) {
+      sh.querySelector("[data-close]").addEventListener("click", closeSheet);
+      sh.querySelectorAll("#trCourseDetail [data-st], .trpick [data-st]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          TR_API.setAttendance(courseId, b.dataset.sid, b.dataset.st).then(function () {
+            toast("已改为" + (TR_ST[b.dataset.st] || {}).n);
+            openTrCourseDetail(courseId);
+          }).catch(function (err) { toast(err && err.message ? err.message : "保存失败"); });
+        });
+      });
+      sh.querySelector("#trEditCourse").addEventListener("click", function () { openTrCourseSheet(courseId); });
+      sh.querySelector("#trDeleteCourse").addEventListener("click", function () {
+        confirmSheet("删除这节课？", "课程和全部学生签到明细都会删除，无法恢复。", "确认删除", function () {
+          TR_API.removeCourse(courseId).then(function () {
+            closeSheet(); toast("课程已删除"); renderTraining();
+          }).catch(function (err) { toast(err && err.message ? err.message : "删除失败"); });
+        }, true);
+      });
+    }
+  });
+}
+
+function trRangeOf(period) {
+  var d = S.date;
+  if (period === "today") return { from: d, to: d, label: "当日" };
+  if (period === "week") {
+    var day = (parseYmd(d).getDay() + 6) % 7;
+    var mon = addDays(d, -day);
+    return { from: mon, to: addDays(mon, 6), label: "本周" };
+  }
+  var m = monthOf(d);
+  return { from: m + "-01", to: m + "-31", label: "本月" };
+}
+
+function trStudentStats(sid, range) {
+  var courses = TR_API.listCourses({ from: range.from, to: range.to, studentId: sid });
+  var out = { total: courses.length, present: 0, late: 0, leave: 0, missing: 0, byTeacher: {}, bySubject: {}, bySubjectNames: {}, courses: courses };
+  var buckets = trSubjectBuckets(courses);
+  Object.keys(buckets).forEach(function (k) {
+    out.bySubject[k] = buckets[k].count;
+    out.bySubjectNames[k] = buckets[k].name;
+  });
+  courses.forEach(function (c) {
+    var st = TR_API.attendanceMap(c.id)[sid];
+    if (out[st] != null) out[st]++; else out.missing++;
+    out.byTeacher[c.teacherId] = (out.byTeacher[c.teacherId] || 0) + 1;
+  });
+  return out;
+}
+
+function trTeacherStats(tid, range) {
+  var courses = TR_API.listCourses({ from: range.from, to: range.to, teacherId: tid }).filter(function (c) {
+    return (c.studentIds || []).length > 0;
+  });
+  var out = { total: courses.length, people: 0, present: 0, late: 0, leave: 0, missing: 0, byDate: {}, bySubject: {}, bySubjectNames: {}, courses: courses };
+  var buckets = trSubjectBuckets(courses);
+  Object.keys(buckets).forEach(function (k) {
+    out.bySubject[k] = buckets[k].count;
+    out.bySubjectNames[k] = buckets[k].name;
+  });
+  courses.forEach(function (c) {
+    var map = TR_API.attendanceMap(c.id);
+    (c.studentIds || []).forEach(function (sid) {
+      out.people++;
+      if (out[map[sid]] != null) out[map[sid]]++; else out.missing++;
+    });
+    out.byDate[c.date] = (out.byDate[c.date] || 0) + 1;
+  });
+  return out;
+}
+
+function trCsvText(rows) {
+  return "\ufeff" + rows.map(function (r) { return r.map(csvCell).join(","); }).join("\r\n");
+}
+function trExportAttendanceCsv(range) {
+  var rows = [["日期", "开始", "结束", "老师", "科目", "学生", "班级", "状态"]];
+  TR_API.listCourses({ from: range.from, to: range.to }).forEach(function (c) {
+    var map = TR_API.attendanceMap(c.id);
+    (c.studentIds || []).forEach(function (sid) {
+      rows.push([c.date, c.startTime, c.endTime, trTeacherName(c.teacherId), trCourseSubjectText(c), trStudentName(sid), trStudentClass(sid), (TR_ST[map[sid]] || {}).n || "未归状态"]);
+    });
+  });
+  downloadFile("培训签到_" + range.from + "_" + range.to + ".csv", trCsvText(rows), "text/csv;charset=utf-8");
+}
+function trExportStudentCsv(sid, range) {
+  var rows = [["日期", "开始", "结束", "老师", "科目", "状态"]];
+  TR_API.listCourses({ from: range.from, to: range.to, studentId: sid }).forEach(function (c) {
+    var st = TR_API.attendanceMap(c.id)[sid];
+    rows.push([c.date, c.startTime, c.endTime, trTeacherName(c.teacherId), trCourseSubjectText(c), (TR_ST[st] || {}).n || "未归状态"]);
+  });
+  downloadFile("培训学生_" + trStudentName(sid) + "_" + range.from + "_" + range.to + ".csv", trCsvText(rows), "text/csv;charset=utf-8");
+}
+function trExportTeacherCsv(tid, range) {
+  var rows = [["日期", "开始", "结束", "科目", "学生", "班级", "状态"]];
+  TR_API.listCourses({ from: range.from, to: range.to, teacherId: tid }).forEach(function (c) {
+    var map = TR_API.attendanceMap(c.id);
+    (c.studentIds || []).forEach(function (sid) {
+      rows.push([c.date, c.startTime, c.endTime, trCourseSubjectText(c), trStudentName(sid), trStudentClass(sid), (TR_ST[map[sid]] || {}).n || "未归状态"]);
+    });
+  });
+  downloadFile("培训老师_" + trTeacherName(tid) + "_" + range.from + "_" + range.to + ".csv", trCsvText(rows), "text/csv;charset=utf-8");
+}
+
+function trStatsHtml() {
+  var mode = S.trStatsMode;
+  var period = S.trStatsPeriod;
+  var range = trRangeOf(period);
+  var h = '<div class="seg" id="trStatsMode">' +
+    '<button data-mode="student" class="' + (mode === "student" ? "on" : "") + '">学生统计</button>' +
+    '<button data-mode="teacher" class="' + (mode === "teacher" ? "on" : "") + '">老师统计</button></div>';
+  h += '<div class="trstatsbar" id="trPeriod">' +
+    '<button data-period="today" class="' + (period === "today" ? "on" : "") + '">当日</button>' +
+    '<button data-period="week" class="' + (period === "week" ? "on" : "") + '">本周</button>' +
+    '<button data-period="month" class="' + (period === "month" ? "on" : "") + '">本月</button></div>';
+  h += '<div class="trnote" style="margin:0 0 6px">统计区间：' + esc(range.from) + " 至 " + esc(range.to) + '</div>';
+
+  if (mode === "student") {
+    var students = TR_API.listStudents();
+    if (!students.length) return h + '<div class="trempty">还没有培训学生档案。</div>';
+    var sid = S.trStatsStudentId;
+    if (!sid || !trStudentById(sid)) { sid = students[0].id; S.trStatsStudentId = sid; }
+    var st = trStudentStats(sid, range);
+    h += '<select class="trselect" id="trStatsStudent">' + students.map(function (s) {
+      return '<option value="' + esc(s.id) + '"' + (sid === s.id ? " selected" : "") + '>' + esc(s.name) + (s.gradeClass ? " · " + esc(s.gradeClass) : "") + "</option>";
+    }).join("") + "</select>";    h += '<div class="trstatcard"><div class="trstatgrid">' +
+      '<div class="cell"><b>' + st.total + '</b><span>上课次数</span></div>' +
+      '<div class="cell"><b style="color:var(--s-dao)">' + st.present + '</b><span>出勤</span></div>' +
+      '<div class="cell"><b style="color:var(--s-late)">' + st.late + '</b><span>迟到</span></div>' +
+      '<div class="cell"><b style="color:var(--s-leave)">' + st.leave + '</b><span>请假</span></div>' +
+      '<div class="cell"><b>' + Object.keys(st.byTeacher).length + '</b><span>任课老师</span></div>' +
+      '<div class="cell"><b>' + Object.keys(st.bySubject).length + '</b><span>科目数</span></div>' +
+      '</div>';
+    h += '<div class="actions" style="margin-top:4px"><button class="btn" id="trExportStudent">导出学生记录</button></div></div>';
+    h += '<div class="sec"><h2>按老师</h2></div><div class="panel trlist">';
+    var teacherKeys = Object.keys(st.byTeacher);
+    if (!teacherKeys.length) h += '<div class="trnote">暂无记录</div>';
+    teacherKeys.forEach(function (tid) { h += '<div class="drow"><div class="d1"><div class="t">' + esc(trTeacherName(tid)) + '</div><div class="s">' + esc(trTeacherSubjectText(trTeacherById(tid))) + '</div></div><span>' + st.byTeacher[tid] + ' 次</span></div>'; });
+    h += '</div><div class="sec"><h2>按科目</h2></div><div class="panel trlist">';
+    var subKeys = Object.keys(st.bySubject);
+    if (!subKeys.length) h += '<div class="trnote">暂无记录</div>';
+    subKeys.forEach(function (k) { h += '<div class="drow"><div class="d1"><div class="t">' + esc(st.bySubjectNames[k] || k) + '</div></div><span>' + st.bySubject[k] + ' 次</span></div>'; });
+    h += '</div><div class="sec"><h2>最近上课</h2></div><div class="panel trlist">';
+    if (!st.courses.length) h += '<div class="trnote">暂无记录</div>';
+    st.courses.slice(0, 8).forEach(function (c) {
+      var s = TR_API.attendanceMap(c.id)[sid];
+      h += '<div class="drow"><div class="d1"><div class="t">' + esc(c.date + " " + c.startTime + "-" + c.endTime) + '</div><div class="s">' + esc(trTeacherName(c.teacherId)) + " · " + esc(trCourseSubjectText(c)) + '</div></div><span style="color:' + ((TR_ST[s] || {}).ink || "var(--muted)") + '">' + esc((TR_ST[s] || {}).n || "未归状态") + '</span></div>';
+    });
+    h += '</div>';
+  } else {
+    var teachers = TR_API.listTeachers();
+    if (!teachers.length) return h + '<div class="trempty">还没有培训老师档案。</div>';
+    var tid = S.trStatsTeacherId;
+    if (!tid || !trTeacherById(tid)) { tid = teachers[0].id; S.trStatsTeacherId = tid; }
+    var tt = trTeacherStats(tid, range);
+    h += '<select class="trselect" id="trStatsTeacher">' + teachers.map(function (t) {
+      return '<option value="' + esc(t.id) + '"' + (tid === t.id ? " selected" : "") + '>' + esc(t.name) + " · " + esc(trTeacherSubjectText(t)) + "</option>";
+    }).join("") + "</select>";
+    h += '<div class="trstatcard"><div class="trstatgrid">' +
+      '<div class="cell"><b>' + tt.total + '</b><span>上课节数</span></div>' +
+      '<div class="cell"><b>' + tt.people + '</b><span>授课人次</span></div>' +
+      '<div class="cell"><b>' + (tt.total ? (tt.people / tt.total).toFixed(1) : "0.0") + '</b><span>平均人数</span></div>' +
+      '<div class="cell"><b style="color:var(--s-dao)">' + tt.present + '</b><span>出勤</span></div>' +
+      '<div class="cell"><b style="color:var(--s-late)">' + tt.late + '</b><span>迟到</span></div>' +
+      '<div class="cell"><b style="color:var(--s-leave)">' + tt.leave + '</b><span>请假</span></div>' +
+      '</div><div class="actions" style="margin-top:4px"><button class="btn" id="trExportTeacher">导出老师记录</button></div></div>';
+    h += '<div class="sec"><h2>按日期</h2></div><div class="panel trlist">';
+    var dates = Object.keys(tt.byDate).sort().reverse();
+    if (!dates.length) h += '<div class="trnote">暂无记录</div>';
+    dates.forEach(function (d) { h += '<div class="drow"><div class="d1"><div class="t">' + esc(d) + '</div></div><span>' + tt.byDate[d] + ' 节</span></div>'; });
+    h += '</div><div class="sec"><h2>按科目</h2></div><div class="panel trlist">';
+    var tsubs = Object.keys(tt.bySubject);
+    if (!tsubs.length) h += '<div class="trnote">暂无记录</div>';
+    tsubs.forEach(function (k) { h += '<div class="drow"><div class="d1"><div class="t">' + esc(tt.bySubjectNames[k] || k) + '</div></div><span>' + tt.bySubject[k] + ' 节</span></div>'; });
+    h += '</div><div class="sec"><h2>最近课程</h2></div><div class="panel trlist">';
+    if (!tt.courses.length) h += '<div class="trnote">暂无记录</div>';
+    tt.courses.slice(0, 8).forEach(function (c) {
+      var s = trCourseStats(c.id);
+      h += '<div class="drow"><div class="d1"><div class="t">' + esc(c.date + " " + c.startTime + "-" + c.endTime) + '</div><div class="s">' + esc(trCourseSubjectText(c)) + " · " + (c.studentIds || []).length + " 人</div></div><span>出勤 " + s.present + "</span></div>";
+    });
+    h += '</div>';
+  }
+  return h;
+}
+function renderTraining() {
+  var view = $("#view");
+  if (!TR.loaded) {
+    view.innerHTML = '<div class="empty">正在读取培训档案…</div>';
+    loadTraining().then(function () { if (S.mode === "training") renderTraining(); });
+    return;
+  }
+  var seg = S.trTab;
+  var q = S.trSearch.trim().toLowerCase();
+  var h = "";
+
+  /* v1.5：档案页内部小分段（学生 / 老师 / 科目） */
+  if (seg === "archives") {
+    h += '<div class="seg" id="trArchSeg">' +
+      '<button data-seg="students" class="' + (S.trArchSeg === "students" ? "on" : "") + '">学生</button>' +
+      '<button data-seg="teachers" class="' + (S.trArchSeg === "teachers" ? "on" : "") + '">老师</button>' +
+      '<button data-seg="subjects" class="' + (S.trArchSeg === "subjects" ? "on" : "") + '">科目</button>' +
+      "</div>";
+  }
+
+  if (seg === "signin") {
+    h += trSigninHtml();
+  } else if (seg === "stats") {
+    h += trStatsHtml();
+  } else if (seg === "info") {
+    h += trInfoHtml();
+  } else if (S.trArchSeg === "subjects") {
+    /* v1.5：科目档案 —— 搜索 / 只看启用 / 新增 / 编辑 / 启停 / 引用计数 */
+    var subsAll = TR.subjects;
+    var subs = TR_API.listSubjects({ q: S.trSearch.trim().toLowerCase(), activeOnly: S.trSubActiveOnly === true });
+    var offSubs = subsAll.filter(function (x) { return x.active === false; }).length;
+    h += '<div class="search"><input id="trSearch" type="search" placeholder="搜索科目名称、备注" value="' + esc(S.trSearch) + '"></div>';
+    h += '<div class="actions">' +
+      '<button class="btn primary" id="trAdd">＋ 新增科目</button>' +
+      '<button class="btn" id="trToInfo">查看概况</button>' +
+      "</div>";
+    h += '<div class="filters"><button class="fchip' + (S.trSubActiveOnly ? " on" : "") + '" id="trSubOnlyActive">' +
+      "只看启用<span class=" + '"cnt">' + (subsAll.length - offSubs) + "</span></button></div>";
+    h += '<div class="sec"><h2>共 ' + subsAll.length + " 个科目" +
+      (offSubs ? "（停用 " + offSubs + "）" : "") +
+      '</h2><span style="font-size:11.5px;color:var(--muted-2)">点一行可编辑</span></div>';
+    if (!subsAll.length) {
+      h += '<div class="empty"><div class="big">还没有科目档案</div>' +
+        "点上方「新增科目」创建；老师任教和签到选科都会用到。" +
+        "<br>旧版本老师 / 课程里的科目文本会自动归档成科目。</div>";
+    } else if (!subs.length) {
+      h += '<div class="empty"><div class="big">没有匹配的科目</div>换个关键词，或关掉「只看启用」试试。</div>';
+    } else {
+      h += '<div class="panel" style="padding:2px 12px">';
+      subs.forEach(function (s) {
+        var nT = TR.teachers.filter(function (t) { return (t.subjectIds || []).indexOf(s.id) >= 0; }).length;
+        var nC = TR.courses.filter(function (c) { return c.subjectId === s.id; }).length;
+        h += '<div class="drow" data-kind="subject" data-id="' + esc(s.id) + '" style="cursor:pointer">' +
+          '<div class="d1"><div class="t">' + esc(s.name) +
+          (s.active === false ? '<span class="pill off">停用</span>' : "") + "</div>" +
+          '<div class="s">' + (s.note ? esc(s.note) + " · " : "") +
+          nT + " 位老师 · " + nC + " 节课</div></div>" +
+          '<span class="mini" style="display:inline-flex;align-items:center">编辑</span></div>';
+      });
+      h += "</div>";
+    }
+  } else {
+    var isT = S.trArchSeg === "teachers";
+    var all = isT ? TR.teachers : TR.students;
+    var list = isT ? TR_API.listTeachers({ q: q }) : TR_API.listStudents({ q: q });
+    var offN = all.filter(function (x) { return x.active === false; }).length;
+    h += '<div class="search"><input id="trSearch" type="search" placeholder="' +
+      (isT ? "搜索姓名、科目、备注" : "搜索姓名、班级、备注") + '" value="' + esc(S.trSearch) + '"></div>';
+    h += '<div class="actions">' +
+      '<button class="btn primary" id="trAdd">＋ 新增' + (isT ? "培训老师" : "培训学生") + "</button>" +
+      '<button class="btn" id="trToInfo">查看概况</button>' +
+      "</div>";
+    h += '<div class="sec"><h2>共 ' + all.length + " " + (isT ? "位老师" : "名学生") +
+      (offN ? "（停用 " + offN + "）" : "") +
+      '</h2><span style="font-size:11.5px;color:var(--muted-2)">点一行可编辑</span></div>';
+    if (!all.length) {
+      h += '<div class="empty"><div class="big">还没有' + (isT ? "培训老师" : "培训学生") + "</div>" +
+        "用上面的「新增」逐个添加。" + (isT ? "" : "<br>午托名单不会自动变成培训学生。") + "</div>";
+    } else if (!list.length) {
+      h += '<div class="empty"><div class="big">没有匹配的档案</div>换个关键词试试。</div>';
+    } else {
+      list.forEach(function (d) { h += trRowHtml(isT ? "teacher" : "student", d); });
+    }
+  }
+  view.innerHTML = h;
+
+  var archSeg = $("#trArchSeg");
+  if (archSeg) archSeg.querySelectorAll("button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      S.trArchSeg = b.dataset.seg; S.trSearch = ""; savePref(); renderTraining();
+    });
+  });
+
+  if (seg === "signin") {
+    var nc = $("#trNewCourse");
+    if (nc) nc.addEventListener("click", function () { openTrCourseSheet(null); });
+    view.querySelectorAll(".trcourse").forEach(function (b) {
+      b.addEventListener("click", function () { openTrCourseDetail(b.dataset.course); });
+    });
+    var exd = $("#trExportToday");
+    if (exd) exd.addEventListener("click", function () { trExportAttendanceCsv({ from: S.date, to: S.date }); });
+    return;
+  }
+
+  if (seg === "stats") {
+    view.querySelectorAll("#trStatsMode button").forEach(function (b) {
+      b.addEventListener("click", function () { S.trStatsMode = b.dataset.mode; renderTraining(); });
+    });
+    view.querySelectorAll("#trPeriod button").forEach(function (b) {
+      b.addEventListener("click", function () { S.trStatsPeriod = b.dataset.period; renderTraining(); });
+    });
+    var ss = $("#trStatsStudent");
+    if (ss) ss.addEventListener("change", function () { S.trStatsStudentId = ss.value; renderTraining(); });
+    var ts = $("#trStatsTeacher");
+    if (ts) ts.addEventListener("change", function () { S.trStatsTeacherId = ts.value; renderTraining(); });
+    var range = trRangeOf(S.trStatsPeriod);
+    var exs = $("#trExportStudent");
+    if (exs) exs.addEventListener("click", function () { trExportStudentCsv(S.trStatsStudentId, range); });
+    var ext = $("#trExportTeacher");
+    if (ext) ext.addEventListener("click", function () { trExportTeacherCsv(S.trStatsTeacherId, range); });
+    return;
+  }
+
+  var si = $("#trSearch");
+  if (si) {
+    si.addEventListener("input", function () {
+      S.trSearch = si.value;
+      renderTraining();
+      var again = $("#trSearch");
+      if (again) { again.focus(); again.setSelectionRange(again.value.length, again.value.length); }
+    });
+  }
+  var onlyOn = $("#trSubOnlyActive");
+  if (onlyOn) onlyOn.addEventListener("click", function () {
+    S.trSubActiveOnly = !S.trSubActiveOnly; renderTraining();
+  });
+  var add = $("#trAdd");
+  if (add) add.addEventListener("click", function () {
+    if (S.trArchSeg === "subjects") openTrSubjectSheet(null);
+    else openTrSheet(S.trArchSeg === "teachers" ? "teacher" : "student", null);
+  });
+  var ti = $("#trToInfo");
+  if (ti) ti.addEventListener("click", function () { switchTab("info"); });
+  view.querySelectorAll(".row").forEach(function (r) {
+    r.addEventListener("click", function () { openTrSheet(r.dataset.kind, r.dataset.id); });
+  });
+  view.querySelectorAll('.drow[data-kind="subject"]').forEach(function (r) {
+    r.addEventListener("click", function () { openTrSubjectSheet(r.dataset.id); });
+  });
+}
+
+/* v1.5：科目档案编辑弹层（新增 / 编辑 / 启停 / 删除保护） */
+function openTrSubjectSheet(id) {
+  var d = id ? trSubjectById(id) : null;
+  var isNew = !d;
+  var base = d || { name: "", note: "", active: true };
+  var nT = d ? TR.teachers.filter(function (t) { return (t.subjectIds || []).indexOf(id) >= 0; }).length : 0;
+  var nC = d ? TR.courses.filter(function (c) { return c.subjectId === id; }).length : 0;
+
+  var html = '<div class="grab"></div><div class="sh-hd"><h3>' + (isNew ? "新增科目" : "编辑科目") +
+    '</h3><button class="x" data-close>✕</button></div><div class="sh-bd">';
+  html += '<div class="field"><label>科目名称 *</label><input type="text" id="trSubName" value="' + esc(base.name) +
+    '" placeholder="如 数学 / 奥数 / 英语"></div>';
+  html += '<div class="field"><label>备注</label><input type="text" id="trSubNote" value="' + esc(base.note || "") +
+    '" placeholder="如 五年级培优"></div>';
+  if (!isNew) {
+    html += '<div class="field"><label>启用状态</label><select id="trSubActive" class="trselect" style="margin:0">' +
+      '<option value="on"' + (base.active !== false ? " selected" : "") + '>启用</option>' +
+      '<option value="off"' + (base.active === false ? " selected" : "") + '>停用（不参与新签到选科）</option></select></div>';
+    html += '<div class="trnote" style="margin-top:6px">当前被 ' + nT + " 位老师、" + nC +
+      " 节课引用。被引用的科目不能删除，只能停用；历史课程仍显示当时的科目名称。</div>";
+  }
+  html += '</div><div class="sh-ft"><button class="btn primary" id="trSubSave">保存</button>';
+  if (!isNew) {
+    html += '<button class="btn" id="trSubToggle">' + (base.active === false ? "启用" : "停用") + "</button>";
+    html += '<button class="btn" id="trSubDelete" style="color:var(--s-absent)">删除</button>';
+  }
+  html += '</div><div style="height:8px"></div>';
+
+  openSheet(html, {
+    onMount: function (sh) {
+      sh.querySelector("[data-close]").addEventListener("click", closeSheet);
+      sh.querySelector("#trSubSave").addEventListener("click", function () {
+        var name = trSubName(sh.querySelector("#trSubName").value);
+        if (!name) { toast("科目名称必填"); sh.querySelector("#trSubName").focus(); return; }
+        var payload = { name: name, note: sh.querySelector("#trSubNote").value.trim() };
+        var act = sh.querySelector("#trSubActive");
+        if (act) payload.active = act.value !== "off";
+        var p = isNew ? TR_API.createSubject(payload) : TR_API.updateSubject(id, payload);
+        p.then(function (rec) {
+          closeSheet();
+          toast((isNew ? "已添加科目 " : "已保存科目 ") + rec.name);
+          renderTraining();
+        }).catch(function (err) { toast(err && err.message ? err.message : "保存失败"); });
+      });
+      var tg = sh.querySelector("#trSubToggle");
+      if (tg) tg.addEventListener("click", function () {
+        TR_API.setSubjectActive(id, base.active === false).then(function (rec) {
+          closeSheet();
+          toast((rec.active === false ? "已停用科目 " : "已启用科目 ") + rec.name +
+            (rec.active === false ? "（历史课程显示不变）" : ""));
+          renderTraining();
+        }).catch(function (err) { toast(err && err.message ? err.message : "操作失败"); });
+      });
+      var del = sh.querySelector("#trSubDelete");
+      if (del) del.addEventListener("click", function () {
+        confirmSheet("删除科目「" + base.name + "」？",
+          "只有没被任何老师和课程引用的科目才能删除；删不掉时请改用停用。", "确认删除", function () {
+            TR_API.removeSubject(id).then(function () {
+              closeSheet(); toast("科目已删除"); renderTraining();
+            }).catch(function (err) {
+              /* 删除保护：引用中的科目阻止硬删，提示改用停用 */
+              toast(err && err.message ? err.message : "删除失败");
+            });
+          }, true);
+      });
+    }
+  });
+}
+
+/* 培训档案编辑弹层（老师 / 学生共用一套） */
+function openTrSheet(kind, id) {
+  var isT = kind === "teacher";
+  var d = id ? (isT ? trTeacherById(id) : trStudentById(id)) : null;
+  var isNew = !d;
+  var base = d || (isT
+    ? { name: "", subject: "", subjectIds: [], contact: "", note: "", active: true }
+    : { name: "", gradeClass: "", contact: "", note: "", active: true });
+
+  var html = '<div class="grab"></div><div class="sh-hd"><h3>' +
+    (isNew ? (isT ? "新增培训老师" : "新增培训学生") : (isT ? "编辑培训老师" : "编辑培训学生")) +
+    '</h3><button class="x" data-close>✕</button></div><div class="sh-bd">';
+  html += '<div class="field"><label>姓名 *</label><input type="text" id="trName" value="' + esc(base.name) +
+    '" placeholder="' + (isT ? "如 王老师" : "如 李小明") + '"></div>';
+  if (isT) {
+    /* v1.5：科目改为从科目档案多选；停用的历史科目仍可见并标明 */
+    var subsAll = TR.subjects;
+    var picked0 = trCleanSubjectIds(base.subjectIds);
+    html += '<div class="field"><label>任教科目（可多选）</label></div>';
+    html += '<div class="trpicklist" id="trSubPickList" style="max-height:30vh">';
+    if (!subsAll.length) {
+      html += '<div class="trnote" style="margin:2px 0">还没有科目档案。<br>请先到「档案 → 科目」新增，再来给老师选科目。</div>';
+    }
+    subsAll.forEach(function (s) {
+      var on = picked0.indexOf(s.id) >= 0;
+      html += '<div class="trpick' + (on ? " sel" : "") + '" data-subid="' + esc(s.id) + '">' +
+        '<span class="tick">✓</span><div class="who"><div class="nm">' + esc(s.name) +
+        (s.active === false ? '<span class="pill off">已停用</span>' : "") + "</div></div></div>";
+    });
+    html += "</div>";
+  } else {
+    html += '<div class="field"><label>年级 / 班级</label><input type="text" id="trGrade" value="' + esc(base.gradeClass || "") +
+      '" placeholder="如 五年级2班"></div>';
+  }
+  html += '<div class="field"><label>联系方式（可选）</label><input type="text" id="trContact" value="' + esc(base.contact || "") +
+    '" placeholder="手机 / 微信"></div>';
+  html += '<div class="field"><label>备注</label><input type="text" id="trNote" value="' + esc(base.note || "") +
+    '" placeholder="如 周三晚排课"></div>';
+  html += "</div>";
+  html += '<div class="sh-ft">';
+  html += '<button class="btn primary" id="trSave">保存</button>';
+  if (!isNew) html += '<button class="btn" id="trToggle">' + (base.active === false ? "启用" : "停用") + "</button>";
+  html += "</div>";
+  html += '<div style="height:8px"></div>';
+
+  openSheet(html, {
+    onMount: function (sh) {
+      sh.querySelector("[data-close]").addEventListener("click", closeSheet);
+      if (isT) {
+        sh.querySelectorAll("#trSubPickList .trpick").forEach(function (row) {
+          row.addEventListener("click", function () { row.classList.toggle("sel"); });
+        });
+      }
+      sh.querySelector("#trSave").addEventListener("click", function () {
+        var name = sh.querySelector("#trName").value.trim();
+        if (!name) { toast("姓名必填"); sh.querySelector("#trName").focus(); return; }
+        var payload = {
+          name: name,
+          contact: sh.querySelector("#trContact").value.trim(),
+          note: sh.querySelector("#trNote").value.trim()
+        };
+        if (isT) {
+          /* v1.5：老师科目来自科目档案多选；subject 文本同步为所选科目名（、连接），保持显示一致 */
+          var picked = [];
+          sh.querySelectorAll("#trSubPickList .trpick.sel").forEach(function (r) { picked.push(r.dataset.subid); });
+          payload.subjectIds = picked;
+          payload.subject = picked.map(function (sid) {
+            var s = trSubjectById(sid); return s ? s.name : "";
+          }).filter(Boolean).join("、");
+        } else {
+          payload.gradeClass = sh.querySelector("#trGrade").value.trim();
+        }
+        var p = isNew
+          ? (isT ? TR_API.createTeacher(payload) : TR_API.createStudent(payload))
+          : (isT ? TR_API.updateTeacher(id, payload) : TR_API.updateStudent(id, payload));
+        p.then(function (rec) {
+          closeSheet();
+          toast((isNew ? "已添加 " : "已保存 ") + rec.name);
+          renderTraining();
+        }).catch(function (err) { toast(err && err.message ? err.message : "保存失败"); });
+      });
+      var tg = sh.querySelector("#trToggle");
+      if (tg) tg.addEventListener("click", function () {
+        var p = isT ? TR_API.setTeacherActive(id, base.active === false) : TR_API.setStudentActive(id, base.active === false);
+        p.then(function (rec) {
+          closeSheet();
+          toast((rec.active === false ? "已停用 " : "已启用 ") + rec.name + (rec.active === false ? "（历史签到保留）" : ""));
+          renderTraining();
+        }).catch(function (err) { toast(err && err.message ? err.message : "操作失败"); });
+      });
+    }
+  });
+}
+
+/* =====================================================================
    记录页
    ===================================================================== */
 function allRecords() { return Array.from(S.records.values()); }
@@ -1544,7 +3405,7 @@ function renderDataSeg() {
     '<button class="btn" id="expStuCsv">导出名单 CSV</button>' +
     '<button class="btn" id="expJson">全量备份 JSON</button>' +
     '<button class="btn" id="impJson">恢复备份</button>' +
-    "</div><div class=\"hint\">CSV 为 UTF-8 带 BOM，Excel 直接打开中文不乱码。<br>JSON 备份包含学生、头像、全部记录与设置。</div></div>";
+    "</div><div class=\"hint\">CSV 为 UTF-8 带 BOM，Excel 直接打开中文不乱码。<br>JSON 备份包含午托学生、头像、全部记录、设置，<b>以及培训老师 / 培训学生 / 课程 / 签到明细</b>；恢复旧版备份不会动培训档案。</div></div>";
 
   h += '<div class="sec"><h2>概况</h2></div>';
   var ds = dateList();
@@ -1558,6 +3419,15 @@ function renderDataSeg() {
     STATUS.map(function (st) {
       return '<div class="kv"><span class="k">' + st.n + "</span><span class=\"v\">" + cnt[st.k] + " 条</span></div>";
     }).join("") +
+    "</div>";
+
+  /* 培训数据单独一块，和午托账目分开看，避免混淆 */
+  h += '<div class="sec"><h2>培训数据（独立）</h2><span style="font-size:11.5px;color:var(--muted-2)">不参与午托统计</span></div>';
+  h += '<div class="panel">' +
+    '<div class="kv"><span class="k">培训老师</span><span class="v">' + TR.teachers.length + " 人</span></div>" +
+    '<div class="kv"><span class="k">培训学生</span><span class="v">' + TR.students.length + " 人</span></div>" +
+    '<div class="kv"><span class="k">课程记录</span><span class="v">' + TR.courses.length + " 节</span></div>" +
+    '<div class="kv"><span class="k">签到明细</span><span class="v">' + TR.attendance.size + " 条</span></div>" +
     "</div>";
 
   h += '<div class="sec"><h2>关于</h2></div>';
@@ -1694,7 +3564,7 @@ function dataUrlToBlob(dataUrl) {
   return new Blob([arr], { type: mime });
 }
 
-/* 全量备份：学生 + 头像 + 记录 + 设置 */
+/* 全量备份：午托（学生 + 头像 + 记录 + 设置）＋ 培训（科目 / 老师 / 学生 / 课程 / 签到明细） */
 function exportBackup() {
   return idbAll("avatars").then(function (avs) {
     var pending = avs.map(function (a) {
@@ -1702,6 +3572,7 @@ function exportBackup() {
     });
     return Promise.all(pending);
   }).then(function (avatars) {
+    var snap = trSnapshot();
     var obj = {
       app: "午托点名",
       version: APP_VERSION,
@@ -1709,7 +3580,15 @@ function exportBackup() {
       students: S.students,
       records: allRecords(),
       avatars: avatars,
-      settings: { pref: JSON.parse(localStorage.getItem(PREF_KEY) || "{}") }
+      settings: { pref: JSON.parse(localStorage.getItem(PREF_KEY) || "{}") },
+      training: {
+        schema: TR_SCHEMA,
+        subjects: snap.subjects,
+        teachers: snap.teachers,
+        students: snap.students,
+        courses: snap.courses,
+        attendance: snap.attendance
+      }
     };
     return JSON.stringify(obj, null, 2);
   });
@@ -1718,12 +3597,35 @@ function exportBackup() {
 function restoreBackup(text) {
   var obj;
   try { obj = JSON.parse(text); } catch (e) { toast("备份文件解析失败"); return; }
-  if (!obj || !Array.isArray(obj.students)) { toast("不是有效的备份文件"); return; }
-  var nS = obj.students.length, nR = Array.isArray(obj.records) ? obj.records.length : 0;
-  confirmSheet("恢复备份？",
-    "将导入 <b>" + nS + "</b> 名学生、<b>" + nR + "</b> 条记录。<br>现有数据会被<b>全部覆盖</b>，操作不可撤销。",
-    "覆盖并导入", function () {
-      Promise.all([idbClear("students"), idbClear("records"), idbClear("avatars")]).then(function () {
+  if (!obj || (!Array.isArray(obj.students) && !obj.training)) { toast("不是有效的备份文件"); return; }
+
+  var hasWudian = Array.isArray(obj.students);
+  var nS = hasWudian ? obj.students.length : 0;
+  var nR = Array.isArray(obj.records) ? obj.records.length : 0;
+  var tr = (obj.training && typeof obj.training === "object") ? obj.training : null;
+  var trT = tr && Array.isArray(tr.teachers) ? tr.teachers.length : 0;
+  var trS = tr && Array.isArray(tr.students) ? tr.students.length : 0;
+  var trC = tr && Array.isArray(tr.courses) ? tr.courses.length : 0;
+  var trA = tr && Array.isArray(tr.attendance) ? tr.attendance.length : 0;
+
+  var detail = "";
+  if (hasWudian) {
+    detail += "午托：<b>" + nS + "</b> 名学生、<b>" + nR + "</b> 条记录 —— 现有午托数据会被<b>全部覆盖</b>。<br>";
+  } else {
+    detail += "该备份<b>不含午托学生</b>，午托数据保持不变。<br>";
+  }
+  if (tr) {
+    detail += "培训：<b>" + trT + "</b> 位老师、<b>" + trS + "</b> 名学生、<b>" + trC + "</b> 节课、<b>" + trA +
+      "</b> 条签到明细 —— 现有培训数据会被<b>全部覆盖</b>。<br>";
+  } else {
+    detail += "这是旧版备份（不含培训数据），恢复后<b>培训档案保持不变</b>。<br>";
+  }
+  detail += "操作不可撤销，建议先导出一份当前备份。";
+
+  confirmSheet("恢复备份？", detail, "覆盖并导入", function () {
+    var chain = Promise.resolve();
+    if (hasWudian) {
+      chain = Promise.all([idbClear("students"), idbClear("records"), idbClear("avatars")]).then(function () {
         var jobs = [];
         obj.students.forEach(function (s) { jobs.push(idbPut("students", s)); });
         (obj.records || []).forEach(function (r) {
@@ -1738,11 +3640,18 @@ function restoreBackup(text) {
           try { localStorage.setItem(PREF_KEY, JSON.stringify(obj.settings.pref)); } catch (e) {}
         }
         return boot(true);
-      }).then(function () {
-        toast("已恢复 " + nS + " 名学生、" + nR + " 条记录");
-        render();
-      }).catch(function (err) { toast("恢复失败：" + (err && err.message ? err.message : err)); });
-    }, true);
+      });
+    }
+    if (tr) {
+      chain = chain.then(function () { return trRestoreSnapshot(tr); });
+    }
+    chain.then(function () {
+      toast(hasWudian
+        ? "已恢复 " + nS + " 名学生、" + nR + " 条记录" + (tr ? "；培训 " + trT + " 师 / " + trS + " 生 / " + trC + " 课" : "")
+        : "已恢复培训数据：" + trT + " 位老师、" + trS + " 名学生、" + trC + " 节课");
+      render();
+    }).catch(function (err) { toast("恢复失败：" + (err && err.message ? err.message : err)); });
+  }, true);
 }
 
 function downloadFile(name, text, mime) {
@@ -1765,9 +3674,22 @@ function renderHeader() {
   $("#dateText").textContent = dateLabel(S.date);
   $("#todayTag").hidden = (S.date !== todayStr());
   $("#datePick").value = S.date;
-  /* 状态栏与进度条只属于点名页；状态栏在头部，列表滚动时不动 */
-  $("#brushBar").style.display = (S.tab === "roll") ? "" : "none";
-  $("#progBar").style.display = (S.tab === "roll") ? "" : "none";
+  /* v1.5：模式切换高亮 */
+  $("#modeSeg").querySelectorAll("button").forEach(function (b) {
+    b.classList.toggle("on", b.dataset.mode === S.mode);
+  });
+  /* 状态笔与进度条只属于午托点名页；状态栏在头部，列表滚动时不动 */
+  var isRollPage = (S.mode === "wudian" && S.tab === "roll");
+  $("#brushBar").style.display = isRollPage ? "" : "none";
+  $("#progBar").style.display = isRollPage ? "" : "none";
+  /* 底部午托计数条只在午托模式出现；培训模式连内容一起清掉，DOM 里不留旧计数 */
+  if (S.mode === "wudian") {
+    $("#statsBar").style.display = "";
+  } else {
+    $("#statsBar").style.display = "none";
+    $("#statsBar").innerHTML = "";
+    $("#brushBar").innerHTML = "";
+  }
   renderBrush();
 }
 
@@ -1775,6 +3697,8 @@ function renderBrush() {
   var bar = $("#brushBar");
   if (!bar) return;
   bar.innerHTML = "";
+  /* v1.5：状态笔只属于午托模式的点名页，其他模式不渲染 */
+  if (!(S.mode === "wudian" && S.tab === "roll")) return;
   STATUS.forEach(function (s) {
     var b = el("button");
     b.dataset.k = s.k;
@@ -1787,20 +3711,59 @@ function renderBrush() {
   });
 }
 
+/* v1.5：两套底部导航模板（按模式整体重建，另一模式的按钮不进 DOM） */
+function tabBtn(tab, label, svg) {
+  return '<button class="tab" data-tab="' + tab + '">' +
+    '<span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' + svg + '</svg></span>' +
+    label + "</button>";
+}
+var WUDIAN_TABS_HTML =
+  tabBtn("roll", "点名", '<path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/>') +
+  tabBtn("roster", "名单", '<circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c0-3.3 2.5-5.4 5.5-5.4s5.5 2.1 5.5 5.4"/><path d="M17 5.2a3 3 0 0 1 0 5.6"/><path d="M18.5 20c0-2.3-.8-4-2-5"/>') +
+  tabBtn("records", "记录", '<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 9.5h17"/><path d="M8 3.5v3M16 3.5v3"/><path d="M8 13.5h3M8 17h6"/>');
+var TRAIN_TABS_HTML =
+  tabBtn("signin", "签到", '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5Z"/>') +
+  tabBtn("archives", "档案", '<rect x="3" y="4" width="18" height="5" rx="1.2"/><path d="M5 9v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9"/><path d="M10 13h4"/>') +
+  tabBtn("stats", "统计", '<path d="M6 20v-6"/><path d="M12 20V8"/><path d="M18 20V10"/><path d="M3 20h18"/>') +
+  tabBtn("info", "概况", '<path d="M21.2 15.9A10 10 0 1 1 8 2.8"/><path d="M22 12A10 10 0 0 0 12 2v10z"/>');
+
+function renderTabBar() {
+  var bar = $("#tabBar");
+  bar.innerHTML = (S.mode === "training") ? TRAIN_TABS_HTML : WUDIAN_TABS_HTML;
+  var cur = (S.mode === "training") ? S.trTab : S.tab;
+  bar.querySelectorAll(".tab").forEach(function (b) {
+    b.classList.toggle("on", b.dataset.tab === cur);
+  });
+}
+
 function render() {
   renderHeader();
-  if (S.tab === "roll") renderRoll();
+  renderTabBar();
+  if (S.mode === "training") renderTraining();
+  else if (S.tab === "roll") renderRoll();
   else if (S.tab === "roster") renderRoster();
   else renderRecords();
-  $("#tabBar").querySelectorAll(".tab").forEach(function (b) {
-    b.classList.toggle("on", b.dataset.tab === S.tab);
-  });
   document.getElementById("main").scrollTop = 0;
 }
 
 function switchTab(t) {
-  if (S.tab === t) return;
-  S.tab = t;
+  /* v1.5：底部页签按模式各记各的 */
+  if (S.mode === "training") {
+    if (TRAIN_TABS.indexOf(t) < 0 || S.trTab === t) return;
+    S.trTab = t;
+  } else {
+    if (WUDIAN_TABS.indexOf(t) < 0 || S.tab === t) return;
+    S.tab = t;
+  }
+  savePref();
+  render();
+}
+
+function switchMode(m) {
+  if (m !== "wudian" && m !== "training") return;
+  if (S.mode === m) return;
+  S.mode = m;
+  savePref();
   render();
 }
 
@@ -1827,6 +3790,12 @@ function bindChrome() {
     if (!b) return;
     switchTab(b.dataset.tab);
   });
+  /* v1.5：模式切换（委托，切换时底部导航整体重建） */
+  $("#modeSeg").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-mode]");
+    if (!b) return;
+    switchMode(b.dataset.mode);
+  });
   /* 统计条上的撤销（委托，因为统计条会重绘） */
   $("#statsBar").addEventListener("click", function (e) {
     if (e.target.closest("#undoBtn")) undoOnce();
@@ -1837,7 +3806,7 @@ function bindChrome() {
     if (e.key === "ArrowLeft") { S.date = addDays(S.date, -1); savePref(); render(); }
     else if (e.key === "ArrowRight") { S.date = addDays(S.date, 1); savePref(); render(); }
     else if (e.key === "z" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); undoOnce(); }
-    else if (/^[1-3]$/.test(e.key) && S.tab === "roll") {
+    else if (/^[1-3]$/.test(e.key) && S.mode === "wudian" && S.tab === "roll") {
       S.brush = STATUS[+e.key - 1].k; savePref(); renderBrush();
     }
   });
@@ -1867,6 +3836,9 @@ function boot(skipPref) {
     stale.forEach(function (k) { S.records.delete(k); });
     S.purgedCount = stale.length;
     return Promise.all(stale.map(function (k) { return idbDel("records", k); })).then(loadAvatars);
+  }).then(function () {
+    TR.loadPromise = null; TR.loaded = false;
+    return loadTraining();          /* 培训四张表独立读取，失败不影响午托点名 */
   });
 }
 
@@ -1893,6 +3865,37 @@ window.__test = {
   displayName: displayName,
   parseGroup: parseGroup,
   sortStudents: sortStudents,
+  /* 培训：只借道公开 API + 备份函数，不改业务语义 */
+  training: TR_API,
+  exportBackup: exportBackup,
+  restoreBackup: restoreBackup,
+  restoreTrainingSnapshot: trRestoreSnapshot,
+  trainingSnapshot: trSnapshot,
+  trMigrateSubjects: trMigrateSubjects,
+  trCounts: function () {
+    return {
+      subjects: TR.subjects.length,
+      teachers: TR.teachers.length,
+      students: TR.students.length,
+      courses: TR.courses.length,
+      attendance: TR.attendance.size,
+      wudianStudents: S.students.length,
+      wudianRecords: S.records.size
+    };
+  },
+  renderTraining: renderTraining,
+  switchTab: switchTab,
+  switchMode: switchMode,
+  renderTabBar: renderTabBar,
+  trSaveSignin: trSaveSignin,
+  trFindConflicts: trFindConflicts,
+  trCourseStats: trCourseStats,
+  trStudentStats: trStudentStats,
+  trTeacherStats: trTeacherStats,
+  trCsvText: trCsvText,
+  trExportAttendanceCsv: trExportAttendanceCsv,
+  trExportStudentCsv: trExportStudentCsv,
+  trExportTeacherCsv: trExportTeacherCsv,
   appVersion: APP_VERSION
 };
 

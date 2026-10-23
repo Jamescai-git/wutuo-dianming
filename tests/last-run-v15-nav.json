@@ -1,0 +1,260 @@
+{
+  "checks": [
+    {
+      "name": "归位为午托模式",
+      "ok": true,
+      "detail": "期望 wudian，实际 wudian"
+    },
+    {
+      "name": "午托底部恰好三项",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "午托底部为 点名/名单/记录",
+      "ok": true,
+      "detail": "期望 roll,roster,records，实际 roll,roster,records"
+    },
+    {
+      "name": "午托模式 DOM 无培训底部按钮",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "旧第四标签「培训」已移除",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "顶部模式切换二段存在",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "午托模式高亮午托",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "点名页显示午托状态笔",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "点名页显示点名进度",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "点名页显示午托计数条",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "记录页隐藏午托状态笔",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "记录页隐藏点名进度",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "记录页仍显示午托计数条",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "切换到培训模式",
+      "ok": true,
+      "detail": "期望 training，实际 training"
+    },
+    {
+      "name": "培训模式高亮培训",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "培训底部恰好四项",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "培训底部为 签到/档案/统计/概况",
+      "ok": true,
+      "detail": "期望 signin,archives,stats,info，实际 signin,archives,stats,info"
+    },
+    {
+      "name": "培训模式 DOM 无午托底部按钮",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "培训默认落在签到页",
+      "ok": true,
+      "detail": "期望 signin，实际 signin"
+    },
+    {
+      "name": "培训页隐藏午托状态笔",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "培训页隐藏点名进度",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "培训页隐藏且清空午托计数条",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "旧顶部五段导航已移除",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "培训签到页无午托点名卡片网格",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "培训签到页无状态笔按钮",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "底部直达统计页",
+      "ok": true,
+      "detail": "期望 stats，实际 stats"
+    },
+    {
+      "name": "统计页内容渲染",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "底部直达概况页",
+      "ok": true,
+      "detail": "期望 info，实际 info"
+    },
+    {
+      "name": "概况页内容渲染",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "档案内部分段恰好三项",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "档案页签为 学生/老师/科目",
+      "ok": true,
+      "detail": "期望 students,teachers,subjects，实际 students,teachers,subjects"
+    },
+    {
+      "name": "档案默认学生页",
+      "ok": true,
+      "detail": "期望 students，实际 students"
+    },
+    {
+      "name": "科目页容纳结构渲染",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "老师页渲染",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "切回午托停在记录页（上次页面）",
+      "ok": true,
+      "detail": "期望 records，实际 records"
+    },
+    {
+      "name": "午托底部按钮回来了",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "切回培训停在统计页（上次页面）",
+      "ok": true,
+      "detail": "期望 stats，实际 stats"
+    },
+    {
+      "name": "底部高亮为统计",
+      "ok": true,
+      "detail": "期望 stats，实际 stats"
+    },
+    {
+      "name": "刷新后仍为培训模式",
+      "ok": true,
+      "detail": "期望 training，实际 training"
+    },
+    {
+      "name": "刷新后培训停在统计页",
+      "ok": true,
+      "detail": "期望 stats，实际 stats"
+    },
+    {
+      "name": "刷新后底部高亮为统计",
+      "ok": true,
+      "detail": "期望 stats，实际 stats"
+    },
+    {
+      "name": "刷新后培训底部无午托按钮",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "切回午托仍记住名单页",
+      "ok": true,
+      "detail": "期望 roster，实际 roster"
+    },
+    {
+      "name": "午托底部高亮为名单",
+      "ok": true,
+      "detail": "期望 roster，实际 roster"
+    },
+    {
+      "name": "培训签到页 390×844 无横向滚动",
+      "ok": true,
+      "detail": "390/390/390"
+    },
+    {
+      "name": "培训统计页 390×844 无横向滚动",
+      "ok": true,
+      "detail": "390/390/390"
+    },
+    {
+      "name": "午托点名页 390×844 无横向滚动",
+      "ok": true,
+      "detail": "390/390/390"
+    },
+    {
+      "name": "页面无乱码字符",
+      "ok": true,
+      "detail": "无 U+FFFD"
+    },
+    {
+      "name": "页面无外部网络资源",
+      "ok": true,
+      "detail": "外部资源 0 个"
+    }
+  ],
+  "fatal": null,
+  "screenshots": [
+    "C:\\Users\\James\\Documents\\ChatGPT\\培训\\午托点名\\tests\\screenshots\\v15-nav-training-signin.png",
+    "C:\\Users\\James\\Documents\\ChatGPT\\培训\\午托点名\\tests\\screenshots\\v15-nav-training-stats.png",
+    "C:\\Users\\James\\Documents\\ChatGPT\\培训\\午托点名\\tests\\screenshots\\v15-nav-wudian-roll.png"
+  ],
+  "summary": {
+    "total": 49,
+    "passed": 49,
+    "failed": 0
+  }
+}

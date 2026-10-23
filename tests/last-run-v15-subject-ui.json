@@ -1,0 +1,456 @@
+{
+  "checks": [
+    {
+      "name": "版本号为 1.5.0",
+      "ok": true,
+      "detail": "1.5.0"
+    },
+    {
+      "name": "造数完成：4 科目 3 老师 2 学生 1 旧文本课程",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "旧文本课程 subjectId 为空",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "旧文本课程文本保留",
+      "ok": true,
+      "detail": "期望 冷门旧文本，实际 冷门旧文本"
+    },
+    {
+      "name": "科目页有搜索框与新增按钮",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "科目列表渲染 4 行",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "每行显示引用计数",
+      "ok": true,
+      "detail": "1 位老师 · 0 节课|2 位老师 · 0 节课|0 位老师 · 0 节课|0 位老师 · 0 节课"
+    },
+    {
+      "name": "停用科目带停用标记",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "空状态提示完整（有数据时不显示）",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "搜索过滤到 1 行",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "只看启用 3 行（美术停用被滤掉）",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "只看启用按钮高亮",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "取消过滤回到 4 行",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "新增科目弹层有名称与备注",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "新增科目成功并出现在列表",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "科目共 5 个",
+      "ok": true,
+      "detail": "期望 5，实际 5"
+    },
+    {
+      "name": "科目列表 5 行",
+      "ok": true,
+      "detail": "期望 5，实际 5"
+    },
+    {
+      "name": "重复名被拦截且弹层未关闭",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "重复名提示文案正确",
+      "ok": true,
+      "detail": "已存在同名科目：科学"
+    },
+    {
+      "name": "编辑弹层有启用状态下拉",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "美术当前为停用",
+      "ok": true,
+      "detail": "期望 off，实际 off"
+    },
+    {
+      "name": "编辑弹层显示引用计数说明",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "美术改为启用",
+      "ok": true,
+      "detail": "期望 true，实际 true"
+    },
+    {
+      "name": "确认删除弹层出现",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "被引用科目删除被阻止",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "删除保护提示改为停用",
+      "ok": true,
+      "detail": "科目「数学」正在被老师或课程引用，不能删除，请改为停用"
+    },
+    {
+      "name": "删除无引用科目后回到 4 个",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "科目页 390px 无横向滚动",
+      "ok": true,
+      "detail": "390/390/390"
+    },
+    {
+      "name": "科目页无乱码",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "赵老师无科目时显示未填科目",
+      "ok": true,
+      "detail": "赵赵老师未填科目编辑"
+    },
+    {
+      "name": "老师表单有科目多选列表",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "多选列表含全部 4 个科目（含停用）",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "停用科目在编辑时可见并标明",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "赵老师 subjectIds 3 个",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "subjectIds 含数学奥数美术",
+      "ok": true,
+      "detail": "[\"subj-mvkmlx2o-zw80wh\",\"subj-mvkmlx2o-vp1y0q\",\"subj-mvkmlx2p-oubqs7\"]"
+    },
+    {
+      "name": "subject 文本与所选一致（按档案排序）",
+      "ok": true,
+      "detail": "期望 奥数、数学、美术，实际 奥数、数学、美术"
+    },
+    {
+      "name": "老师行显示多个任教科目",
+      "ok": true,
+      "detail": "赵赵老师奥数、数学、美术编辑"
+    },
+    {
+      "name": "新增老师挂两科",
+      "ok": true,
+      "detail": "[\"subj-mvkmlx2o-vp1y0q\",\"subj-mvkmlx2p-kiwibk\"]"
+    },
+    {
+      "name": "新增老师行显示“数学、英语”",
+      "ok": true,
+      "detail": "周周新师数学、英语编辑"
+    },
+    {
+      "name": "签到页显示旧文本课程卡片",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "科目改为下拉选择",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "新课未选老师时回退全部启用科目",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "回退列表只含启用科目",
+      "ok": true,
+      "detail": "请选择科目|奥数|数学|英语"
+    },
+    {
+      "name": "钱老师候选 = 任教科目 2 个",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "候选不含科学等其它科目",
+      "ok": true,
+      "detail": "请选择科目|数学|奥数"
+    },
+    {
+      "name": "唯一任教科目自动预选",
+      "ok": true,
+      "detail": "期望 subj-mvkmlx2o-vp1y0q，实际 subj-mvkmlx2o-vp1y0q"
+    },
+    {
+      "name": "赵老师候选含停用美术共 3+1",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "停用候选标明已停用",
+      "ok": true,
+      "detail": "请选择科目|奥数|数学|美术（已停用）"
+    },
+    {
+      "name": "未选科目显示必选提示",
+      "ok": true,
+      "detail": "请选择科目"
+    },
+    {
+      "name": "未选科目不新增课程",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "选科目后保存成功",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "课程写 subjectId",
+      "ok": true,
+      "detail": "期望 subj-mvkmlx2o-zw80wh，实际 subj-mvkmlx2o-zw80wh"
+    },
+    {
+      "name": "课程写名称快照",
+      "ok": true,
+      "detail": "期望 奥数，实际 奥数"
+    },
+    {
+      "name": "旧 subject 文本同步",
+      "ok": true,
+      "detail": "期望 奥数，实际 奥数"
+    },
+    {
+      "name": "当日卡片显示科目名“奥数”",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "明细弹层显示科目与人数",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "旧文本课程卡片仍显示旧文本",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "旧课程编辑保持未填科目",
+      "ok": true,
+      "detail": "期望 ，实际 "
+    },
+    {
+      "name": "未填选项文案正确",
+      "ok": true,
+      "detail": "（保持未填科目）"
+    },
+    {
+      "name": "旧课程仍无 subjectId",
+      "ok": true,
+      "detail": "期望 ，实际 "
+    },
+    {
+      "name": "旧课程历史文本保留",
+      "ok": true,
+      "detail": "期望 冷门旧文本，实际 冷门旧文本"
+    },
+    {
+      "name": "学生统计上课 2 次",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "按科目归并 2 组（ID + 旧文本）",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "ID 组 1 个",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "文本组 1 个",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "文本组保留旧文本名称",
+      "ok": true,
+      "detail": "{\"txt:冷门旧文本\":\"冷门旧文本\",\"id:subj-mvkmlx2o-zw80wh\":\"奥数\"}"
+    },
+    {
+      "name": "改名后历史课程快照不变",
+      "ok": true,
+      "detail": "期望 奥数，实际 奥数"
+    },
+    {
+      "name": "统计仍按 ID 归并为一组",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "统计组名用科目现名",
+      "ok": true,
+      "detail": "{\"txt:冷门旧文本\":\"冷门旧文本\",\"id:subj-mvkmlx2o-zw80wh\":\"奥数培优\"}"
+    },
+    {
+      "name": "老师统计 1 节",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "老师统计按文本归并 1 组",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "老师统计组名保留旧文本",
+      "ok": true,
+      "detail": "{\"txt:冷门旧文本\":\"冷门旧文本\"}"
+    },
+    {
+      "name": "学生统计界面有按科目分组",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "CSV 工具正常",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "统计页 390px 无横向滚动",
+      "ok": true,
+      "detail": "390/390/390"
+    },
+    {
+      "name": "刷新后版本仍 1.5.0",
+      "ok": true,
+      "detail": "期望 1.5.0，实际 1.5.0"
+    },
+    {
+      "name": "刷新后科目仍 5 个（冷门旧文本文本被归档）",
+      "ok": true,
+      "detail": "期望 5，实际 5"
+    },
+    {
+      "name": "刷新后赵老师 subjectIds 仍在（合成文本不再归档）",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "刷新后旧文本课程挂上归档科目",
+      "ok": true,
+      "detail": "subj-mvkmm6lu-d4khdy"
+    },
+    {
+      "name": "刷新后旧课程文本保留",
+      "ok": true,
+      "detail": "期望 冷门旧文本，实际 冷门旧文本"
+    },
+    {
+      "name": "刷新后统计仍 2 组",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "培训底部恰好四项导航",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "档案内部三页签存在",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "午托点名页正常渲染（空名单提示）",
+      "ok": true,
+      "detail": "还没有学生名单里还没有人。先去「名单」页添加，或批量粘贴导入。去名单页导入"
+    },
+    {
+      "name": "培训学生不出现在午托点名页",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "午托学生 0 名（隔离）",
+      "ok": true,
+      "detail": "期望 0，实际 0"
+    },
+    {
+      "name": "页面无乱码字符",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "页面无外部网络资源",
+      "ok": true,
+      "detail": "期望 0，实际 0"
+    }
+  ],
+  "fatal": null,
+  "screenshots": [
+    "C:\\Users\\James\\Documents\\ChatGPT\\培训\\午托点名\\screenshots\\v15-training-subjects.png",
+    "C:\\Users\\James\\Documents\\ChatGPT\\培训\\午托点名\\screenshots\\v15-training-signin.png",
+    "C:\\Users\\James\\Documents\\ChatGPT\\培训\\午托点名\\screenshots\\v15-training-stats.png",
+    "C:\\Users\\James\\Documents\\ChatGPT\\培训\\午托点名\\screenshots\\v15-wudian-roll.png"
+  ],
+  "summary": {
+    "total": 88,
+    "passed": 88,
+    "failed": 0
+  }
+}

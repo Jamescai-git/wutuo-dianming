@@ -1,3 +1,8 @@
 .workbuddy/
 tmp/
+tests/_e2e_profile/
+tests/_e2e_*
+tests/_probe_profile*/
 
+tests/__pycache__/
+tests/last-stdout*.txt

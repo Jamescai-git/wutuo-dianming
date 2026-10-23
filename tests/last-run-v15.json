@@ -1,0 +1,603 @@
+{
+  "checks": [
+    {
+      "name": "v2 库建库并写入八张表样例成功",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "升级后页面加载的是新版迁移代码",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "升级后库版本为 3",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "升级后新增 trSubjects",
+      "ok": true,
+      "detail": "avatars,kv,records,students,trAttendance,trCourses,trStudents,trSubjects,trTeachers"
+    },
+    {
+      "name": "原有八张表一条不少",
+      "ok": true,
+      "detail": "avatars,kv,records,students,trAttendance,trCourses,trStudents,trSubjects,trTeachers"
+    },
+    {
+      "name": "午托学生表未重建（仍 1 条）",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "午托学生样例一字未动",
+      "ok": true,
+      "detail": "期望 升级样例生，实际 升级样例生"
+    },
+    {
+      "name": "午托记录样例仍在",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "头像样例仍在",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "kv 样例仍在",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "培训老师样例仍在",
+      "ok": true,
+      "detail": "{\"id\":\"tch-up1\",\"name\":\"升级样例师\",\"subject\":\"书法\",\"active\":true,\"createdAt\":1000,\"updatedAt\":1000,\"subjectIds\":[\"subj-mvkml8gf-mw3hwn\"]}"
+    },
+    {
+      "name": "老师旧文本迁移出书法科目",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "老师补 subjectIds 指向书法",
+      "ok": true,
+      "detail": "[\"subj-mvkml8gf-mw3hwn\"]"
+    },
+    {
+      "name": "培训学生样例仍在",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "培训课程样例仍在",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "旧课程补 subjectId",
+      "ok": true,
+      "detail": "subj-mvkml8gf-mw3hwn"
+    },
+    {
+      "name": "旧课程补名称快照",
+      "ok": true,
+      "detail": "期望 书法，实际 书法"
+    },
+    {
+      "name": "培训签到样例仍在",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "签到状态保留 present",
+      "ok": true,
+      "detail": "期望 present，实际 present"
+    },
+    {
+      "name": "升级只迁出 1 个科目",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "reload 后科目仍 1 个",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "reload 后课程科目关联仍在",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "页面无乱码字符",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "页面加载的是新版迁移代码",
+      "ok": true,
+      "detail": "function trMigrateSubjects() {\n  var writes = [];\n  var changed = { subjects: 0, teachers: 0, courses: 0 };\n\n  /* 1) 收集老"
+    },
+    {
+      "name": "科目 API 齐全",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "新库存在 trSubjects",
+      "ok": true,
+      "detail": "avatars,kv,records,students,trAttendance,trCourses,trStudents,trSubjects,trTeachers"
+    },
+    {
+      "name": "原七张表一个不少",
+      "ok": true,
+      "detail": "avatars,kv,records,students,trAttendance,trCourses,trStudents,trSubjects,trTeachers"
+    },
+    {
+      "name": "清空后科目 0",
+      "ok": true,
+      "detail": "期望 0，实际 0"
+    },
+    {
+      "name": "科目 id 用 subj- 前缀",
+      "ok": true,
+      "detail": "subj-mvkmld6j-3jggmb"
+    },
+    {
+      "name": "科目名去首尾空格",
+      "ok": true,
+      "detail": "期望 数学，实际 数学"
+    },
+    {
+      "name": "同名科目（多余空白）被拒绝",
+      "ok": true,
+      "detail": "已存在同名科目：数学"
+    },
+    {
+      "name": "英文名大小写判重",
+      "ok": true,
+      "detail": "已存在同名科目：Science"
+    },
+    {
+      "name": "科目名称必填",
+      "ok": true,
+      "detail": "科目名称必填"
+    },
+    {
+      "name": "连续空白并作一个空格",
+      "ok": true,
+      "detail": "期望 多 空格 科目，实际 多 空格 科目"
+    },
+    {
+      "name": "科目列表 4 条",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "按名称稳定排序",
+      "ok": true,
+      "detail": "多 空格 科目/数学/英语"
+    },
+    {
+      "name": "搜索命中 1 条",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "备注也参与搜索",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "搜不到为空",
+      "ok": true,
+      "detail": "期望 0，实际 0"
+    },
+    {
+      "name": "activeSubjects 全启用",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "停用后启用名单 2",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "activeOnly 过滤停用项",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "全量列表仍有 3 条",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "停用项仍可读",
+      "ok": true,
+      "detail": "期望 false，实际 false"
+    },
+    {
+      "name": "重新启用回 3",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "科目改名生效",
+      "ok": true,
+      "detail": "期望 数学思维，实际 数学思维"
+    },
+    {
+      "name": "原 createdAt 保留",
+      "ok": true,
+      "detail": "期望 1792739134459，实际 1792739134459"
+    },
+    {
+      "name": "改名撞已有科目被拒绝",
+      "ok": true,
+      "detail": "已存在同名科目：英语"
+    },
+    {
+      "name": "老师挂两个科目",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "老师 subjectIds 含数学",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "老师 subjectIds 含英语",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "getTeacher 返回数组副本",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "listTeachers 返回数组副本",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "文本科目自动挂 subjectIds",
+      "ok": true,
+      "detail": "[\"subj-mvkmld6j-cw50yn\"]"
+    },
+    {
+      "name": "旧 subject 文本保留",
+      "ok": true,
+      "detail": "期望 英语，实际 英语"
+    },
+    {
+      "name": "显式更新 subjectIds",
+      "ok": true,
+      "detail": "期望 [\"subj-mvkmld6j-3jggmb\"]，实际 [\"subj-mvkmld6j-3jggmb\"]"
+    },
+    {
+      "name": "按科目档案名搜到老师",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "课程落 subjectId",
+      "ok": true,
+      "detail": "期望 subj-mvkmld6j-3jggmb，实际 subj-mvkmld6j-3jggmb"
+    },
+    {
+      "name": "课程落名称快照",
+      "ok": true,
+      "detail": "期望 数学，实际 数学"
+    },
+    {
+      "name": "旧 subject 字段兼容写入",
+      "ok": true,
+      "detail": "期望 数学，实际 数学"
+    },
+    {
+      "name": "不存在的 subjectId 被拒绝",
+      "ok": true,
+      "detail": "科目不存在：subj-nope"
+    },
+    {
+      "name": "旧文本建课自动挂科目",
+      "ok": true,
+      "detail": "subj-mvkmld6j-cw50yn"
+    },
+    {
+      "name": "文本建课名称快照",
+      "ok": true,
+      "detail": "期望 英语，实际 英语"
+    },
+    {
+      "name": "对不上档案的文本 subjectId 为空",
+      "ok": true,
+      "detail": "期望 ，实际 "
+    },
+    {
+      "name": "对不上档案的文本保留",
+      "ok": true,
+      "detail": "期望 冷门科目，实际 冷门科目"
+    },
+    {
+      "name": "改名不改历史课程快照",
+      "ok": true,
+      "detail": "期望 数学，实际 数学"
+    },
+    {
+      "name": "被老师引用的科目不得硬删",
+      "ok": true,
+      "detail": "科目「数学」正在被老师或课程引用，不能删除，请改为停用"
+    },
+    {
+      "name": "被课程引用的科目不得硬删",
+      "ok": true,
+      "detail": "科目「英语」正在被老师或课程引用，不能删除，请改为停用"
+    },
+    {
+      "name": "未被引用的科目可删除",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "删除后科目数 3",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "恢复老师 3",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "恢复学生 1",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "恢复课程 4",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "恢复明细 1",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "旧文本迁移出 3 个科目",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "旧老师补 subjectIds（数学）",
+      "ok": true,
+      "detail": "[\"subj-mvkmld6q-c2576g\"]"
+    },
+    {
+      "name": "旧老师补 subjectIds（奥数）",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "旧课程补 subjectId",
+      "ok": true,
+      "detail": "subj-mvkmld6q-c2576g"
+    },
+    {
+      "name": "旧课程补名称快照",
+      "ok": true,
+      "detail": "期望 数学，实际 数学"
+    },
+    {
+      "name": "旧课程补 subjectId（奥数）",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "悬空 subjectId 被清空",
+      "ok": true,
+      "detail": "期望 ，实际 "
+    },
+    {
+      "name": "无科目文本的课程原文仍为空串",
+      "ok": true,
+      "detail": "期望 ，实际 "
+    },
+    {
+      "name": "无文本课程显示兜底不出现 undefined",
+      "ok": true,
+      "detail": "subject=\"\" subjectName=\"\""
+    },
+    {
+      "name": "无文本课程不产生新科目：科目仍 3 个",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "数学科目只录一条",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "reload 后科目仍 3 个",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "reload 后老师 subjectIds 不重复",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "reload 后课程关联还在",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "reload 后悬空 subjectId 保持清空",
+      "ok": true,
+      "detail": "期望 ，实际 "
+    },
+    {
+      "name": "建课落名称快照",
+      "ok": true,
+      "detail": "期望 美术，实际 美术"
+    },
+    {
+      "name": "清空文本后快照仍在",
+      "ok": true,
+      "detail": "期望 美术，实际 美术"
+    },
+    {
+      "name": "科目改名后 reload 历史课程快照不变",
+      "ok": true,
+      "detail": "期望 美术，实际 美术"
+    },
+    {
+      "name": "改名后 reload 课程仍指向原科目",
+      "ok": true,
+      "detail": "期望 subj-mvkmld6r-zoh7qj，实际 subj-mvkmld6r-zoh7qj"
+    },
+    {
+      "name": "改名后 reload 无旧文本不回建旧名档案",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "改名后 reload 老课程快照同样保留",
+      "ok": true,
+      "detail": "期望 数学，实际 数学"
+    },
+    {
+      "name": "清理后科目仍 3 个",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "快照 schema 2",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "快照含 subjects 段",
+      "ok": true,
+      "detail": "[\"奥数\",\"数学\",\"英语\"]"
+    },
+    {
+      "name": "快照老师带 subjectIds 数组",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "v1.5 快照恢复科目 3",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "v1.5 快照恢复老师 3",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "v1.5 快照恢复课程 4",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "v1.5 快照恢复明细 1",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "v1.5 恢复后老师关联完整",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "v1.5 恢复后课程关联完整",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "subjectName 命中档案",
+      "ok": true,
+      "detail": "期望 数学，实际 数学"
+    },
+    {
+      "name": "subjectName 未命中走兜底",
+      "ok": true,
+      "detail": "期望 兜底文本，实际 兜底文本"
+    },
+    {
+      "name": "subjectName 空参走兜底",
+      "ok": true,
+      "detail": "期望 旧文本，实际 旧文本"
+    },
+    {
+      "name": "trCounts 统计科目数",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "页面无乱码字符",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "刷新后科目仍在",
+      "ok": true,
+      "detail": "实际 3"
+    },
+    {
+      "name": "刷新后老师仍在",
+      "ok": true,
+      "detail": "实际 3"
+    },
+    {
+      "name": "刷新后课程仍在",
+      "ok": true,
+      "detail": "实际 4"
+    },
+    {
+      "name": "刷新后签到明细仍在",
+      "ok": true,
+      "detail": "实际 1"
+    },
+    {
+      "name": "刷新后老师科目关联仍在",
+      "ok": true,
+      "detail": "[\"subj-mvkmld6q-c2576g\"]"
+    },
+    {
+      "name": "刷新后课程科目关联仍在",
+      "ok": true,
+      "detail": "\"subj-mvkmld6q-c2576g\""
+    }
+  ],
+  "fatal": null,
+  "screenshots": [
+    "C:\\Users\\James\\Documents\\ChatGPT\\培训\\午托点名\\tests\\screenshots\\v15-upgrade-v2-to-v3.png",
+    "C:\\Users\\James\\Documents\\ChatGPT\\培训\\午托点名\\tests\\screenshots\\v15-data-layer.png"
+  ],
+  "counts": {
+    "subjects": 3,
+    "teachers": 3,
+    "students": 1,
+    "courses": 4,
+    "attendance": 1,
+    "wudianStudents": 1,
+    "wudianRecords": 1
+  },
+  "summary": {
+    "total": 116,
+    "passed": 116,
+    "failed": 0
+  }
+}

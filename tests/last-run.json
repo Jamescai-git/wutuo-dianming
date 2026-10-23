@@ -1,0 +1,696 @@
+{
+  "checks": [
+    {
+      "name": "window.Training 暴露完整 API",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "四张培训表已建库",
+      "ok": true,
+      "detail": "avatars,kv,records,students,trAttendance,trCourses,trStudents,trSubjects,trTeachers"
+    },
+    {
+      "name": "午托三张表仍在",
+      "ok": true,
+      "detail": "avatars,kv,records,students,trAttendance,trCourses,trStudents,trSubjects,trTeachers"
+    },
+    {
+      "name": "学生表里没有 tst- 前缀的培训数据",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "清空后培训老师 0",
+      "ok": true,
+      "detail": "期望 0，实际 0"
+    },
+    {
+      "name": "老师 2 位",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "同科同名老师被拒绝",
+      "ok": true,
+      "detail": "已存在同名同科目的老师：王老师（数学）"
+    },
+    {
+      "name": "老师缺姓名被拒绝",
+      "ok": true,
+      "detail": "老师姓名必填"
+    },
+    {
+      "name": "培训学生 3 名",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "同名同班学生被拒绝",
+      "ok": true,
+      "detail": "已存在同名同班的学生：陈小明（五年级2班）"
+    },
+    {
+      "name": "老师编辑生效",
+      "ok": true,
+      "detail": "期望 数学（奥数）|13800000002，实际 数学（奥数）|13800000002"
+    },
+    {
+      "name": "老师原始创建时间保留",
+      "ok": true,
+      "detail": "期望 1792739110294，实际 1792739110294"
+    },
+    {
+      "name": "停用后启用名单 2 人",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "全量名单仍有 3 人",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "停用标记可读",
+      "ok": true,
+      "detail": "期望 false，实际 false"
+    },
+    {
+      "name": "按班级搜索命中",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "按姓名搜索命中",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "按科目搜索命中",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "搜不到时为空",
+      "ok": true,
+      "detail": "期望 0，实际 0"
+    },
+    {
+      "name": "重新启用回到 3 人",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "同日 3 节课程",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "同时段两个老师各一节",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "王老师同日 2 节",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "林小美同日 2 节",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "缺老师被拒绝",
+      "ok": true,
+      "detail": "必须指定上课老师"
+    },
+    {
+      "name": "结束早于开始被拒绝",
+      "ok": true,
+      "detail": "结束时间不能早于开始时间"
+    },
+    {
+      "name": "第 1 节 2 条明细",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "同一学生同日在第 2 节另有明细",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "明细状态正确",
+      "ok": true,
+      "detail": "期望 present/late，实际 present/late"
+    },
+    {
+      "name": "同状态写入幂等",
+      "ok": true,
+      "detail": "期望 false，实际 false"
+    },
+    {
+      "name": "改判为请假",
+      "ok": true,
+      "detail": "期望 leave，实际 leave"
+    },
+    {
+      "name": "非法状态被拒绝",
+      "ok": true,
+      "detail": "培训签到状态只能是 出勤 / 迟到 / 请假"
+    },
+    {
+      "name": "不在课上的学生被拒绝",
+      "ok": true,
+      "detail": "该学生不在本节课名单中"
+    },
+    {
+      "name": "王老师计 2 节",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "李老师只算有学生的 1 节",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "含空课时李老师 2 节",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "培训新增不改动午托学生数",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "培训新增不改动午托记录数",
+      "ok": true,
+      "detail": "期望 0，实际 0"
+    },
+    {
+      "name": "培训里没有午托学生",
+      "ok": true,
+      "detail": "期望 0，实际 0"
+    },
+    {
+      "name": "午托加人后午托学生 1 名",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "午托学生没进培训名单",
+      "ok": true,
+      "detail": "期望 0，实际 0"
+    },
+    {
+      "name": "培训名单仍为 4 人",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "备份含 training 段",
+      "ok": true,
+      "detail": "schema,subjects,teachers,students,courses,attendance"
+    },
+    {
+      "name": "备份老师数",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "备份培训学生数",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "备份课程数",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "备份明细数",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "备份课程里的学生都在培训学生里",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "备份明细都指向存在的课程",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "备份含午托学生",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "移出学生后明细被清理",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "删课后课程数 3",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "恢复老师 2",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "恢复培训学生 4",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "恢复课程 4",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "恢复明细 3",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "恢复后第 1 节明细回到 2 条",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "恢复后午托学生仍在",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "培训底部恰好四项导航",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "旧顶部五段导航已移除",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "档案内部三页签存在",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "学生档案渲染 4 行",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "中文正常显示",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "界面搜索过滤到 1 行",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "老师档案 2 行",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "老师行显示科目",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "概况页有上课次数",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "午托点名卡片只有 1 张（午托甲）",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "培训学生没出现在点名页",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "刷新后老师仍在",
+      "ok": true,
+      "detail": "实际 2"
+    },
+    {
+      "name": "刷新后培训学生仍在",
+      "ok": true,
+      "detail": "实际 4"
+    },
+    {
+      "name": "刷新后课程仍在",
+      "ok": true,
+      "detail": "实际 4"
+    },
+    {
+      "name": "刷新后签到明细仍在",
+      "ok": true,
+      "detail": "实际 3"
+    },
+    {
+      "name": "刷新后午托学生仍在",
+      "ok": true,
+      "detail": "实际 1"
+    },
+    {
+      "name": "刷新后同日 3 节可读",
+      "ok": true,
+      "detail": "实际 3"
+    },
+    {
+      "name": "刷新后明细关联还在",
+      "ok": true,
+      "detail": 2
+    },
+    {
+      "name": "刷新后明细状态正确",
+      "ok": true
+    },
+    {
+      "name": "版本号为 1.5.0",
+      "ok": true,
+      "detail": "期望 1.5.0，实际 1.5.0"
+    },
+    {
+      "name": "v1.4 测试钩子完整",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "v1.4 测试档案齐全",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "逐人三状态：出勤",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "逐人三状态：迟到",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "逐人三状态：请假",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "逐人三状态：无遗漏",
+      "ok": true,
+      "detail": "期望 0，实际 0"
+    },
+    {
+      "name": "新建课程未选科目阻止提交",
+      "ok": true,
+      "detail": "请选择科目"
+    },
+    {
+      "name": "未标状态阻止提交",
+      "ok": true,
+      "detail": "还有学生未选择状态：林小美"
+    },
+    {
+      "name": "未标状态不新增课程",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "学生重叠时段阻止提交",
+      "ok": true,
+      "detail": "时间冲突：陈小明 已在 09:00-10:00 上王老师的课"
+    },
+    {
+      "name": "冲突失败不新增课程",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "v1.4 同日共 4 节课",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "同一时段两位老师各有课",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "同一老师同日两节",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "同一学生同日三节",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "调课时间已更新",
+      "ok": true,
+      "detail": "期望 11:30，实际 11:30"
+    },
+    {
+      "name": "调课遇冲突会阻止",
+      "ok": true,
+      "detail": "时间冲突：陈小明 已在 09:00-10:00 上王老师的课"
+    },
+    {
+      "name": "冲突调课不改原课程",
+      "ok": true,
+      "detail": "期望 13:00，实际 13:00"
+    },
+    {
+      "name": "学生统计上课次数",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "学生统计出勤次数",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "学生统计迟到次数",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "学生统计请假次数",
+      "ok": true,
+      "detail": "期望 0，实际 0"
+    },
+    {
+      "name": "老师统计上课节数",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "老师统计授课人次",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "老师统计出勤人次",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "老师统计迟到人次",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "老师统计请假人次",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "CSV 带 UTF-8 BOM",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "CSV 表头完整",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "CSV 中文内容完整",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "培训页隐藏午托状态栏",
+      "ok": true,
+      "detail": "期望 none，实际 none"
+    },
+    {
+      "name": "培训页隐藏午托进度条",
+      "ok": true,
+      "detail": "期望 none，实际 none"
+    },
+    {
+      "name": "培训页隐藏午托计数条",
+      "ok": true,
+      "detail": "期望 none，实际 none"
+    },
+    {
+      "name": "签到页日期标题跟随所选日期",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "培训底部恰好四项",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "培训底部无午托按钮",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "旧顶部五段导航已移除",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "签到页显示当日 4 节课",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "签到页显示具体时间段",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "签到页显示老师与学生数",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "签到弹层字段齐全",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "选学生后不自动标状态",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "签到弹层科目改为下拉且含老师任教科目",
+      "ok": true,
+      "detail": "任教科目=数学（奥数）"
+    },
+    {
+      "name": "前台未选状态时显示错误",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "前台未选状态不保存",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "学生统计界面有上课次数",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "学生统计界面有最近课程",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "老师统计界面有节数与人次",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "390px 手机无横向滚动",
+      "ok": true,
+      "detail": "390/390/390"
+    },
+    {
+      "name": "移动端中文正常无乱码",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "页面无外部网络资源",
+      "ok": true,
+      "detail": "期望 0，实际 0"
+    },
+    {
+      "name": "刷新后 v1.4 四节课仍在",
+      "ok": true,
+      "detail": "实际 4"
+    },
+    {
+      "name": "刷新后 v1.4 六条明细仍在",
+      "ok": true,
+      "detail": 3
+    },
+    {
+      "name": "刷新后调课结果仍在",
+      "ok": true,
+      "detail": "11:30"
+    },
+    {
+      "name": "刷新后版本仍为 1.5.0",
+      "ok": true,
+      "detail": "1.5.0"
+    }
+  ],
+  "fatal": null,
+  "screenshots": [
+    "C:\\Users\\James\\Documents\\ChatGPT\\培训\\午托点名\\tests\\screenshots\\training-v1.4-students.png",
+    "C:\\Users\\James\\Documents\\ChatGPT\\培训\\午托点名\\tests\\screenshots\\training-v1.4-signin.png",
+    "C:\\Users\\James\\Documents\\ChatGPT\\培训\\午托点名\\tests\\screenshots\\training-v1.4-stats.png"
+  ],
+  "snapshot": {
+    "subjects": 3,
+    "teachers": 2,
+    "students": 4,
+    "courses": 4,
+    "attendance": 3,
+    "wudianStudents": 1,
+    "wudianRecords": 0
+  },
+  "v14_ids": {
+    "a": "crs-mvkmkynl-5uuvs2",
+    "b": "crs-mvkmkynm-bm0kmx",
+    "c": "crs-mvkmkynm-h3sq68",
+    "d": "crs-mvkmkynn-xfkog8",
+    "s1": "tst-mvkmkujb-qvskd3",
+    "t1": "tch-mvkmkuja-qgxogp"
+  },
+  "summary": {
+    "total": 133,
+    "passed": 133,
+    "failed": 0
+  }
+}
