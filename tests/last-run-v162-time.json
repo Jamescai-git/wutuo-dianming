@@ -1,0 +1,314 @@
+{
+  "checks": [
+    {
+      "name": "APP_VERSION 为 1.6.2",
+      "ok": true,
+      "detail": "期望 1.6.2，实际 1.6.2"
+    },
+    {
+      "name": "Service Worker 版本升到 wudian-v1.6.2",
+      "ok": true,
+      "detail": "wudian-v1.6.2"
+    },
+    {
+      "name": "缓存壳无旧版本残留",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "保留 skipWaiting / clients.claim",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "IndexedDB 版本仍为 3（本轮不迁移）",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "培训概况页底部有 #appVerBadge",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "版本标记文案为 v1.6.2",
+      "ok": true,
+      "detail": "期望 v1.6.2，实际 v1.6.2"
+    },
+    {
+      "name": "版本标记 data-app-version 为 1.6.2",
+      "ok": true,
+      "detail": "期望 1.6.2，实际 1.6.2"
+    },
+    {
+      "name": "新签到表单使用 select#trStart",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "新签到表单使用 select#trEnd",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "表单不再使用 input[type=time]",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "开始候选含 00:00",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "开始候选含 10:00",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "开始候选含 10:30",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "开始候选含 22:00",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "开始候选不含 22:30",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "开始候选不含 23:00",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "开始候选不含 23:30",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "开始候选 45 个档位 + 1 占位",
+      "ok": true,
+      "detail": "期望 46，实际 46"
+    },
+    {
+      "name": "新表单开始时间为空",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "新表单结束框禁用",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "结束框提示先选开始时间",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "选开始后结束框启用",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "选 10:00 后结束自动 11:30",
+      "ok": true,
+      "detail": "期望 11:30，实际 11:30"
+    },
+    {
+      "name": "选 10:30 后结束自动 12:00",
+      "ok": true,
+      "detail": "期望 12:00，实际 12:00"
+    },
+    {
+      "name": "改回 10:00 后结束自动 11:30",
+      "ok": true,
+      "detail": "期望 11:30，实际 11:30"
+    },
+    {
+      "name": "手动把结束改为 12:00 后不被重置",
+      "ok": true,
+      "detail": "期望 12:00，实际 12:00"
+    },
+    {
+      "name": "再把开始改为 14:00 后结束自动恢复 15:30",
+      "ok": true,
+      "detail": "期望 15:30，实际 15:30"
+    },
+    {
+      "name": "结束候选全部为 30 分钟档位",
+      "ok": true,
+      "detail": "14:30,15:00,15:30,16:00,16:30,17:00,17:30,18:00,18:30,19:00,19:30,20:00,20:30,21:00,21:30,22:00,22:30,23:00,23:30"
+    },
+    {
+      "name": "结束候选全部晚于开始时间",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "结束候选首个为 14:30",
+      "ok": true,
+      "detail": "期望 14:30，实际 14:30"
+    },
+    {
+      "name": "结束候选最后为 23:30",
+      "ok": true,
+      "detail": "期望 23:30，实际 23:30"
+    },
+    {
+      "name": "结束候选共 19 档",
+      "ok": true,
+      "detail": "期望 19，实际 19"
+    },
+    {
+      "name": "唯一任教科目自动预选",
+      "ok": true,
+      "detail": "期望 subj-mvkqg6bo-pjcutl，实际 subj-mvkqg6bo-pjcutl"
+    },
+    {
+      "name": "保存后课程真实写入",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "写入开始时间为 14:00",
+      "ok": true,
+      "detail": "期望 14:00，实际 14:00"
+    },
+    {
+      "name": "写入结束时间为 15:30",
+      "ok": true,
+      "detail": "期望 15:30，实际 15:30"
+    },
+    {
+      "name": "保存成功后弹层关闭（#sheet 失去 on）",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "API 开始 10:15 被拒绝",
+      "ok": true,
+      "detail": "开始时间只能选 00:00–22:00 的 30 分钟档位（最晚 22:00）"
+    },
+    {
+      "name": "API 结束 11:45 被拒绝",
+      "ok": true,
+      "detail": "结束时间只能选当天 23:30 前的 30 分钟档位"
+    },
+    {
+      "name": "结束等于开始被拒绝",
+      "ok": true,
+      "detail": "结束时间必须晚于开始时间（不支持跨日）"
+    },
+    {
+      "name": "结束早于开始被拒绝",
+      "ok": true,
+      "detail": "结束时间必须晚于开始时间（不支持跨日）"
+    },
+    {
+      "name": "跨日（22:00 开始 + 次日 00:30 结束）被拒绝",
+      "ok": true,
+      "detail": "结束时间必须晚于开始时间（不支持跨日）"
+    },
+    {
+      "name": "开始 22:30（超过最晚 22:00）被拒绝",
+      "ok": true,
+      "detail": "开始时间只能选 00:00–22:00 的 30 分钟档位（最晚 22:00）"
+    },
+    {
+      "name": "合法 10:00–11:30 可保存",
+      "ok": true,
+      "detail": "期望 10:00-11:30，实际 10:00-11:30"
+    },
+    {
+      "name": "旧课程卡片显示原时间 10:15-11:45",
+      "ok": true,
+      "detail": "10:15-11:45并行老师数学1 名学生出勤 1迟到 0请假 0"
+    },
+    {
+      "name": "编辑旧课时开始保留原值 10:15",
+      "ok": true,
+      "detail": "期望 10:15，实际 10:15"
+    },
+    {
+      "name": "编辑旧课时结束保留原值 11:45（不自动 +90）",
+      "ok": true,
+      "detail": "期望 11:45，实际 11:45"
+    },
+    {
+      "name": "开始候选含「旧时间」临时选项",
+      "ok": true,
+      "detail": "10:15（旧时间）"
+    },
+    {
+      "name": "结束候选含「旧时间」临时选项",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "旧课编辑结束框未禁用",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "旧课改动开始后结束按新规则恢复 +90（15:30）",
+      "ok": true,
+      "detail": "期望 15:30，实际 15:30"
+    },
+    {
+      "name": "改开始后结束候选不再含「旧时间」选项",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "重开后开始仍为 10:15",
+      "ok": true,
+      "detail": "期望 10:15，实际 10:15"
+    },
+    {
+      "name": "旧课未动时间可原样保存（10:15-11:45）",
+      "ok": true,
+      "detail": "期望 10:15-11:45，实际 10:15-11:45"
+    },
+    {
+      "name": "同学生同时段冲突规则不回归（冲突仍被拒绝）",
+      "ok": true,
+      "detail": "见第 5 段 fails 结果"
+    },
+    {
+      "name": "签到表单 390×844 无横向滚动",
+      "ok": true,
+      "detail": "390/390/390"
+    },
+    {
+      "name": "签到表单无乱码字符",
+      "ok": true,
+      "detail": "无 U+FFFD"
+    },
+    {
+      "name": "签到表单无外部网络资源",
+      "ok": true,
+      "detail": "外部资源 0 个"
+    },
+    {
+      "name": "截图表单状态：开始 10:00、结束自动 11:30",
+      "ok": true,
+      "detail": "end=11:30 disabled=False"
+    }
+  ],
+  "fatal": null,
+  "screenshots": [
+    "C:\\Users\\James\\Documents\\ChatGPT\\培训\\午托点名\\screenshots\\v162-time-select.png"
+  ],
+  "version": "1.6.2",
+  "summary": {
+    "total": 60,
+    "passed": 60,
+    "failed": 0
+  }
+}

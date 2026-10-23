@@ -494,7 +494,7 @@ table.tb td{font-variant-numeric:tabular-nums;}
    ===================================================================== */
 
 /* ---------------------- 常量 ---------------------- */
-var APP_VERSION = "1.6.1";
+var APP_VERSION = "1.6.2";
 var DB_NAME = "wudian-db";
 /* v1.4：培训四张表（trTeachers / trStudents / trCourses / trAttendance）
    v1.5：新增 trSubjects（培训科目档案）—— 只做加法，不动已有表，午托数据零迁移 */
@@ -2550,7 +2550,19 @@ function trSaveSignin(data) {
     if (!isYmd(date)) throw new Error("请选择上课日期");
     if (!teacherId) throw new Error("请选择老师");
     if (!startTime || !endTime) throw new Error("请填写开始和结束时间");
-    if (endTime <= startTime) throw new Error("结束时间必须晚于开始时间");
+    /* v1.6.2：时间改为 30 分钟档位下拉后，业务层再兜底校验一次。
+       编辑旧课程且开始、结束都与原值一致时，允许历史时间原样保存（含历史的非档位时间）；
+       只要是新课程或用户改动过时间，就严格按档位规则校验 */
+    var origCourse = courseId ? trCourseById(courseId) : null;
+    var timeUntouched = !!origCourse &&
+      startTime === origCourse.startTime && endTime === origCourse.endTime;
+    if (!timeUntouched) {
+      if (endTime <= startTime) throw new Error("结束时间必须晚于开始时间（不支持跨日）");
+      if (!/^([01]\d|2[0-2]):(00|30)$/.test(startTime) || startTime > "22:00")
+        throw new Error("开始时间只能选 00:00–22:00 的 30 分钟档位（最晚 22:00）");
+      if (!/^\d{2}:(00|30)$/.test(endTime) || endTime > "23:30")
+        throw new Error("结束时间只能选当天 23:30 前的 30 分钟档位");
+    }
     if (!studentIds.length) throw new Error("请至少选择一名学生");
     /* v1.5：新建课程必须选科目；编辑旧课程允许保留无科目的历史记录。
        只传旧式科目文本也照常可用（文本能对上科目就顺带落 ID） */
@@ -2638,6 +2650,51 @@ function trSubjectSelectHtml(teacherId, currentId, hasCourse) {
   return h;
 }
 
+/* ---------- v1.6.2 培训签到时间：30 分钟档位下拉，默认 90 分钟 ---------- */
+function trMinutesOf(t) { return (+t.slice(0, 2)) * 60 + (+t.slice(3, 5)); }
+function trTimeOf(m) { return pad2(Math.floor(m / 60)) + ":" + pad2(m % 60); }
+/* 30 分钟档位序列 [fromMin, toMin] */
+function trHalfHourSlots(fromMin, toMin) {
+  var out = [];
+  for (var m = fromMin; m <= toMin; m += 30) out.push(trTimeOf(m));
+  return out;
+}
+/* 开始时间候选：00:00–22:00；编辑旧课程时原值不在档位内则补「旧时间」临时选项 */
+function trStartOptionList(current) {
+  var list = trHalfHourSlots(0, 22 * 60);
+  if (current && list.indexOf(current) < 0) list.push(current);
+  return list;
+}
+/* 结束时间候选：开始时间之后到 23:30 的 30 分钟档位；current 为编辑旧课程保留的原值 */
+function trEndOptionList(start, current) {
+  if (!trTime(start)) return [];
+  var first = (Math.floor(trMinutesOf(start) / 30) + 1) * 30;
+  var list = first <= 23 * 60 + 30 ? trHalfHourSlots(first, 23 * 60 + 30) : [];
+  if (current && current > start && list.indexOf(current) < 0) list.push(current);
+  return list;
+}
+function trTimeOptionsHtml(kind, start, current) {
+  var h = "", grid = kind === "start" ? trHalfHourSlots(0, 22 * 60) : null;
+  if (kind === "start") {
+    h += '<option value=""' + (current ? "" : " selected") + ">请选择开始时间</option>";
+    trStartOptionList(current).forEach(function (t) {
+      var temp = t === current && grid.indexOf(t) < 0;
+      h += '<option value="' + t + '"' + (current === t ? " selected" : "") + ">" +
+        t + (temp ? "（旧时间）" : "") + "</option>";
+    });
+  } else if (!trTime(start)) {
+    h += '<option value="" selected>请先选开始时间</option>';
+  } else {
+    h += '<option value="">请选择结束时间</option>';
+    trEndOptionList(start, current).forEach(function (t) {
+      var temp = t === current && trEndOptionList(start, "").indexOf(t) < 0;
+      h += '<option value="' + t + '"' + (current === t ? " selected" : "") + ">" +
+        t + (temp ? "（旧时间）" : "") + "</option>";
+    });
+  }
+  return h;
+}
+
 function trSigninHtml() {
   var list = TR_API.coursesOnDate(S.date);
   var sum = { present: 0, late: 0, leave: 0, missing: 0, people: 0 };
@@ -2708,8 +2765,11 @@ function openTrCourseSheet(courseId) {
     (course ? "修改培训课程" : "新增培训签到") + '</h3><button class="x" data-close>✕</button></div><div class="sh-bd">';
   h += '<div class="trgrid2">' +
     '<div class="field full"><label>日期 *</label><input type="date" id="trDate" value="' + esc(base.date) + '"></div>' +
-    '<div class="field"><label>开始时间 *</label><input type="time" id="trStart" value="' + esc(base.startTime || "") + '"></div>' +
-    '<div class="field"><label>结束时间 *</label><input type="time" id="trEnd" value="' + esc(base.endTime || "") + '"></div>' +
+    '<div class="field"><label>开始时间 *</label><select id="trStart" class="trselect">' +
+    trTimeOptionsHtml("start", base.startTime || "", base.startTime || "") + '</select></div>' +
+    '<div class="field"><label>结束时间 *</label><select id="trEnd" class="trselect"' +
+    (base.startTime ? "" : " disabled") + '>' +
+    trTimeOptionsHtml("end", base.startTime || "", base.endTime || "") + '</select></div>' +
     '<div class="field full"><label>老师 *</label><select id="trTeacher" class="trselect">' +
     '<option value="">请选择老师</option>' +
     teachers.map(function (t) {
@@ -2791,6 +2851,26 @@ function openTrCourseSheet(courseId) {
         });
       });
       var teacherSel = sh.querySelector("#trTeacher"), subSel = sh.querySelector("#trSubject");
+      /* v1.6.2 时间下拉联动：选了开始时间才开放结束时间；
+         改开始时间就重建结束候选并默认回到「开始 + 90 分钟」；
+         只动结束时间不打断用户选择（结束候选不重建） */
+      var startSel = sh.querySelector("#trStart"), endSel = sh.querySelector("#trEnd");
+      function defaultEndOf(start) { return trTimeOf(trMinutesOf(start) + 90); }
+      startSel.addEventListener("change", function () {
+        var sv = trTime(startSel.value);
+        if (!sv) {
+          endSel.innerHTML = '<option value="" selected>请先选开始时间</option>';
+          endSel.disabled = true;
+          return;
+        }
+        endSel.disabled = false;
+        var h = '<option value="">请选择结束时间</option>';
+        trEndOptionList(sv, "").forEach(function (t) {
+          h += '<option value="' + t + '">' + t + "</option>";
+        });
+        endSel.innerHTML = h;
+        endSel.value = defaultEndOf(sv);
+      });
       /* v1.5：换老师后按新老师的任教科目重建科目候选；
          老师只任教一个科目时自动预选，多科时留给前台明确选择 */
       function applyTeacherSubjects(preselect) {

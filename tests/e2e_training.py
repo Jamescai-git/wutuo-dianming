@@ -451,7 +451,7 @@ JS_V14 = r"""
   };
 
   await T.ready();
-  eq("版本号为 1.6.1", X.appVersion, "1.6.1");
+  eq("版本号为 1.6.2", X.appVersion, "1.6.2");
   ok("v1.4 测试钩子完整",
      ["trSaveSignin","trFindConflicts","trCourseStats","trStudentStats","trTeacherStats","trCsvText"]
        .every(k => typeof X[k] === "function"));
@@ -577,7 +577,15 @@ JS_V14 = r"""
   ok("选学生后不自动标状态", pick.classList.contains("sel") &&
      pick.querySelectorAll("[data-st].on").length === 0);
   document.querySelector("#trDate").value = D;
-  document.querySelector("#trStart").value = "16:00";
+  /* v1.6.2：开始 / 结束为 30 分钟档位下拉；设开始后派发 change 生成结束候选再选结束 */
+  const startSelTr = document.querySelector("#trStart");
+  startSelTr.value = "16:00";
+  startSelTr.dispatchEvent(new Event("change", {bubbles:true}));
+  await sleep(80);
+  ok("v1.6.2 开始 16:00 后结束默认 +90 为 17:30",
+     document.querySelector("#trEnd").value === "17:30" &&
+     !document.querySelector("#trEnd").disabled,
+     document.querySelector("#trEnd").value);
   document.querySelector("#trEnd").value = "17:00";
   document.querySelector("#trTeacher").value = t1.id;
   document.querySelector("#trTeacher").dispatchEvent(new Event("change", {bubbles:true}));
@@ -662,7 +670,7 @@ JS_V14_RELOAD = r"""
     {name:"刷新后 v1.4 四节课仍在", ok:cs.length === 4, detail:"实际 " + cs.length},
     {name:"刷新后 v1.4 六条明细仍在", ok:!!c1 && T.listAttendance(c1.id).length === 3, detail:c1 ? T.listAttendance(c1.id).length : "未找到首课"},
     {name:"刷新后调课结果仍在", ok:!!moved, detail:moved ? moved.startTime : "未找到调课"},
-    {name:"刷新后版本仍为 1.6.1", ok:X.appVersion === "1.6.1", detail:X.appVersion}
+    {name:"刷新后版本仍为 1.6.2", ok:X.appVersion === "1.6.2", detail:X.appVersion}
   ]};
 })()
 """

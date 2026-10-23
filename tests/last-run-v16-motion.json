@@ -26,9 +26,9 @@
       "detail": "true"
     },
     {
-      "name": "APP_VERSION 为 1.6.1",
+      "name": "APP_VERSION 为 1.6.2",
       "ok": true,
-      "detail": "期望 1.6.1，实际 1.6.1"
+      "detail": "期望 1.6.2，实际 1.6.2"
     },
     {
       "name": "被点卡片落位总时长约 320ms",
@@ -56,9 +56,9 @@
       "detail": "cubic-bezier(0.22, 0.61, 0.36, 1)"
     },
     {
-      "name": "Service Worker 版本升到 wudian-v1.6.1",
+      "name": "Service Worker 版本升到 wudian-v1.6.2",
       "ok": true,
-      "detail": "wudian-v1.6.1"
+      "detail": "wudian-v1.6.2"
     },
     {
       "name": "缓存壳无旧版本残留",
@@ -126,14 +126,14 @@
       "detail": "true"
     },
     {
-      "name": "版本标记文案为 v1.6.1",
+      "name": "版本标记文案为 v1.6.2",
       "ok": true,
-      "detail": "期望 v1.6.1，实际 v1.6.1"
+      "detail": "期望 v1.6.2，实际 v1.6.2"
     },
     {
-      "name": "版本标记 data-app-version 为 1.6.1",
+      "name": "版本标记 data-app-version 为 1.6.2",
       "ok": true,
-      "detail": "期望 1.6.1，实际 1.6.1"
+      "detail": "期望 1.6.2，实际 1.6.2"
     },
     {
       "name": "版本标记可见（有实际尺寸）",
@@ -223,7 +223,7 @@
     {
       "name": "约 80ms 时处于旧位置与新位置之间（不是瞬移）",
       "ok": true,
-      "detail": "t=79ms 已走 57%（旧 277 → 新 631）"
+      "detail": "t=88ms 已走 57%（旧 277 → 新 631）"
     },
     {
       "name": "落位是连续位移而不是一帧到位",
@@ -253,12 +253,12 @@
     {
       "name": "延迟期内补位卡片基本停在旧位置（不先闪到新位置）",
       "ok": true,
-      "detail": "t=46ms 已走 -0%"
+      "detail": "t=38ms 已走 -0%"
     },
     {
       "name": "之后补位卡片向上移动到新位置",
       "ok": true,
-      "detail": "t=195ms 已走 82%；旧 395 → 新 277"
+      "detail": "t=205ms 已走 82%；旧 395 → 新 277"
     },
     {
       "name": "动画结束后 DOM 顺序与数据一致",
@@ -551,7 +551,7 @@
     "C:\\Users\\James\\Documents\\ChatGPT\\培训\\午托点名\\screenshots\\v161-roll-motion.png",
     "C:\\Users\\James\\Documents\\ChatGPT\\培训\\午托点名\\screenshots\\v161-roll-settled.png"
   ],
-  "version": "1.6.1",
+  "version": "1.6.2",
   "summary": {
     "total": 109,
     "passed": 109,

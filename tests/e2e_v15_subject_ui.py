@@ -207,11 +207,11 @@ JS_SETUP = r"""
 
   await T.ready();
   eq_guard: {
-    if (X.appVersion !== "1.6.1") {
-      checks.push({name:"版本号为 1.6.1", ok:false, detail:X.appVersion});
+    if (X.appVersion !== "1.6.2") {
+      checks.push({name:"版本号为 1.6.2", ok:false, detail:X.appVersion});
       return {checks, fatal:"版本不对"};
     }
-    checks.push({name:"版本号为 1.6.1", ok:true, detail:X.appVersion});
+    checks.push({name:"版本号为 1.6.2", ok:true, detail:X.appVersion});
   }
 
   /* 测试统一从午托模式开始，再切入培训模式 */
@@ -467,9 +467,12 @@ JS_TEACHER_UI = r"""
   tSel.dispatchEvent(new Event("change", {bubbles:true}));
   await sleep(160);
 
-  /* 科目必选：不选科目保存被阻止 */
+  /* 科目必选：不选科目保存被阻止（v1.6.2 时间下拉：设开始后派发 change 生成结束候选） */
   document.querySelector("#sheet #trDate").value = "2026-11-05";
-  document.querySelector("#sheet #trStart").value = "10:00";
+  const startSelSub = document.querySelector("#sheet #trStart");
+  startSelSub.value = "10:00";
+  startSelSub.dispatchEvent(new Event("change", {bubbles:true}));
+  await sleep(80);
   document.querySelector("#sheet #trEnd").value = "11:00";
   const pick1 = document.querySelector('#sheet .trpick[data-sid="' + ids.P1 + '"]');
   pick1.click(); await sleep(60);
@@ -585,7 +588,7 @@ JS_AFTER_RELOAD = r"""
   const ids = window.__ids;
 
   await T.ready();
-  eq("刷新后版本仍 1.6.1", X.appVersion, "1.6.1");
+  eq("刷新后版本仍 1.6.2", X.appVersion, "1.6.2");
   eq("刷新后科目仍 5 个（冷门旧文本文本被归档）", X.trCounts().subjects, 5);
   const zhao = T.getTeacher(ids.T1);
   eq("刷新后赵老师 subjectIds 仍在（合成文本不再归档）", zhao.subjectIds.length, 3);
