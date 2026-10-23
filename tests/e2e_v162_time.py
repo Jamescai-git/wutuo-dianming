@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-"""午托点名 v1.6.2 —— 培训签到时间 30 分钟档位下拉 + 默认 90 分钟 端到端自测
+"""午托点名 v1.6.2 时间档位回归（当前外壳 v1.6.3） —— 培训签到时间 30 分钟档位下拉 + 默认 90 分钟 端到端自测
 
 真机（无头 Edge + CDP，390×844）验证：
-  1. APP_VERSION=1.6.2、SW 缓存版本 wudian-v1.6.2、DB_VER 仍为 3（不迁移）
-  2. 培训概况页底部版本标记 v1.6.2
+  1. APP_VERSION=1.6.3、SW 缓存版本 wudian-v1.6.3、DB_VER 仍为 3（不迁移）
+  2. 培训概况页底部版本标记 v1.6.3
   3. 新开签到表单使用 select#trStart / select#trEnd，不再有 input[type=time]
   4. 开始候选覆盖 00:00 / 10:00 / 10:30 / 22:00，不含 22:30 / 23:00 / 23:30
   5. 新表单开始为空、结束框禁用并提示「请先选开始时间」
@@ -254,13 +254,13 @@ JS_VERSION = r"""
 (async () => {
 """ + JS_HELPERS + r"""
   await T.ready();
-  eq("APP_VERSION 为 1.6.2", X.appVersion, "1.6.2");
+  eq("APP_VERSION 为 1.6.3", X.appVersion, "1.6.3");
 
   const sw = await fetch("sw.js", {cache:"no-store"}).then(r => r.text());
-  ok("Service Worker 版本升到 wudian-v1.6.2", sw.indexOf('"wudian-v1.6.2"') >= 0,
+  ok("Service Worker 版本升到 wudian-v1.6.3", sw.indexOf('"wudian-v1.6.3"') >= 0,
      (sw.match(/wudian-v[\d.]+/) || ["未找到"])[0]);
   ok("缓存壳无旧版本残留",
-     sw.indexOf("wudian-v1.6.1") < 0 && sw.indexOf("wudian-v1.6.0") < 0 &&
+     sw.indexOf("wudian-v1.6.2") < 0 && sw.indexOf("wudian-v1.6.1") < 0 &&
      sw.indexOf("wudian-v1.5.0") < 0);
   ok("保留 skipWaiting / clients.claim",
      sw.indexOf("skipWaiting") >= 0 && sw.indexOf("clients.claim") >= 0);
@@ -278,9 +278,9 @@ JS_VERSION = r"""
   await sleep(240);
   const b = document.querySelector("#appVerBadge");
   ok("培训概况页底部有 #appVerBadge", !!b);
-  eq("版本标记文案为 v1.6.2", b ? b.textContent.trim() : "(缺失)", "v1.6.2");
-  eq("版本标记 data-app-version 为 1.6.2",
-     b ? b.getAttribute("data-app-version") : "(缺失)", "1.6.2");
+  eq("版本标记文案为 v1.6.3", b ? b.textContent.trim() : "(缺失)", "v1.6.3");
+  eq("版本标记 data-app-version 为 1.6.3",
+     b ? b.getAttribute("data-app-version") : "(缺失)", "1.6.3");
   X.switchMode("wudian");
   await sleep(300);
   return {checks};
@@ -505,7 +505,7 @@ JS_LAYOUT = r"""
 def main():
     srv = serve()
     page = None
-    results = {"checks": [], "fatal": None, "screenshots": [], "version": "1.6.2"}
+    results = {"checks": [], "fatal": None, "screenshots": [], "version": "1.6.3"}
     try:
         page = launch()
         page.send("Page.navigate", {"url": "http://127.0.0.1:%d/tests/__no_such_page__" % HTTP_PORT})

@@ -289,12 +289,12 @@ JS_MAIN = r"""
   await fails("非法状态被拒绝", () => T.setAttendance(c1.id, s1.id, "absent"));
   await fails("不在课上的学生被拒绝", () => T.setAttendance(c3.id, s2.id, "present"));
 
-  /* ---------- 5. 上课次数口径（至少一名学生） ---------- */
+  /* ---------- 5. 上课次数口径（v1.6.3：至少一名学生出勤 / 迟到才算实际授课） ---------- */
   const c4 = await T.createCourse({date:"2026-10-24", startTime:"10:00", endTime:"11:00", teacherId:t2.id, subject:"英语", title:"空课"});
   const cnt = T.teacherCourseCounts(), cntAll = T.teacherCourseCounts({includeEmpty:true});
-  eq("王老师计 2 节", cnt[t1.id], 2);
-  eq("李老师只算有学生的 1 节", cnt[t2.id], 1);
-  eq("含空课时李老师 2 节", cntAll[t2.id], 2);
+  eq("王老师实际授课 1 节（另一节 s1 未归状态不算）", cnt[t1.id], 1);
+  eq("李老师实际授课 1 节（有出勤）", cnt[t2.id], 1);
+  eq("含空课 / 未归课时李老师 2 节", cntAll[t2.id], 2);
 
   /* ---------- 6. 与午托隔离（双向） ---------- */
   const beforeW = X.trCounts();
@@ -451,7 +451,7 @@ JS_V14 = r"""
   };
 
   await T.ready();
-  eq("版本号为 1.6.2", X.appVersion, "1.6.2");
+  eq("版本号为 1.6.3", X.appVersion, "1.6.3");
   ok("v1.4 测试钩子完整",
      ["trSaveSignin","trFindConflicts","trCourseStats","trStudentStats","trTeacherStats","trCsvText"]
        .every(k => typeof X[k] === "function"));
@@ -532,7 +532,8 @@ JS_V14 = r"""
   eq("学生统计请假次数", ss.leave, 0);
   const tt = X.trTeacherStats(t1.id, {from:D,to:D});
   eq("老师统计上课节数", tt.total, 2);
-  eq("老师统计授课人次", tt.people, 4);
+  /* v1.6.3：授课人次 = 出勤 + 迟到，不含请假（第 1 节的 s3 请假不计） */
+  eq("老师统计授课人次", tt.people, 3);
   eq("老师统计出勤人次", tt.present, 2);
   eq("老师统计迟到人次", tt.late, 1);
   eq("老师统计请假人次", tt.leave, 1);
@@ -670,7 +671,7 @@ JS_V14_RELOAD = r"""
     {name:"刷新后 v1.4 四节课仍在", ok:cs.length === 4, detail:"实际 " + cs.length},
     {name:"刷新后 v1.4 六条明细仍在", ok:!!c1 && T.listAttendance(c1.id).length === 3, detail:c1 ? T.listAttendance(c1.id).length : "未找到首课"},
     {name:"刷新后调课结果仍在", ok:!!moved, detail:moved ? moved.startTime : "未找到调课"},
-    {name:"刷新后版本仍为 1.6.2", ok:X.appVersion === "1.6.2", detail:X.appVersion}
+    {name:"刷新后版本仍为 1.6.3", ok:X.appVersion === "1.6.3", detail:X.appVersion}
   ]};
 })()
 """

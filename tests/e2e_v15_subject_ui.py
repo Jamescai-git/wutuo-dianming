@@ -207,11 +207,11 @@ JS_SETUP = r"""
 
   await T.ready();
   eq_guard: {
-    if (X.appVersion !== "1.6.2") {
-      checks.push({name:"版本号为 1.6.2", ok:false, detail:X.appVersion});
+    if (X.appVersion !== "1.6.3") {
+      checks.push({name:"版本号为 1.6.3", ok:false, detail:X.appVersion});
       return {checks, fatal:"版本不对"};
     }
-    checks.push({name:"版本号为 1.6.2", ok:true, detail:X.appVersion});
+    checks.push({name:"版本号为 1.6.3", ok:true, detail:X.appVersion});
   }
 
   /* 测试统一从午托模式开始，再切入培训模式 */
@@ -236,6 +236,8 @@ JS_SETUP = r"""
   /* 旧文本课程：科目档案里没有"冷门旧文本"，subjectId 应为空 */
   const CL = await T.createCourse({date:"2026-11-05", startTime:"08:00", endTime:"09:00",
     teacherId:T1.id, subject:"冷门旧文本", studentIds:[P1.id]});
+  /* v1.6.3：只有出勤 / 迟到才算上课，统计用例需要真实到课状态 */
+  await T.setAttendance(CL.id, P1.id, "present");
 
   ok("造数完成：4 科目 3 老师 2 学生 1 旧文本课程",
      T.listSubjects().length === 4 && T.listTeachers().length === 3 &&
@@ -588,7 +590,7 @@ JS_AFTER_RELOAD = r"""
   const ids = window.__ids;
 
   await T.ready();
-  eq("刷新后版本仍 1.6.2", X.appVersion, "1.6.2");
+  eq("刷新后版本仍 1.6.3", X.appVersion, "1.6.3");
   eq("刷新后科目仍 5 个（冷门旧文本文本被归档）", X.trCounts().subjects, 5);
   const zhao = T.getTeacher(ids.T1);
   eq("刷新后赵老师 subjectIds 仍在（合成文本不再归档）", zhao.subjectIds.length, 3);

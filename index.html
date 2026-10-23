@@ -494,7 +494,7 @@ table.tb td{font-variant-numeric:tabular-nums;}
    ===================================================================== */
 
 /* ---------------------- 常量 ---------------------- */
-var APP_VERSION = "1.6.2";
+var APP_VERSION = "1.6.3";
 var DB_NAME = "wudian-db";
 /* v1.4：培训四张表（trTeachers / trStudents / trCourses / trAttendance）
    v1.5：新增 trSubjects（培训科目档案）—— 只做加法，不动已有表，午托数据零迁移 */
@@ -1309,12 +1309,23 @@ function trRemoveAttendance(courseId, studentId) {
 }
 
 /* ---------- 统计 ---------- */
-/* 默认口径：老师上课次数只算「已创建且至少有一名学生」的课程记录 */
+/* v1.6.3 统一口径：只有「出勤 / 迟到」才算这名学生真的上了这节课。
+   请假（leave）与未归状态（无明细）都不计入实际上课，只是各自计数。
+   学生统计、老师统计、概况「老师上课次数」、签到页汇总全部走这一处判断。 */
+function trIsAttendedStatus(status) {
+  return status === "present" || status === "late";
+}
+/* 一节课的实际到课人数（出勤 + 迟到）。0 表示这节没人来，老师不算实际授课 */
+function trCourseAttendedCount(courseId) {
+  return trCourseStats(courseId).attended;
+}
+/* 老师上课次数：默认只算「至少一名学生出勤或迟到」的实际授课课程；
+   opts.includeEmpty === true 时退化为全部课程（含空课 / 全请假），仅供内部核对 */
 function trTeacherCourseCounts(opts) {
-  var requireStudent = !(opts && opts.includeEmpty === true);
+  var countAll = !!(opts && opts.includeEmpty === true);
   var out = {};
   TR.courses.forEach(function (c) {
-    if (requireStudent && (!c.studentIds || !c.studentIds.length)) return;
+    if (!countAll && !trCourseAttendedCount(c.id)) return;
     out[c.teacherId] = (out[c.teacherId] || 0) + 1;
   });
   return out;
@@ -2473,7 +2484,7 @@ function trInfoHtml() {
     "</div>";
   var withCount = TR_API.activeTeachers().filter(function (t) { return counts[t.id]; });
   if (withCount.length) {
-    h += '<div class="sec"><h2>老师上课次数</h2><span style="font-size:11.5px;color:var(--muted-2)">只算已排学生</span></div>';
+    h += '<div class="sec"><h2>老师上课次数</h2><span style="font-size:11.5px;color:var(--muted-2)">只算实际授课（有出勤 / 迟到）</span></div>';
     h += '<div class="panel" style="padding:2px 12px">';
     withCount.forEach(function (t) {
       h += '<div class="drow"><div class="d1"><div class="t">' + esc(t.name) +
@@ -2488,7 +2499,8 @@ function trInfoHtml() {
     "② 签到状态只有 <b>出勤 / 迟到 / 请假</b> 三种；同一学生一天可有多节课，同一时间也可以有多个老师上课。<br>" +
     "③ 签到按「日期 + 时间段 + 老师 + 科目 + 多名学生」记录；科目来自「档案 → 科目」，一位老师可任教多个科目，新建课程必须选科目。<br>" +
     "④ 逐人标出勤 / 迟到 / 请假；统计可按当日、本周、本月查看，按科目归并优先走科目档案。<br>" +
-    "⑤ 全量备份 JSON 已包含培训五类数据（老师 / 学生 / 科目 / 课程 / 签到明细），恢复旧版午托备份不会动培训档案。" +
+    "⑤ 全量备份 JSON 已包含培训五类数据（老师 / 学生 / 科目 / 课程 / 签到明细），恢复旧版午托备份不会动培训档案。<br>" +
+    "⑥ <b>只有出勤 / 迟到才算实际上课</b>：学生请假的课不计入学生上课次数（请假次数 +1），也不计入老师授课人次；一节课全体请假时，老师不计这节实际授课。签到明细与 CSV 仍保留请假记录。" +
     "</div></div>";
   /* v1.6.1：概况内容最底部的小版本标记 —— 老蔡用来判断在线页面是否已刷新到新版。
      id / data-app-version 为稳定定位标识，改名会影响回归测试。 */
@@ -2528,12 +2540,14 @@ function trFindConflicts(studentIds, date, startTime, endTime, excludeCourseId) 
 
 function trCourseStats(courseId) {
   var c = trCourseById(courseId);
-  var out = { present: 0, late: 0, leave: 0, missing: 0, total: c ? (c.studentIds || []).length : 0 };
+  var out = { present: 0, late: 0, leave: 0, missing: 0, total: c ? (c.studentIds || []).length : 0, attended: 0 };
   if (!c) return out;
   var map = TR_API.attendanceMap(courseId);
   (c.studentIds || []).forEach(function (sid) {
     if (out[map[sid]] != null) out[map[sid]]++; else out.missing++;
   });
+  /* v1.6.3：实际到课人数只含出勤 + 迟到，供签到页汇总与老师实际授课判断复用 */
+  out.attended = out.present + out.late;
   return out;
 }
 
@@ -2697,19 +2711,21 @@ function trTimeOptionsHtml(kind, start, current) {
 
 function trSigninHtml() {
   var list = TR_API.coursesOnDate(S.date);
-  var sum = { present: 0, late: 0, leave: 0, missing: 0, people: 0 };
+  var sum = { present: 0, late: 0, leave: 0, missing: 0, people: 0, attended: 0 };
   list.forEach(function (c) {
     var st = trCourseStats(c.id);
     sum.present += st.present; sum.late += st.late; sum.leave += st.leave;
-    sum.missing += st.missing; sum.people += st.total;
+    sum.missing += st.missing; sum.people += st.total; sum.attended += st.attended;
   });
   var h = "";
   h += '<div class="actions">' +
     '<button class="btn primary" id="trNewCourse">＋ 新增培训签到</button>' +
     '<button class="btn" id="trExportToday">导出当日签到</button></div>';
+  /* v1.6.3：「上课人次」= 出勤 + 迟到（请假 / 未归状态不算上课）；
+     「当日课程」仍是当天真实创建的签到记录数，全请假的课也照常列出 */
   h += '<div class="trsum">' +
     '<div class="box"><b>' + list.length + '</b><span>当日课程</span></div>' +
-    '<div class="box"><b>' + sum.people + '</b><span>签到人次</span></div>' +
+    '<div class="box" id="trSumAttended"><b>' + sum.attended + '</b><span>上课人次</span></div>' +
     '<div class="box"><b>' + sum.present + '</b><span>出勤</span></div>' +
     '<div class="box"><b style="color:var(--s-late)">' + sum.late + '</b><span>迟到</span></div>' +
     '<div class="box"><b style="color:var(--s-leave)">' + sum.leave + '</b><span>请假</span></div>' +
@@ -2965,8 +2981,19 @@ function trRangeOf(period) {
 
 function trStudentStats(sid, range) {
   var courses = TR_API.listCourses({ from: range.from, to: range.to, studentId: sid });
-  var out = { total: courses.length, present: 0, late: 0, leave: 0, missing: 0, byTeacher: {}, bySubject: {}, bySubjectNames: {}, courses: courses };
-  var buckets = trSubjectBuckets(courses);
+  /* v1.6.3：这名学生真正上过的课（出勤 / 迟到）—— 请假与未归状态都不算上课。
+     请假只是请假次数 +1，课程记录仍然留在签到明细与 CSV 里。 */
+  var attended = courses.filter(function (c) {
+    return trIsAttendedStatus(TR_API.attendanceMap(c.id)[sid]);
+  });
+  var out = {
+    total: 0,                    /* = present + late */
+    scheduled: courses.length,   /* 区间内排课总数，仅内部核对，不展示 */
+    present: 0, late: 0, leave: 0, missing: 0,
+    byTeacher: {}, bySubject: {}, bySubjectNames: {},
+    courses: attended            /* 「最近上课」只列实际上过课的 */
+  };
+  var buckets = trSubjectBuckets(attended);
   Object.keys(buckets).forEach(function (k) {
     out.bySubject[k] = buckets[k].count;
     out.bySubjectNames[k] = buckets[k].name;
@@ -2974,8 +3001,11 @@ function trStudentStats(sid, range) {
   courses.forEach(function (c) {
     var st = TR_API.attendanceMap(c.id)[sid];
     if (out[st] != null) out[st]++; else out.missing++;
+  });
+  attended.forEach(function (c) {
     out.byTeacher[c.teacherId] = (out.byTeacher[c.teacherId] || 0) + 1;
   });
+  out.total = out.present + out.late;
   return out;
 }
 
@@ -2983,18 +3013,31 @@ function trTeacherStats(tid, range) {
   var courses = TR_API.listCourses({ from: range.from, to: range.to, teacherId: tid }).filter(function (c) {
     return (c.studentIds || []).length > 0;
   });
-  var out = { total: courses.length, people: 0, present: 0, late: 0, leave: 0, missing: 0, byDate: {}, bySubject: {}, bySubjectNames: {}, courses: courses };
-  var buckets = trSubjectBuckets(courses);
+  /* v1.6.3：老师实际授课 = 至少一名学生出勤或迟到的课程；整节全请假 / 全未归不算 */
+  var taught = courses.filter(function (c) { return trCourseAttendedCount(c.id) > 0; });
+  var out = {
+    total: taught.length,        /* 实际上课节数 */
+    scheduled: courses.length,   /* 区间内已排学生的课程数，仅内部核对，不展示 */
+    people: 0,                   /* 授课人次 = 出勤 + 迟到 */
+    present: 0, late: 0, leave: 0, missing: 0,
+    byDate: {}, bySubject: {}, bySubjectNames: {},
+    courses: taught              /* 「最近课程」只列实际授课的 */
+  };
+  var buckets = trSubjectBuckets(taught);
   Object.keys(buckets).forEach(function (k) {
     out.bySubject[k] = buckets[k].count;
     out.bySubjectNames[k] = buckets[k].name;
   });
+  /* 状态计数仍按区间内全部已排学生逐条累计：请假不会消失，只是不计实际上课 */
   courses.forEach(function (c) {
     var map = TR_API.attendanceMap(c.id);
     (c.studentIds || []).forEach(function (sid) {
-      out.people++;
-      if (out[map[sid]] != null) out[map[sid]]++; else out.missing++;
+      var st = map[sid];
+      if (out[st] != null) out[st]++; else out.missing++;
+      if (trIsAttendedStatus(st)) out.people++;
     });
+  });
+  taught.forEach(function (c) {
     out.byDate[c.date] = (out.byDate[c.date] || 0) + 1;
   });
   return out;
@@ -4131,6 +4174,10 @@ window.__test = {
   trCourseStats: trCourseStats,
   trStudentStats: trStudentStats,
   trTeacherStats: trTeacherStats,
+  /* v1.6.3 统计口径：只读，供自测核对学生 / 老师 / 概况是否同一口径 */
+  trIsAttendedStatus: trIsAttendedStatus,
+  trCourseAttendedCount: trCourseAttendedCount,
+  trTeacherCourseCounts: trTeacherCourseCounts,
   trCsvText: trCsvText,
   trExportAttendanceCsv: trExportAttendanceCsv,
   trExportStudentCsv: trExportStudentCsv,

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-"""午托点名 v1.6.1→v1.6.2 回归 —— 两段式落位动画 + 在线更新策略 端到端自测
+"""午托点名 v1.6.1 动画回归（当前外壳 v1.6.3） —— 两段式落位动画 + 在线更新策略 端到端自测
 
 真机（无头 Edge + CDP，390×844）验证：
   1. manifest / apple-mobile-web-app-title 仍精确为「宇才教育」，业务标题仍是「午托点名」
-  2. APP_VERSION=1.6.2、SW 缓存版本 wudian-v1.6.2、DB_VER 仍为 3（不迁移）
+  2. APP_VERSION=1.6.3、SW 缓存版本 wudian-v1.6.3、DB_VER 仍为 3（不迁移）
   3. 被点卡片 data-motion=drop，WAAPI 时长 320ms，曲线前段不再过快
   4. 约 80ms 时被点卡片处于「旧位置 → 新位置」之间（不是第一帧瞬移）
   5. 补位卡片 data-motion=float-up，delay≈70ms / 260ms，延迟期用 fill:"both" 锁在旧位置
@@ -13,7 +13,7 @@
   9. 首屏加载 / 搜索 / 筛选 / 切日期 / 切模式一律不播重排动画
  10. prefers-reduced-motion: reduce 时无上下位移，只保留 ≤150ms 透明度反馈
  11. 390×844 无横向溢出、无乱码、无外部资源；落位期间被点卡片不被补位卡片遮住
- 12. 培训「概况」页最底部有可见的 v1.6.2 版本标记（稳定 DOM 标识）
+ 12. 培训「概况」页最底部有可见的 v1.6.3 版本标记（稳定 DOM 标识）
  13. sw.js 导航请求为 network-first（fetch 在前、caches.match 回退在后），
      保留 skipWaiting / clients.claim 与旧缓存清理
  14. 页面 controllerchange 自动刷新带防循环保护
@@ -350,7 +350,7 @@ JS_BRAND = r"""
   ok("页面内仍是午托点名 / 培训签到业务名",
      document.querySelector("#modeSeg").textContent.indexOf("午托点名") >= 0 &&
      document.querySelector("#modeSeg").textContent.indexOf("培训签到") >= 0);
-  eq("APP_VERSION 为 1.6.2", X.appVersion, "1.6.2");
+  eq("APP_VERSION 为 1.6.3", X.appVersion, "1.6.3");
 
   /* ---------- 动画参数 ---------- */
   near("被点卡片落位总时长约 320ms", X.motion.dropDuration, 320, 20);
@@ -364,10 +364,10 @@ JS_BRAND = r"""
 
   /* ---------- Service Worker 源码策略 ---------- */
   const sw = await fetch("sw.js", {cache:"no-store"}).then(r => r.text());
-  ok("Service Worker 版本升到 wudian-v1.6.2", sw.indexOf('"wudian-v1.6.2"') >= 0,
+  ok("Service Worker 版本升到 wudian-v1.6.3", sw.indexOf('"wudian-v1.6.3"') >= 0,
      (sw.match(/wudian-v[\d.]+/) || ["未找到"])[0]);
   ok("缓存壳无旧版本残留",
-     sw.indexOf("wudian-v1.6.1") < 0 && sw.indexOf("wudian-v1.6.0") < 0 &&
+     sw.indexOf("wudian-v1.6.2") < 0 && sw.indexOf("wudian-v1.6.1") < 0 &&
      sw.indexOf("wudian-v1.5.0") < 0);
   ok("保留 skipWaiting / clients.claim",
      sw.indexOf("skipWaiting") >= 0 && sw.indexOf("clients.claim") >= 0);
@@ -419,9 +419,9 @@ JS_BADGE = r"""
 
   const b = document.querySelector("#appVerBadge");
   ok("培训概况页底部有稳定 DOM 标识 #appVerBadge", !!b);
-  eq("版本标记文案为 v1.6.2", b ? b.textContent.trim() : "(缺失)", "v1.6.2");
-  eq("版本标记 data-app-version 为 1.6.2",
-     b ? b.getAttribute("data-app-version") : "(缺失)", "1.6.2");
+  eq("版本标记文案为 v1.6.3", b ? b.textContent.trim() : "(缺失)", "v1.6.3");
+  eq("版本标记 data-app-version 为 1.6.3",
+     b ? b.getAttribute("data-app-version") : "(缺失)", "1.6.3");
   const rc = b ? b.getBoundingClientRect() : {width:0, height:0};
   ok("版本标记可见（有实际尺寸）", rc.width > 0 && rc.height > 0,
      `${Math.round(rc.width)}×${Math.round(rc.height)}`);
@@ -769,7 +769,7 @@ JS_LAYOUT = r"""
 def main():
     srv = serve()
     page = None
-    results = {"checks": [], "fatal": None, "screenshots": [], "version": "1.6.2"}
+    results = {"checks": [], "fatal": None, "screenshots": [], "version": "1.6.3"}
     try:
         page = launch()
         page.send("Page.navigate", {"url": "http://127.0.0.1:%d/tests/__no_such_page__" % HTTP_PORT})

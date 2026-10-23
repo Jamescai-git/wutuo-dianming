@@ -53,7 +53,7 @@
     {
       "name": "培训老师样例仍在",
       "ok": true,
-      "detail": "{\"id\":\"tch-up1\",\"name\":\"升级样例师\",\"subject\":\"书法\",\"active\":true,\"createdAt\":1000,\"updatedAt\":1000,\"subjectIds\":[\"subj-mvkqelas-keium5\"]}"
+      "detail": "{\"id\":\"tch-up1\",\"name\":\"升级样例师\",\"subject\":\"书法\",\"active\":true,\"createdAt\":1000,\"updatedAt\":1000,\"subjectIds\":[\"subj-mvkrirz7-zjw96l\"]}"
     },
     {
       "name": "老师旧文本迁移出书法科目",
@@ -63,7 +63,7 @@
     {
       "name": "老师补 subjectIds 指向书法",
       "ok": true,
-      "detail": "[\"subj-mvkqelas-keium5\"]"
+      "detail": "[\"subj-mvkrirz7-zjw96l\"]"
     },
     {
       "name": "培训学生样例仍在",
@@ -78,7 +78,7 @@
     {
       "name": "旧课程补 subjectId",
       "ok": true,
-      "detail": "subj-mvkqelas-keium5"
+      "detail": "subj-mvkrirz7-zjw96l"
     },
     {
       "name": "旧课程补名称快照",
@@ -143,7 +143,7 @@
     {
       "name": "科目 id 用 subj- 前缀",
       "ok": true,
-      "detail": "subj-mvkqepv8-k5a6wh"
+      "detail": "subj-mvkriwka-dfn6k6"
     },
     {
       "name": "科目名去首尾空格",
@@ -233,7 +233,7 @@
     {
       "name": "原 createdAt 保留",
       "ok": true,
-      "detail": "期望 1792745542772，实际 1792745542772"
+      "detail": "期望 1792747417690，实际 1792747417690"
     },
     {
       "name": "改名撞已有科目被拒绝",
@@ -268,7 +268,7 @@
     {
       "name": "文本科目自动挂 subjectIds",
       "ok": true,
-      "detail": "[\"subj-mvkqepva-836pc3\"]"
+      "detail": "[\"subj-mvkriwkb-fajk4q\"]"
     },
     {
       "name": "旧 subject 文本保留",
@@ -278,7 +278,7 @@
     {
       "name": "显式更新 subjectIds",
       "ok": true,
-      "detail": "期望 [\"subj-mvkqepv8-k5a6wh\"]，实际 [\"subj-mvkqepv8-k5a6wh\"]"
+      "detail": "期望 [\"subj-mvkriwka-dfn6k6\"]，实际 [\"subj-mvkriwka-dfn6k6\"]"
     },
     {
       "name": "按科目档案名搜到老师",
@@ -288,7 +288,7 @@
     {
       "name": "课程落 subjectId",
       "ok": true,
-      "detail": "期望 subj-mvkqepv8-k5a6wh，实际 subj-mvkqepv8-k5a6wh"
+      "detail": "期望 subj-mvkriwka-dfn6k6，实际 subj-mvkriwka-dfn6k6"
     },
     {
       "name": "课程落名称快照",
@@ -308,7 +308,7 @@
     {
       "name": "旧文本建课自动挂科目",
       "ok": true,
-      "detail": "subj-mvkqepva-836pc3"
+      "detail": "subj-mvkriwkb-fajk4q"
     },
     {
       "name": "文本建课名称快照",
@@ -378,7 +378,7 @@
     {
       "name": "旧老师补 subjectIds（数学）",
       "ok": true,
-      "detail": "[\"subj-mvkqepw1-ue8463\"]"
+      "detail": "[\"subj-mvkriwkm-ph6dea\"]"
     },
     {
       "name": "旧老师补 subjectIds（奥数）",
@@ -388,7 +388,7 @@
     {
       "name": "旧课程补 subjectId",
       "ok": true,
-      "detail": "subj-mvkqepw1-ue8463"
+      "detail": "subj-mvkriwkm-ph6dea"
     },
     {
       "name": "旧课程补名称快照",
@@ -463,7 +463,7 @@
     {
       "name": "改名后 reload 课程仍指向原科目",
       "ok": true,
-      "detail": "期望 subj-mvkqepw5-tbz39q，实际 subj-mvkqepw5-tbz39q"
+      "detail": "期望 subj-mvkriwkn-1ycxhn，实际 subj-mvkriwkn-1ycxhn"
     },
     {
       "name": "改名后 reload 无旧文本不回建旧名档案",
@@ -573,12 +573,12 @@
     {
       "name": "刷新后老师科目关联仍在",
       "ok": true,
-      "detail": "[\"subj-mvkqepw1-ue8463\"]"
+      "detail": "[\"subj-mvkriwkm-ph6dea\"]"
     },
     {
       "name": "刷新后课程科目关联仍在",
       "ok": true,
-      "detail": "\"subj-mvkqepw1-ue8463\""
+      "detail": "\"subj-mvkriwkm-ph6dea\""
     }
   ],
   "fatal": null,

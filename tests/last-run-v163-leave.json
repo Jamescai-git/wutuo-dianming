@@ -1,0 +1,565 @@
+{
+  "checks": [
+    {
+      "name": "APP_VERSION 为 1.6.3",
+      "ok": true,
+      "detail": "期望 1.6.3，实际 1.6.3"
+    },
+    {
+      "name": "Service Worker 版本升到 wudian-v1.6.3",
+      "ok": true,
+      "detail": "wudian-v1.6.3"
+    },
+    {
+      "name": "缓存壳无 v1.6.2 及更早版本残留",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "保留 skipWaiting / clients.claim 与 network-first 导航",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "IndexedDB 版本仍为 3（本轮不迁移）",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "培训概况页底部有 #appVerBadge",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "版本标记文案为 v1.6.3",
+      "ok": true,
+      "detail": "期望 v1.6.3，实际 v1.6.3"
+    },
+    {
+      "name": "版本标记 data-app-version 为 1.6.3",
+      "ok": true,
+      "detail": "期望 1.6.3，实际 1.6.3"
+    },
+    {
+      "name": "概况说明写明请假不计上课",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "学生上课次数 = 出勤 + 迟到 = 2",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "学生区间排课数 scheduled = 3",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "学生出勤 1",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "学生迟到 1",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "学生请假 1",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "total 严格等于 present + late",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "按老师只有 1 位（请假课不计）",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "按老师次数 = 2（不含请假课）",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "按科目只有 1 组",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "按科目次数 = 2（不含请假课）",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "最近上课只列 2 节实际到课",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "最近上课不含请假那节",
+      "ok": true,
+      "detail": "crs-mvkrkmly-1bu7op,crs-mvkrkmly-cd02cs"
+    },
+    {
+      "name": "界面上课次数显示 2",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "界面出勤显示 1",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "界面迟到显示 1",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "界面请假显示 1",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "出勤改请假是一次真实写入",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "改判后上课次数 -1",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "改判后请假次数 +1",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "改判后出勤 -1",
+      "ok": true,
+      "detail": "期望 0，实际 0"
+    },
+    {
+      "name": "改判不改变排课数",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "重复写同一状态被幂等拦下（changed=false）",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "重复写不重复扣上课次数",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "重复写不重复加请假次数",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "改回出勤是真实写入",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "改回出勤后上课次数恢复",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "改回出勤后请假次数恢复",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "改回出勤后出勤次数恢复",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "迟到改请假：上课次数只剩 1",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "迟到改请假：请假累计 2",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "迟到改回后上课次数复原",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "混合课：老师上课节数 1",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "混合课：授课人次只算出勤 = 1",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "混合课：出勤人次 1",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "混合课：请假人次 1",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "全请假课不计老师上课节数",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "全请假课不增授课人次",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "全请假课请假人次累计到 3",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "排课数仍记录 2 节（内部核对）",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "按日期只计 1 节实际授课",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "按科目只有 1 组",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "按科目只计 1 节实际授课",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "平均人数分母用实际授课节数（1/1=1.0）",
+      "ok": true,
+      "detail": "期望 1.0，实际 1.0"
+    },
+    {
+      "name": "最近课程只列实际授课的 1 节",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "最近课程不含全请假那节",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "界面老师上课节数 1",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "界面授课人次 1",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "界面平均人数 1.0",
+      "ok": true,
+      "detail": "期望 1.0，实际 1.0"
+    },
+    {
+      "name": "界面请假人次 3",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "按日期区块只列 1 节",
+      "ok": true,
+      "detail": "学生统计老师统计当日本周本月统计区间：2026-10-01 至 2026-10-31口径老师 · 数学全勤老师 · 英语1上课节数1授课人次1.0平均人数1出勤0迟到3请假导出老师记录按日期2026-10-281 节按科目英语1 节最近课程2026-10-28 15:00-16:30英语 · 2 人出勤 1"
+    },
+    {
+      "name": "概况口径 = 老师统计口径（口径老师）",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "概况口径 = 老师统计口径（全勤老师）",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "口径老师实际授课 2 节（含 1 节请假不算）",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "全勤老师实际授课 1 节（全请假课不算）",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "概况列出全勤老师",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "概况全勤老师显示 1 节（全请假课不计）",
+      "ok": true,
+      "detail": "全勤老师英语1 节"
+    },
+    {
+      "name": "概况口径老师显示 2 节",
+      "ok": true,
+      "detail": "口径老师数学2 节"
+    },
+    {
+      "name": "顶部汇总显示「上课人次」",
+      "ok": true,
+      "detail": "当日课程|上课人次|出勤|迟到|请假|未归状态"
+    },
+    {
+      "name": "顶部不再显示「签到人次」",
+      "ok": true,
+      "detail": "当日课程|上课人次|出勤|迟到|请假|未归状态"
+    },
+    {
+      "name": "当日课程仍为 5（全请假课照常列出）",
+      "ok": true,
+      "detail": "期望 5，实际 5"
+    },
+    {
+      "name": "上课人次 = 出勤 3 + 迟到 1 = 4",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "出勤显示真实数量 3",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "迟到显示真实数量 1",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "请假显示真实数量 4",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "未归状态 0",
+      "ok": true,
+      "detail": "期望 0，实际 0"
+    },
+    {
+      "name": "上课人次严格等于出勤 + 迟到",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "上课人次不等于学生总数（请假被排除）",
+      "ok": true,
+      "detail": "4"
+    },
+    {
+      "name": "课程卡片仍是 5 张",
+      "ok": true,
+      "detail": "期望 5，实际 5"
+    },
+    {
+      "name": "全请假课程卡片仍可见（未隐藏）",
+      "ok": true,
+      "detail": "＋ 新增培训签到导出当日签到5当日课程4上课人次3出勤1迟到4请假0未归状态10月28日 周三 课程点一节可修改08:00-09:30口径老师数学2 名学生出勤 2迟到 0请假 010:00-11:30口径老师数学1 名学生出勤 0迟到 1请假 013:00-14:30口径老师数学1 名学生出勤 0迟到 0请假 115:00-16:30全勤老师英语2 名学生出勤 1迟到 0请假 117:00-18:30全勤老师英语2 名学生出勤 0迟到 0请假 2同一时间可以有多个老师分别上课；同一名学生同一时间段只能在一节课里。"
+    },
+    {
+      "name": "签到页 390×844 无横向滚动",
+      "ok": true,
+      "detail": "390/390/390"
+    },
+    {
+      "name": "签到页无乱码字符",
+      "ok": true,
+      "detail": "无 U+FFFD"
+    },
+    {
+      "name": "签到页无外部网络资源",
+      "ok": true,
+      "detail": "外部资源 0 个"
+    },
+    {
+      "name": "已触发当日签到 CSV 导出",
+      "ok": true,
+      "detail": "等待下载落盘"
+    },
+    {
+      "name": "CSV 文件已落盘",
+      "ok": true,
+      "detail": "C:\\Users\\James\\Documents\\ChatGPT\\培训\\午托点名\\tests\\_e2e_v163_downloads_20261023-172451\\培训签到_2026-10-28_2026-10-28.csv"
+    },
+    {
+      "name": "CSV 行数 = 表头 + 8 条明细（不删减）",
+      "ok": true,
+      "detail": "9 行"
+    },
+    {
+      "name": "CSV 仍保留请假状态",
+      "ok": true,
+      "detail": "含请假 4 次"
+    },
+    {
+      "name": "CSV 请假行指向对应学生与课程",
+      "ok": true,
+      "detail": "含 13:00,14:30 与 张小请"
+    },
+    {
+      "name": "学生时间冲突仍被拒绝",
+      "ok": true,
+      "detail": "时间冲突：张小请 已在 08:00-09:30 上口径老师的课"
+    },
+    {
+      "name": "未选科目仍被拒绝",
+      "ok": true,
+      "detail": "请选择科目"
+    },
+    {
+      "name": "开始时间仍是下拉",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "结束时间仍是下拉",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "开始候选 45 档 + 占位",
+      "ok": true,
+      "detail": "46"
+    },
+    {
+      "name": "结束框初始禁用",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "选 10:00 后结束自动 11:30（默认 90 分钟不回归）",
+      "ok": true,
+      "detail": "期望 11:30，实际 11:30"
+    },
+    {
+      "name": "档案内部三页签存在",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "学生档案 3 行",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "科目档案仍渲染数学 / 英语",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "老师档案 2 行",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "午托底部三项导航",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "午托状态笔仍在",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "午托新增学生成功",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "午托点名渲染 1 张卡片",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "午托点名点击写入 1 条记录",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "午托点名卡片进入已点状态",
+      "ok": true,
+      "detail": " / card st-none"
+    },
+    {
+      "name": "午托点名页 390×844 无横向溢出",
+      "ok": true,
+      "detail": "390/390"
+    },
+    {
+      "name": "重排动画时长仍 320ms",
+      "ok": true,
+      "detail": "320"
+    },
+    {
+      "name": "补位动画 70ms 延迟 / 260ms 时长",
+      "ok": true,
+      "detail": "70/260"
+    },
+    {
+      "name": "减少动态效果分支仍在",
+      "ok": true,
+      "detail": "140"
+    },
+    {
+      "name": "学生 total 只含出勤 + 迟到",
+      "ok": true,
+      "detail": "期望 2，实际 2"
+    },
+    {
+      "name": "老师 people 只含出勤 + 迟到（口径老师 3）",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "口径老师授课人次 = 3",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    }
+  ],
+  "fatal": null,
+  "screenshots": [
+    "C:\\Users\\James\\Documents\\ChatGPT\\培训\\午托点名\\screenshots\\v163-leave-stats.png"
+  ],
+  "version": "1.6.3",
+  "artifactsCsv": "C:\\Users\\James\\Documents\\ChatGPT\\培训\\午托点名\\tests\\_e2e_v163_downloads_20261023-172451\\培训签到_2026-10-28_2026-10-28.csv",
+  "summary": {
+    "total": 110,
+    "passed": 110,
+    "failed": 0
+  }
+}

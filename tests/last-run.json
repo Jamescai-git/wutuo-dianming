@@ -58,7 +58,7 @@
     {
       "name": "老师原始创建时间保留",
       "ok": true,
-      "detail": "期望 1792745520449，实际 1792745520449"
+      "detail": "期望 1792747394988，实际 1792747394988"
     },
     {
       "name": "停用后启用名单 2 人",
@@ -166,17 +166,17 @@
       "detail": "该学生不在本节课名单中"
     },
     {
-      "name": "王老师计 2 节",
-      "ok": true,
-      "detail": "期望 2，实际 2"
-    },
-    {
-      "name": "李老师只算有学生的 1 节",
+      "name": "王老师实际授课 1 节（另一节 s1 未归状态不算）",
       "ok": true,
       "detail": "期望 1，实际 1"
     },
     {
-      "name": "含空课时李老师 2 节",
+      "name": "李老师实际授课 1 节（有出勤）",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "含空课 / 未归课时李老师 2 节",
       "ok": true,
       "detail": "期望 2，实际 2"
     },
@@ -385,9 +385,9 @@
       "ok": true
     },
     {
-      "name": "版本号为 1.6.2",
+      "name": "版本号为 1.6.3",
       "ok": true,
-      "detail": "期望 1.6.2，实际 1.6.2"
+      "detail": "期望 1.6.3，实际 1.6.3"
     },
     {
       "name": "v1.4 测试钩子完整",
@@ -507,7 +507,7 @@
     {
       "name": "老师统计授课人次",
       "ok": true,
-      "detail": "期望 4，实际 4"
+      "detail": "期望 3，实际 3"
     },
     {
       "name": "老师统计出勤人次",
@@ -665,9 +665,9 @@
       "detail": "11:30"
     },
     {
-      "name": "刷新后版本仍为 1.6.2",
+      "name": "刷新后版本仍为 1.6.3",
       "ok": true,
-      "detail": "1.6.2"
+      "detail": "1.6.3"
     }
   ],
   "fatal": null,
@@ -686,12 +686,12 @@
     "wudianRecords": 0
   },
   "v14_ids": {
-    "a": "crs-mvkqecxg-wtvvaq",
-    "b": "crs-mvkqecxj-7f7abe",
-    "c": "crs-mvkqecxn-t6jkxr",
-    "d": "crs-mvkqecxr-xhxe1t",
-    "s1": "tst-mvkqe8n6-q66jvs",
-    "t1": "tch-mvkqe8n5-8jx71s"
+    "a": "crs-mvkrij5r-irb77d",
+    "b": "crs-mvkrij5s-jr05z3",
+    "c": "crs-mvkrij5t-l16sdv",
+    "d": "crs-mvkrij5t-idntja",
+    "s1": "tst-mvkrif1p-dn0gzv",
+    "t1": "tch-mvkrif1o-q0tvpp"
   },
   "summary": {
     "total": 134,
