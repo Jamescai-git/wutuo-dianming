@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="午托点名">
+<meta name="apple-mobile-web-app-title" content="宇才教育">
 <meta name="format-detection" content="telephone=no">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
@@ -483,7 +483,7 @@ table.tb td{font-variant-numeric:tabular-nums;}
    ===================================================================== */
 
 /* ---------------------- 常量 ---------------------- */
-var APP_VERSION = "1.5.0";
+var APP_VERSION = "1.6.0";
 var DB_NAME = "wudian-db";
 /* v1.4：培训四张表（trTeachers / trStudents / trCourses / trAttendance）
    v1.5：新增 trSubjects（培训科目档案）—— 只做加法，不动已有表，午托数据零迁移 */
@@ -1786,9 +1786,84 @@ function colorFor(name) {
   return PALETTE[h % PALETTE.length];
 }
 
-function renderGridOnly() {
+/* ---------------------- v1.6 重排动画（WAAPI + FLIP） ----------------------
+   只在「用户标记 / 改状态 / 撤销 / 清除记录」导致卡片真实重排时播放；
+   首次加载、搜索、筛选、切换日期、切换模式一律不播。
+   起点用 offsetLeft/offsetTop（纯布局值，不受正在运行的 transform 干扰），
+   终点即重建后的新布局：从 translate3d(dx, dy, 0) 回到 translate3d(0, 0, 0)。 */
+var MOTION_MS = 200;                                  /* 180-220ms 之间 */
+var MOTION_EASE = "cubic-bezier(0.23, 1, 0.32, 1)";
+var MOTION_REDUCE_MS = 140;                           /* 减少动态效果时只做 ≤150ms 透明度 */
+var reduceMq = (window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null);
+
+function prefersReducedMotion() { return !!(reduceMq && reduceMq.matches); }
+
+/* 重建前的卡片布局快照：id -> 布局坐标 */
+function snapshotCardLayout() {
+  var out = {}, grid = $("#grid");
+  if (!grid) return out;
+  var cards = grid.querySelectorAll(".card");
+  for (var i = 0; i < cards.length; i++) {
+    var c = cards[i];
+    if (c.dataset.id) out[c.dataset.id] = { x: c.offsetLeft, y: c.offsetTop };
+  }
+  return out;
+}
+
+/* 重建后按新布局反向算位移并播放；clickedId 只用于减少动态效果时的轻反馈 */
+function playReflowMotion(prev, clickedId) {
   var grid = $("#grid");
   if (!grid) return;
+  var cards = grid.querySelectorAll(".card");
+  var reduce = prefersReducedMotion();
+  var jobs = [];
+
+  /* 先一次性读完布局，再统一触发动画，避免读写交错导致反复重排 */
+  for (var i = 0; i < cards.length; i++) {
+    var card = cards[i];
+    var old = prev[card.dataset.id];
+    if (!old) continue;                       /* 新出现的卡片不做入场动画 */
+    var dx = old.x - card.offsetLeft;
+    var dy = old.y - card.offsetTop;
+    if (!dx && !dy) continue;                 /* 位置没变就不动 */
+    jobs.push({ card: card, dx: dx, dy: dy });
+  }
+  if (!jobs.length) return;
+
+  jobs.forEach(function (job) {
+    var card = job.card;
+    if (!card.animate) { return; }            /* 不支持 WAAPI：直接完成重排 */
+
+    if (reduce) {
+      /* 减少动态效果：不产生上下位移，只给被点的卡片一点点透明度反馈 */
+      if (card.dataset.id !== clickedId) return;
+      card.setAttribute("data-motion", "fade");
+      var fade = card.animate([{ opacity: 0.72 }, { opacity: 1 }],
+        { duration: MOTION_REDUCE_MS, easing: "ease-out" });
+      var cleanFade = function () { card.removeAttribute("data-motion"); };
+      if (fade.finished && fade.finished.then) fade.finished.then(cleanFade, cleanFade);
+      else setTimeout(cleanFade, MOTION_REDUCE_MS + 40);
+      return;
+    }
+
+    /* 落到下方 = drop；补位向上 = float-up；纯横向移动 = shift */
+    var kind = job.dy < 0 ? "drop" : (job.dy > 0 ? "float-up" : "shift");
+    card.setAttribute("data-motion", kind);
+    var anim = card.animate([
+      { transform: "translate3d(" + job.dx + "px, " + job.dy + "px, 0)" },
+      { transform: "translate3d(0, 0, 0)" }
+    ], { duration: MOTION_MS, easing: MOTION_EASE });
+    var done = function () { card.removeAttribute("data-motion"); };
+    if (anim.finished && anim.finished.then) anim.finished.then(done, done);
+    else setTimeout(done, MOTION_MS + 60);
+  });
+}
+
+/* motion 为空 = 不播动画；motion = { clickedId } = 按真实重排播 FLIP */
+function renderGridOnly(motion) {
+  var grid = $("#grid");
+  if (!grid) return;
+  var prev = motion ? snapshotCardLayout() : null;
   var list = sortStudents(activeStudents()).filter(matchFilters);
   /* v1.2：未点名的始终在上，已点名的沉底；两组内部都保持年级升序 */
   list.sort(function (a, b) {
@@ -1807,6 +1882,10 @@ function renderGridOnly() {
   });
   grid.innerHTML = "";
   grid.appendChild(frag);
+
+  /* v1.6：只有用户操作导致的真实重排才播补位动画 */
+  if (prev) playReflowMotion(prev, (motion && motion.clickedId) || "");
+
   var eh = $("#gridEmpty");
   if (eh) {
     if (!list.length) {
@@ -1861,7 +1940,7 @@ function applyStatus(sid, status) {
   return idbPut("records", rec).then(function () {
     S.records.set(key, rec);
     pushUndo({ key: key, studentId: sid, date: S.date, slot: S.slot, prev: cur ? cloneRec(cur) : null });
-    renderGridOnly();     /* 重新排序：已点名的沉到底部 */
+    renderGridOnly({ clickedId: sid });     /* 重新排序：已点名的沉到底部，并按新布局播补位动画 */
     return { changed: true };
   });
 }
@@ -1906,7 +1985,7 @@ function openStudentSheet(sid) {
         idbDel("records", key).then(function () {
           S.records.delete(key);
           pushUndo({ key: key, studentId: sid, date: S.date, slot: S.slot, prev: cloneRec(prev) });
-          renderGridOnly(); closeSheet();
+          renderGridOnly({ clickedId: sid }); closeSheet();
           toast("已清除 " + s.name + " 的本次记录");
         });
       });
@@ -1929,7 +2008,7 @@ function undoOnce() {
     if (op.date !== S.date || op.slot !== S.slot) {
       S.date = op.date; S.slot = op.slot; savePref(); render();
     } else {
-      renderGridOnly();
+      renderGridOnly({ clickedId: op.studentId });
     }
     var stName = op.prev ? ST[op.prev.status].n : "未点";
     toast("已撤销，恢复为「" + stName + "」");
@@ -3896,6 +3975,19 @@ window.__test = {
   trExportAttendanceCsv: trExportAttendanceCsv,
   trExportStudentCsv: trExportStudentCsv,
   trExportTeacherCsv: trExportTeacherCsv,
+  /* v1.6 重排动画：只读观测，不影响业务 */
+  motion: {
+    duration: MOTION_MS,
+    easing: MOTION_EASE,
+    reduceDuration: MOTION_REDUCE_MS,
+    reduced: prefersReducedMotion,
+    active: function () { return document.querySelectorAll("#grid .card[data-motion]").length; },
+    kinds: function () {
+      return Array.prototype.map.call(
+        document.querySelectorAll("#grid .card[data-motion]"),
+        function (c) { return c.dataset.motion; });
+    }
+  },
   appVersion: APP_VERSION
 };
 

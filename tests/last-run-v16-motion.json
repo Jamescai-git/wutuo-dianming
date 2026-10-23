@@ -1,0 +1,374 @@
+{
+  "checks": [
+    {
+      "name": "manifest name 精确为「宇才教育」",
+      "ok": true,
+      "detail": "期望 宇才教育，实际 宇才教育"
+    },
+    {
+      "name": "manifest short_name 精确为「宇才教育」",
+      "ok": true,
+      "detail": "期望 宇才教育，实际 宇才教育"
+    },
+    {
+      "name": "apple-mobile-web-app-title 精确为「宇才教育」",
+      "ok": true,
+      "detail": "期望 宇才教育，实际 宇才教育"
+    },
+    {
+      "name": "页面业务标题保持不变",
+      "ok": true,
+      "detail": "期望 午托点名，实际 午托点名"
+    },
+    {
+      "name": "页面内仍是午托点名 / 培训签到业务名",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "APP_VERSION 为 1.6.0",
+      "ok": true,
+      "detail": "期望 1.6.0，实际 1.6.0"
+    },
+    {
+      "name": "Service Worker 版本升到 wudian-v1.6.0",
+      "ok": true,
+      "detail": "wudian-v1.6.0"
+    },
+    {
+      "name": "缓存壳版本号与 APP 版本一致（无旧 v1.5.0 残留）",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "IndexedDB 版本仍为 3（本轮不迁移）",
+      "ok": true,
+      "detail": "期望 3，实际 3"
+    },
+    {
+      "name": "八张业务表齐全（午托 4 + 培训 5）",
+      "ok": true,
+      "detail": "avatars,kv,records,students,trAttendance,trCourses,trStudents,trSubjects,trTeachers"
+    },
+    {
+      "name": "重排动画参数在 180-220ms 之间",
+      "ok": true,
+      "detail": "200ms"
+    },
+    {
+      "name": "动画曲线为 cubic-bezier(0.23, 1, 0.32, 1)",
+      "ok": true,
+      "detail": "期望 cubic-bezier(0.23, 1, 0.32, 1)，实际 cubic-bezier(0.23, 1, 0.32, 1)"
+    },
+    {
+      "name": "播种后点名页 8 张卡片",
+      "ok": true,
+      "detail": "期望 8，实际 8"
+    },
+    {
+      "name": "初始全部未点",
+      "ok": true,
+      "detail": "期望 8，实际 8"
+    },
+    {
+      "name": "初始没有动画标记",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "初始卡片无 transform",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "被点卡片带 data-motion=drop",
+      "ok": true,
+      "detail": "shift,float-up,drop"
+    },
+    {
+      "name": "其后未点卡片带 data-motion=float-up",
+      "ok": true,
+      "detail": "float-up 卡片 3 张：stu-v16-3,stu-v16-5,stu-v16-7"
+    },
+    {
+      "name": "被点卡片早期在最终位置上方（向下落位观感）",
+      "ok": true,
+      "detail": "早期 277.19 → 终态 631.19"
+    },
+    {
+      "name": "drop 关键帧从负向 Y 位移归零",
+      "ok": true,
+      "detail": "translate3d(-188px, -354px, 0px) | translate3d(0px, 0px, 0px)"
+    },
+    {
+      "name": "补位卡片早期在下方（向上漂浮观感）",
+      "ok": true,
+      "detail": "stu-v16-3 395.19→277.19; stu-v16-5 513.19→395.19; stu-v16-7 631.19→513.19"
+    },
+    {
+      "name": "C 卡片（跨行补位）也在 float-up 名单内",
+      "ok": true,
+      "detail": "stu-v16-3,stu-v16-5,stu-v16-7"
+    },
+    {
+      "name": "动画期间卡片确实带有位移 transform",
+      "ok": true,
+      "detail": "带 transform 帧 14/33"
+    },
+    {
+      "name": "动画结束后无 data-motion 残留",
+      "ok": true,
+      "detail": "0 张"
+    },
+    {
+      "name": "动画结束后所有卡片 transform 归位",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "动画结束后 DOM 顺序与数据一致",
+      "ok": true,
+      "detail": "期望 stu-v16-2,stu-v16-3,stu-v16-4,stu-v16-5,stu-v16-6,stu-v16-7,stu-v16-8,stu-v16-1，实际 stu-v16-2,stu-v16-3,stu-v16-4,stu-v16-5,stu-v16-6,stu-v16-7,stu-v16-8,stu-v16-1"
+    },
+    {
+      "name": "被点卡片落到已点区域末尾",
+      "ok": true,
+      "detail": "期望 stu-v16-1，实际 stu-v16-1"
+    },
+    {
+      "name": "本轮只有一张卡片写入记录",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "被点卡片记录状态为「到」",
+      "ok": true,
+      "detail": "期望 dao，实际 dao"
+    },
+    {
+      "name": "未点人数减 1",
+      "ok": true,
+      "detail": "7"
+    },
+    {
+      "name": "幂等点击不播重排动画",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "幂等点击不重复写记录",
+      "ok": true,
+      "detail": "期望 1，实际 1"
+    },
+    {
+      "name": "幂等点击后排序不变",
+      "ok": true,
+      "detail": "期望 stu-v16-2,stu-v16-3,stu-v16-4,stu-v16-5,stu-v16-6,stu-v16-7,stu-v16-8,stu-v16-1，实际 stu-v16-2,stu-v16-3,stu-v16-4,stu-v16-5,stu-v16-6,stu-v16-7,stu-v16-8,stu-v16-1"
+    },
+    {
+      "name": "幂等点击后卡片无位移 transform",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "快速连点后记录数 = 4",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "快速连点后未点 4 人",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "快速连点后 4 条记录都存在且为「到」",
+      "ok": true,
+      "detail": "stu-v16-2,stu-v16-3,stu-v16-4"
+    },
+    {
+      "name": "快速连点后 DOM 顺序正确",
+      "ok": true,
+      "detail": "期望 stu-v16-5,stu-v16-6,stu-v16-7,stu-v16-8,stu-v16-1,stu-v16-2,stu-v16-3,stu-v16-4，实际 stu-v16-5,stu-v16-6,stu-v16-7,stu-v16-8,stu-v16-1,stu-v16-2,stu-v16-3,stu-v16-4"
+    },
+    {
+      "name": "快速连点后无重复卡片",
+      "ok": true,
+      "detail": "期望 8，实际 8"
+    },
+    {
+      "name": "快速连点后无 data-motion 残留",
+      "ok": true,
+      "detail": "0 张"
+    },
+    {
+      "name": "快速连点后所有卡片 transform 归位",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "撤销后排序回到真实顺序",
+      "ok": true,
+      "detail": "stu-v16-4,stu-v16-5,stu-v16-6,stu-v16-7,stu-v16-8,stu-v16-1,stu-v16-2,stu-v16-3"
+    },
+    {
+      "name": "撤销后仍未点 5 人",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "name": "撤销过程未残留动画标记",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "撤销前后不是同一顺序（确有重排）",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "搜索重绘不播动画",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "搜索命中 4 人",
+      "ok": true,
+      "detail": "期望 4，实际 4"
+    },
+    {
+      "name": "筛选切换不播动画",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "筛选未点后 5 张卡片",
+      "ok": true,
+      "detail": "期望 5，实际 5"
+    },
+    {
+      "name": "切换日期不播动画",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "切到前一天全部未点",
+      "ok": true,
+      "detail": "期望 8，实际 8"
+    },
+    {
+      "name": "切换模式不播点名重排动画",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "切回午托后记录仍在（未点 5 人）",
+      "ok": true,
+      "detail": "期望 5，实际 5"
+    },
+    {
+      "name": "切回午托后无动画残留",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "重载后没有正在运行的卡片动画",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "首屏加载不播入场动画",
+      "ok": true,
+      "detail": "无标记"
+    },
+    {
+      "name": "首屏卡片无位移 transform",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "首屏卡片无 transform",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "首屏卡片数 8",
+      "ok": true,
+      "detail": "期望 8，实际 8"
+    },
+    {
+      "name": "已进入减少动态效果模式",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "减少动态效果时无 drop / float-up 位移标记",
+      "ok": true,
+      "detail": "fade"
+    },
+    {
+      "name": "减少动态效果时卡片全程无位移 transform",
+      "ok": true,
+      "detail": "带 transform 帧 0/29"
+    },
+    {
+      "name": "减少动态效果时关键帧里没有 translate3d 位移",
+      "ok": true,
+      "detail": " | "
+    },
+    {
+      "name": "减少动态效果时重排立即完成",
+      "ok": true,
+      "detail": "期望 stu-v16-5,stu-v16-6,stu-v16-7,stu-v16-8,stu-v16-1,stu-v16-2,stu-v16-3,stu-v16-4，实际 stu-v16-5,stu-v16-6,stu-v16-7,stu-v16-8,stu-v16-1,stu-v16-2,stu-v16-3,stu-v16-4"
+    },
+    {
+      "name": "减少动态效果时顺序确有变化",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "减少动态效果时记录照常写入",
+      "ok": true,
+      "detail": "期望 dao，实际 dao"
+    },
+    {
+      "name": "减少动态效果后无动画残留",
+      "ok": true,
+      "detail": "0 张"
+    },
+    {
+      "name": "减少动态效果后卡片无 transform",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "点名页 390×844 无横向滚动",
+      "ok": true,
+      "detail": "390/390/390"
+    },
+    {
+      "name": "点名页无乱码字符",
+      "ok": true,
+      "detail": "无 U+FFFD"
+    },
+    {
+      "name": "点名页无外部网络资源",
+      "ok": true,
+      "detail": "外部资源 0 个"
+    },
+    {
+      "name": "截图状态为部分已点、未点在上",
+      "ok": true,
+      "detail": "已点 4 / 未点 4"
+    }
+  ],
+  "fatal": null,
+  "screenshots": [
+    "C:\\Users\\James\\Documents\\ChatGPT\\培训\\午托点名\\screenshots\\v16-roll-motion.png"
+  ],
+  "version": "1.6.0",
+  "summary": {
+    "total": 72,
+    "passed": 72,
+    "failed": 0
+  }
+}

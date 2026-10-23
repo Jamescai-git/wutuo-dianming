@@ -451,7 +451,7 @@ JS_V14 = r"""
   };
 
   await T.ready();
-  eq("版本号为 1.5.0", X.appVersion, "1.5.0");
+  eq("版本号为 1.6.0", X.appVersion, "1.6.0");
   ok("v1.4 测试钩子完整",
      ["trSaveSignin","trFindConflicts","trCourseStats","trStudentStats","trTeacherStats","trCsvText"]
        .every(k => typeof X[k] === "function"));
@@ -662,7 +662,7 @@ JS_V14_RELOAD = r"""
     {name:"刷新后 v1.4 四节课仍在", ok:cs.length === 4, detail:"实际 " + cs.length},
     {name:"刷新后 v1.4 六条明细仍在", ok:!!c1 && T.listAttendance(c1.id).length === 3, detail:c1 ? T.listAttendance(c1.id).length : "未找到首课"},
     {name:"刷新后调课结果仍在", ok:!!moved, detail:moved ? moved.startTime : "未找到调课"},
-    {name:"刷新后版本仍为 1.5.0", ok:X.appVersion === "1.5.0", detail:X.appVersion}
+    {name:"刷新后版本仍为 1.6.0", ok:X.appVersion === "1.6.0", detail:X.appVersion}
   ]};
 })()
 """

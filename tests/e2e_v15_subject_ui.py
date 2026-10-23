@@ -207,11 +207,11 @@ JS_SETUP = r"""
 
   await T.ready();
   eq_guard: {
-    if (X.appVersion !== "1.5.0") {
-      checks.push({name:"版本号为 1.5.0", ok:false, detail:X.appVersion});
+    if (X.appVersion !== "1.6.0") {
+      checks.push({name:"版本号为 1.6.0", ok:false, detail:X.appVersion});
       return {checks, fatal:"版本不对"};
     }
-    checks.push({name:"版本号为 1.5.0", ok:true, detail:X.appVersion});
+    checks.push({name:"版本号为 1.6.0", ok:true, detail:X.appVersion});
   }
 
   /* 测试统一从午托模式开始，再切入培训模式 */
@@ -585,7 +585,7 @@ JS_AFTER_RELOAD = r"""
   const ids = window.__ids;
 
   await T.ready();
-  eq("刷新后版本仍 1.5.0", X.appVersion, "1.5.0");
+  eq("刷新后版本仍 1.6.0", X.appVersion, "1.6.0");
   eq("刷新后科目仍 5 个（冷门旧文本文本被归档）", X.trCounts().subjects, 5);
   const zhao = T.getTeacher(ids.T1);
   eq("刷新后赵老师 subjectIds 仍在（合成文本不再归档）", zhao.subjectIds.length, 3);

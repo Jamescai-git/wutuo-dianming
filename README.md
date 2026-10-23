@@ -1,6 +1,8 @@
-# 午托点名 PWA v1.5.0（午托点名 + 培训签到）
+# 午托点名 PWA v1.6.0（宇才教育 · 午托点名 + 培训签到）
 
 iPhone 优先的单机网页应用：午托点名和培训签到分成两套独立档案、两套底部导航（模式切换互不干扰）。断网可用，数据只保存在当前浏览器的 IndexedDB 中，不依赖账号或业务服务器。
+
+**v1.6 新增手机桌面品牌名与点名重排动画**：添加到主屏幕后的应用名称统一显示「宇才教育」（`manifest` 的 `name` / `short_name` 与 `apple-mobile-web-app-title`），页面内部业务标题仍是「午托点名」；午托点名点击学生后，卡片按真实重排位置播放 200ms 的位移动画——被点的卡片向下进入已点名区域，其后的未点卡片向上补位；开启「减少动态效果」时不做上下位移，只保留极轻微反馈。
 
 **v1.5 新增科目档案**：科目独立建档（名称 / 备注 / 启用状态），一位老师可任教多个科目；签到新建课程必须从科目档案选科目（老师任教科目优先，没配置科目时回退全部启用科目）；课程卡片、明细、统计和 CSV 都显示科目名称；旧版本的科目文本会在升级时自动迁移成科目档案。
 
@@ -11,7 +13,7 @@ iPhone 优先的单机网页应用：午托点名和培训签到分成两套独�
 ## 模式隔离与导航
 
 - 打开应用后顶部有「午托 / 培训」二段模式切换，记住上次位置。
-- **午托模式**底部导航：点名 / 名单 / 记录 / 数据（状态笔、进度条只在这里出现）。
+- **午托模式**底部导航：点名 / 名单 / 记录（状态笔、进度条只在这里出现）。
 - **培训模式**底部导航：签到 / 档案 / 统计 / 概况。
 - 两套模式的学生档案、课程与签到数据完全隔离，互不读写。
 
@@ -19,12 +21,31 @@ iPhone 优先的单机网页应用：午托点名和培训签到分成两套独�
 
 | 模块 | 能力 |
 |---|---|
-| 午托点名 | 日期切换、到 / 请假 / 值日、未点名优先显示、搜索筛选、连续撤销最近 20 步、长按改状态 |
+| 午托点名 | 日期切换、到 / 请假 / 值日、未点名优先显示、点击后按真实位置播放落位补位动画、搜索筛选、连续撤销最近 20 步、长按改状态 |
 | 午托名单 | 新增 / 编辑 / 停用 / 删除、拍照或相册头像、批量粘贴导入、CSV 导出 |
 | 午托记录 | 按日查看、单人历史、月度统计、CSV 导出、JSON 全量备份与恢复 |
 | 培训签到 | 日期与起止时间、老师、科目（下拉必选）、备注、多选学生、逐人标出勤 / 迟到 / 请假、当日课程卡片、修改课程、删除课程 |
 | 培训档案 | 「学生 / 老师 / 科目」三个内部页签；培训学生、培训老师（一师多科）与科目档案（搜索、只看启用、启停、删除保护）；与午托名单完全隔离 |
 | 培训统计 | 按当日 / 本周 / 本月；按学生看上课次数与状态；按老师看上课节数、授课人次和状态；按科目归并（优先按科目 ID，旧文本回退）；导出 CSV |
+
+## 手机桌面名称与点名重排动画（v1.6）
+
+### 桌面名称
+
+- `manifest.webmanifest` 的 `name` 与 `short_name` 都是 **宇才教育**；iOS 的 `apple-mobile-web-app-title` 同样是 **宇才教育**。
+- 页面内部业务标题（标题栏与页面内容）仍为「午托点名 / 培训签到」，不受影响。
+- 图标继续用本地 `icons/180·192·512`，没有新增品牌图片。
+- 已经装到桌面的旧图标要改名字，需要在手机上先删除图标，再重新「添加到主屏幕」（浏览器按安装时的清单缓存名称）。
+
+### 重排动画
+
+- 只在**用户操作导致卡片真实换位**时播放：标记状态、长按改状态、撤销、清除记录。
+- **不播**：首次加载、搜索、筛选、切换日期、切换模式、来回切页签。
+- 做法是原生 WAAPI + FLIP：重建前用 `offsetLeft / offsetTop` 记录布局（纯布局值，不受正在跑的 transform 干扰），重建后以新布局为终点反向算出位移，从 `translate3d(dx, dy, 0)` 回到 `translate3d(0, 0, 0)`；只用 `transform`，不动 `top/left/margin/尺寸`。
+- 时长 200ms，曲线 `cubic-bezier(0.23, 1, 0.32, 1)`：被点的卡片向下落进已点名区域，其后的未点卡片向上补位，克制、不庆祝。
+- 快速连点不等上一轮结束：每轮按当时真实布局重新算，业务写入不排队、不阻塞。
+- 动画中的卡片带临时标记 `data-motion="drop" / "float-up" / "shift"`，动画结束或取消即清除，不影响样式和点击。
+- 系统开启「减少动态效果」（`prefers-reduced-motion: reduce`）时不做上下位移，卡片瞬间换位。
 
 ## 科目档案与一师多科
 
@@ -80,8 +101,9 @@ iPhone 优先的单机网页应用：午托点名和培训签到分成两套独�
 
 1. iPhone 用 Safari，安卓用 Chrome 打开部署地址。
 2. iPhone：分享 → **添加到主屏幕**；安卓：菜单 → **添加到主屏幕 / 安装应用**。
-3. 首次联网打开一次，之后 Service Worker 会缓存外壳，断网也能打开。
-4. 数据存在当前浏览器。清理网站数据、卸载浏览器或换设备前，先导出 JSON 备份。
+3. 桌面图标名称显示为 **宇才教育**（v1.6 起的清单名称），点进去仍是午托点名应用。
+4. 首次联网打开一次，之后 Service Worker 会缓存外壳，断网也能打开。
+5. 数据存在当前浏览器。清理网站数据、卸载浏览器或换设备前，先导出 JSON 备份。
 
 ## 三、备份与恢复
 
@@ -99,14 +121,20 @@ C:\Users\James\.workbuddy\binaries\python\envs\default\Scripts\python.exe tests\
 C:\Users\James\.workbuddy\binaries\python\envs\default\Scripts\python.exe tests\e2e_v15_data.py
 C:\Users\James\.workbuddy\binaries\python\envs\default\Scripts\python.exe tests\e2e_v15_navigation.py
 C:\Users\James\.workbuddy\binaries\python\envs\default\Scripts\python.exe tests\e2e_v15_subject_ui.py
+C:\Users\James\.workbuddy\binaries\python\envs\default\Scripts\python.exe tests\e2e_v16_animation.py
 ```
 
-四套端到端测试覆盖：数据隔离、档案 CRUD、科目档案与一师多科、签到选科（必选 / 自动预选 / 交集候选）、旧数据迁移、备份兼容、签到三状态、未标状态拦截、学生时段冲突、调课、统计按科目归并、CSV BOM、刷新持久化、午托回归，以及 390×844 手机视口无横向滚动、无乱码、无外部资源。
+五套端到端测试覆盖：数据隔离、档案 CRUD、科目档案与一师多科、签到选科（必选 / 自动预选 / 交集候选）、旧数据迁移、备份兼容、签到三状态、未标状态拦截、学生时段冲突、调课、统计按科目归并、CSV BOM、刷新持久化、午托回归，以及 390×844 手机视口无横向滚动、无乱码、无外部资源。
 
-测试报告：`tests/last-run.json`（主套件）、`tests/last-run-v15.json`（科目数据层）、`tests/last-run-v15-nav.json`（模式导航）、`tests/last-run-v15-subject-ui.json`（科目 UI）
+`e2e_v16_animation.py` 另外覆盖：桌面名称与 `apple-mobile-web-app-title` 精确为「宇才教育」、版本 1.6.0 与 SW 缓存版本、DB_VER 仍为 3；点击后逐帧采样验证被点卡片向下落位（`data-motion=drop`，起点在终点上方）、其后未点卡片向上补位（`data-motion=float-up`，起点在终点下方）；动画结束后 transform 归零、DOM 顺序与数据一致；同状态幂等点击不播动画、不重复写；快速连点三人不丢数据；搜索 / 筛选 / 切日期 / 切模式 / 首屏加载一律不播动画；`prefers-reduced-motion: reduce` 下无上下位移。
+
+> 无头 Edge 的 `prefers-reduced-motion` 默认就是 `reduce`，测试脚本会先用 `Emulation.setEmulatedMedia` 显式设成 `no-preference` 再验证正常动画。
+
+测试报告：`tests/last-run.json`（主套件）、`tests/last-run-v15.json`（科目数据层）、`tests/last-run-v15-nav.json`（模式导航）、`tests/last-run-v15-subject-ui.json`（科目 UI）、`tests/last-run-v16-motion.json`（品牌名与重排动画）
 
 界面截图（390×844）：
 
+- `screenshots/v16-roll-motion.png` 午托点名（部分已点，未点在上）
 - `screenshots/v15-training-signin.png` 培训签到
 - `screenshots/v15-training-subjects.png` 培训档案 - 科目
 - `screenshots/v15-training-stats.png` 培训统计
@@ -154,7 +182,8 @@ C:\Users\James\.workbuddy\binaries\python\envs\default\Scripts\python.exe tests\
 
 ## 技术说明
 
-- 数据存储：IndexedDB。午托使用 `students / records / avatars`；培训使用 `trTeachers / trStudents / trSubjects / trCourses / trAttendance`。数据库只做加法升级（v1.4→v1.5 自动新增 `trSubjects` 并迁移旧科目文本）。
+- 数据存储：IndexedDB。午托使用 `students / records / avatars`；培训使用 `trTeachers / trStudents / trSubjects / trCourses / trAttendance`。数据库只做加法升级（v1.4→v1.5 自动新增 `trSubjects` 并迁移旧科目文本；v1.6 不动表结构，DB_VER 仍为 3）。
+- 点名重排动画：原生 WAAPI + FLIP，`renderGridOnly()` 只在用户操作导致重排时接收 `{clickedId}` 参数并播放；曲线与时长见上文，无动画库、无外部资源。`window.__test.motion` 只读暴露时长 / 曲线 / 当前标记数，供自测观测。
 - 培训科目：老师挂 `subjectIds` 数组（一师多科）；课程保存 `subjectId + subjectName` 名称快照，科目改名不改历史。
 - 签到明细主键为 `courseId|studentId`，同一课程内幂等，同一学生一天可跨多节课记录。
 - 培训对外 API：`window.Training`，含档案、课程、签到明细、快照恢复等接口。
