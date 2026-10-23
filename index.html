@@ -170,6 +170,12 @@ input[type=date]{-webkit-appearance:none; appearance:none;}
   min-height:108px; overflow:hidden;
 }
 .card:active{transform:scale(.965);}
+/* v1.6.1：落位 / 补位期间抬高被操作卡片层级，避免被补位卡片盖住；
+   同时关掉 130ms 的 CSS transform 过渡，免得它和 WAAPI 抢 transform
+   （动画结束立即移除 data-motion，过渡恢复）。 */
+.card[data-motion]{will-change:transform; transition:none;}
+.card[data-motion="drop"]{z-index:6; box-shadow:0 14px 26px rgba(38,32,24,.16);}
+.card[data-motion="float-up"],.card[data-motion="shift"]{z-index:2;}
 .card .dot{position:absolute; top:7px; right:7px; width:8px; height:8px; border-radius:50%; background:var(--line);}
 /* 主显示名：>=22px / 700 / 单行不截断 */
 .card .nm{
@@ -333,6 +339,11 @@ input[type=date]{-webkit-appearance:none; appearance:none;}
 .sec h2{margin:0; font-size:13px; font-weight:600; color:var(--muted); letter-spacing:.3px;}
 .sec .act{font-size:12px; color:var(--accent); font-weight:600;}
 .panel{background:var(--card); border:1px solid var(--line-2); border-radius:var(--r); padding:12px; box-shadow:var(--shadow-s);}
+/* v1.6.1：页面最底部的小版本标记（克制、不抢主内容，用于判断缓存是否已更新） */
+.verline{
+  margin:14px 0 6px; text-align:center; font-size:11px; letter-spacing:.4px;
+  color:var(--muted-2); font-variant-numeric:tabular-nums; user-select:all;
+}
 .actions{display:flex; gap:8px; flex-wrap:wrap;}
 .actions .btn{flex:1 1 40%; height:44px; font-size:13.5px;}
 .seg{display:flex; gap:4px; background:var(--line-2); padding:3px; border-radius:11px; margin:10px 0 6px;}
@@ -483,7 +494,7 @@ table.tb td{font-variant-numeric:tabular-nums;}
    ===================================================================== */
 
 /* ---------------------- 常量 ---------------------- */
-var APP_VERSION = "1.6.0";
+var APP_VERSION = "1.6.1";
 var DB_NAME = "wudian-db";
 /* v1.4：培训四张表（trTeachers / trStudents / trCourses / trAttendance）
    v1.5：新增 trSubjects（培训科目档案）—— 只做加法，不动已有表，午托数据零迁移 */
@@ -1786,13 +1797,25 @@ function colorFor(name) {
   return PALETTE[h % PALETTE.length];
 }
 
-/* ---------------------- v1.6 重排动画（WAAPI + FLIP） ----------------------
+/* ---------------------- v1.6.1 两段式重排动画（WAAPI + FLIP） ----------------------
    只在「用户标记 / 改状态 / 撤销 / 清除记录」导致卡片真实重排时播放；
    首次加载、搜索、筛选、切换日期、切换模式一律不播。
    起点用 offsetLeft/offsetTop（纯布局值，不受正在运行的 transform 干扰），
-   终点即重建后的新布局：从 translate3d(dx, dy, 0) 回到 translate3d(0, 0, 0)。 */
-var MOTION_MS = 200;                                  /* 180-220ms 之间 */
-var MOTION_EASE = "cubic-bezier(0.23, 1, 0.32, 1)";
+   终点即重建后的新布局：从 translate3d(dx, dy, 0) 回到 translate3d(0, 0, 0)。
+
+   v1.6.1 改动（老蔡 2026-10-23 实测：被点卡片"像直接消失"）：
+     · 落位从 200ms 拉到 320ms，曲线换成前段平缓的 cubic-bezier(0.22,0.61,0.36,1)；
+     · 起手 12% 时长停在原格（顺便轻微放大 1.035），让眼睛先捕获"就是这张"；
+     · 位移走 12% → 80%，末段 80% → 100% 收掉 scale，落到新位置后完全复原；
+     · 补位卡片延后 70ms 启动、260ms 走完，用 fill:"both" 把延迟期锁在旧位置，
+       于是"先落、后补"的主次看得清，也不会先闪到新位置再动画。 */
+var MOTION_DROP_MS = 320;                             /* 被点卡片落位总时长 */
+var MOTION_FLOAT_MS = 260;                            /* 未点卡片补位时长 */
+var MOTION_FLOAT_DELAY = 70;                          /* 补位延后启动 */
+var MOTION_SHIFT_MS = 240;                            /* 纯横向移动 */
+var MOTION_MS = MOTION_DROP_MS;                       /* 兼容旧钩子名 */
+var MOTION_EASE = "cubic-bezier(0.22, 0.61, 0.36, 1)";/* 前段平缓，不再 30ms 走完大半 */
+var MOTION_DPR = 1.035;                               /* 落位途中的轻微放大 */
 var MOTION_REDUCE_MS = 140;                           /* 减少动态效果时只做 ≤150ms 透明度 */
 var reduceMq = (window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null);
 
@@ -1840,7 +1863,10 @@ function playReflowMotion(prev, clickedId) {
       card.setAttribute("data-motion", "fade");
       var fade = card.animate([{ opacity: 0.72 }, { opacity: 1 }],
         { duration: MOTION_REDUCE_MS, easing: "ease-out" });
-      var cleanFade = function () { card.removeAttribute("data-motion"); };
+      var cleanFade = function () {
+        try { fade.cancel(); } catch (e) {}
+        card.removeAttribute("data-motion");
+      };
       if (fade.finished && fade.finished.then) fade.finished.then(cleanFade, cleanFade);
       else setTimeout(cleanFade, MOTION_REDUCE_MS + 40);
       return;
@@ -1848,14 +1874,46 @@ function playReflowMotion(prev, clickedId) {
 
     /* 落到下方 = drop；补位向上 = float-up；纯横向移动 = shift */
     var kind = job.dy < 0 ? "drop" : (job.dy > 0 ? "float-up" : "shift");
+    var from = "translate3d(" + job.dx + "px, " + job.dy + "px, 0)";
+    var zero = "translate3d(0, 0, 0)";
+    var frames, opts;
+
+    if (kind === "drop") {
+      /* 停留(0→10%) → 轻放大并下落(10%→82%) → 到位收 scale(82%→100%) */
+      frames = [
+        { transform: from + " scale(1)", offset: 0 },
+        { transform: from + " scale(" + MOTION_DPR + ")", offset: 0.10 },
+        { transform: zero + " scale(" + MOTION_DPR + ")", offset: 0.82 },
+        { transform: zero + " scale(1)", offset: 1 }
+      ];
+      opts = { duration: MOTION_DROP_MS, easing: MOTION_EASE };
+    } else if (kind === "float-up") {
+      /* fill:"both" + delay：延迟期锁在旧位置，绝不先闪到新位置再动 */
+      frames = [
+        { transform: from, offset: 0 },
+        { transform: zero, offset: 1 }
+      ];
+      opts = {
+        duration: MOTION_FLOAT_MS, delay: MOTION_FLOAT_DELAY,
+        easing: MOTION_EASE, fill: "both"
+      };
+    } else {
+      frames = [
+        { transform: from, offset: 0 },
+        { transform: zero, offset: 1 }
+      ];
+      opts = { duration: MOTION_SHIFT_MS, easing: MOTION_EASE };
+    }
+
     card.setAttribute("data-motion", kind);
-    var anim = card.animate([
-      { transform: "translate3d(" + job.dx + "px, " + job.dy + "px, 0)" },
-      { transform: "translate3d(0, 0, 0)" }
-    ], { duration: MOTION_MS, easing: MOTION_EASE });
-    var done = function () { card.removeAttribute("data-motion"); };
+    var anim = card.animate(frames, opts);
+    var total = (opts.delay || 0) + opts.duration;
+    var done = function () {
+      try { anim.cancel(); } catch (e) {}      /* 抹掉动画效果，transform 立即归零 */
+      card.removeAttribute("data-motion");     /* 临时层级/阴影随之失效 */
+    };
     if (anim.finished && anim.finished.then) anim.finished.then(done, done);
-    else setTimeout(done, MOTION_MS + 60);
+    else setTimeout(done, total + 60);
   });
 }
 
@@ -2432,6 +2490,10 @@ function trInfoHtml() {
     "④ 逐人标出勤 / 迟到 / 请假；统计可按当日、本周、本月查看，按科目归并优先走科目档案。<br>" +
     "⑤ 全量备份 JSON 已包含培训五类数据（老师 / 学生 / 科目 / 课程 / 签到明细），恢复旧版午托备份不会动培训档案。" +
     "</div></div>";
+  /* v1.6.1：概况内容最底部的小版本标记 —— 老蔡用来判断在线页面是否已刷新到新版。
+     id / data-app-version 为稳定定位标识，改名会影响回归测试。 */
+  h += '<div class="verline" id="appVerBadge" data-app-version="' + APP_VERSION + '">v' +
+    APP_VERSION + "</div>";
   return h;
 }
 
@@ -3924,8 +3986,26 @@ function boot(skipPref) {
 function registerSw() {
   if (!("serviceWorker" in navigator)) return;
   if (location.protocol === "file:") return;   /* file:// 不支持 SW */
+
+  /* v1.6.1：只有「本来就有旧控制器，现在被新控制器顶掉」才自动刷新一次。
+     首次安装时 controller 从无到有，不算更新，不刷新 —— 否则会刷新循环。 */
+  if (!window.__swWatchBound) {
+    window.__swWatchBound = true;
+    var hadController = !!navigator.serviceWorker.controller;
+    var reloading = false;
+    navigator.serviceWorker.addEventListener("controllerchange", function () {
+      if (reloading) return;                       /* 已刷过一次，绝不重复 */
+      if (!hadController) { hadController = true; return; }   /* 首次安装：只接管，不刷新 */
+      reloading = true;
+      location.reload();
+    });
+  }
+
   var doReg = function () {
-    navigator.serviceWorker.register("sw.js").catch(function (err) {
+    navigator.serviceWorker.register("sw.js").then(function (reg) {
+      /* 顺手查一次是否有等待中的新版本，有就让它接管（配合 controllerchange 自动刷新） */
+      try { if (reg && reg.update) reg.update(); } catch (e) {}
+    }).catch(function (err) {
       /* 注册失败不阻塞使用，仅记录 */
       console.warn("Service Worker 注册失败：", err && err.message);
     });
@@ -3975,9 +4055,13 @@ window.__test = {
   trExportAttendanceCsv: trExportAttendanceCsv,
   trExportStudentCsv: trExportStudentCsv,
   trExportTeacherCsv: trExportTeacherCsv,
-  /* v1.6 重排动画：只读观测，不影响业务 */
+  /* v1.6.1 重排动画：只读观测，不影响业务 */
   motion: {
     duration: MOTION_MS,
+    dropDuration: MOTION_DROP_MS,
+    floatDuration: MOTION_FLOAT_MS,
+    floatDelay: MOTION_FLOAT_DELAY,
+    shiftDuration: MOTION_SHIFT_MS,
     easing: MOTION_EASE,
     reduceDuration: MOTION_REDUCE_MS,
     reduced: prefersReducedMotion,

@@ -26,17 +26,87 @@
       "detail": "true"
     },
     {
-      "name": "APP_VERSION 为 1.6.0",
+      "name": "APP_VERSION 为 1.6.1",
       "ok": true,
-      "detail": "期望 1.6.0，实际 1.6.0"
+      "detail": "期望 1.6.1，实际 1.6.1"
     },
     {
-      "name": "Service Worker 版本升到 wudian-v1.6.0",
+      "name": "被点卡片落位总时长约 320ms",
       "ok": true,
-      "detail": "wudian-v1.6.0"
+      "detail": "期望 320±20，实际 320"
     },
     {
-      "name": "缓存壳版本号与 APP 版本一致（无旧 v1.5.0 残留）",
+      "name": "补位启动延迟约 70ms",
+      "ok": true,
+      "detail": "期望 70±10，实际 70"
+    },
+    {
+      "name": "补位持续约 260ms",
+      "ok": true,
+      "detail": "期望 260±20，实际 260"
+    },
+    {
+      "name": "落位曲线改为前段平缓的 cubic-bezier(0.22, 0.61, 0.36, 1)",
+      "ok": true,
+      "detail": "cubic-bezier(0.22, 0.61, 0.36, 1)"
+    },
+    {
+      "name": "不再使用旧的 0.23,1,0.32,1 快出曲线",
+      "ok": true,
+      "detail": "cubic-bezier(0.22, 0.61, 0.36, 1)"
+    },
+    {
+      "name": "Service Worker 版本升到 wudian-v1.6.1",
+      "ok": true,
+      "detail": "wudian-v1.6.1"
+    },
+    {
+      "name": "缓存壳无旧版本残留",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "保留 skipWaiting / clients.claim",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "保留旧缓存清理逻辑",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "sw.js 有导航请求分支",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "导航请求为 network-first（fetch 在前）",
+      "ok": true,
+      "detail": "56"
+    },
+    {
+      "name": "导航请求网络失败后回退缓存（caches.match 在 fetch 之后）",
+      "ok": true,
+      "detail": "fetch@56 / caches.match@454"
+    },
+    {
+      "name": "在线拿到新页面时写回缓存（put index.html）",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "页面监听 controllerchange",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "controllerchange 里会刷新一次",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "刷新带防循环保护（reloading 标志 + 首次安装判断）",
       "ok": true,
       "detail": "true"
     },
@@ -51,14 +121,39 @@
       "detail": "avatars,kv,records,students,trAttendance,trCourses,trStudents,trSubjects,trTeachers"
     },
     {
-      "name": "重排动画参数在 180-220ms 之间",
+      "name": "培训概况页底部有稳定 DOM 标识 #appVerBadge",
       "ok": true,
-      "detail": "200ms"
+      "detail": "true"
     },
     {
-      "name": "动画曲线为 cubic-bezier(0.23, 1, 0.32, 1)",
+      "name": "版本标记文案为 v1.6.1",
       "ok": true,
-      "detail": "期望 cubic-bezier(0.23, 1, 0.32, 1)，实际 cubic-bezier(0.23, 1, 0.32, 1)"
+      "detail": "期望 v1.6.1，实际 v1.6.1"
+    },
+    {
+      "name": "版本标记 data-app-version 为 1.6.1",
+      "ok": true,
+      "detail": "期望 1.6.1，实际 1.6.1"
+    },
+    {
+      "name": "版本标记可见（有实际尺寸）",
+      "ok": true,
+      "detail": "366×15"
+    },
+    {
+      "name": "版本标记不抢主内容（字号 ≤12px 且非粗体）",
+      "ok": true,
+      "detail": "11px"
+    },
+    {
+      "name": "版本标记位于概况内容最底部",
+      "ok": true,
+      "detail": "verline"
+    },
+    {
+      "name": "版本标记不在主导航 / 统计卡片里",
+      "ok": true,
+      "detail": "true"
     },
     {
       "name": "播种后点名页 8 张卡片",
@@ -86,34 +181,104 @@
       "detail": "shift,float-up,drop"
     },
     {
+      "name": "落位动画真实时长约 320ms",
+      "ok": true,
+      "detail": "期望 320±40，实际 320"
+    },
+    {
+      "name": "落位动画正好 320ms",
+      "ok": true,
+      "detail": "期望 320，实际 320"
+    },
+    {
+      "name": "落位动画曲线为前段平缓曲线",
+      "ok": true,
+      "detail": "cubic-bezier(0.22, 0.61, 0.36, 1)"
+    },
+    {
+      "name": "落位关键帧不少于 3 段",
+      "ok": true,
+      "detail": "4 段"
+    },
+    {
+      "name": "首帧停在原格（位移为旧位置偏移、scale=1）",
+      "ok": true,
+      "detail": "translate3d(-188px, -354px, 0px) scale(1)"
+    },
+    {
+      "name": "中途有轻微放大",
+      "ok": true,
+      "detail": "1,1.035,1.035,1"
+    },
+    {
+      "name": "末帧回到原位且 scale=1",
+      "ok": true,
+      "detail": "translate3d(0px, 0px, 0px) scale(1)"
+    },
+    {
+      "name": "开头短暂停留（约 30ms 时几乎还在原格）",
+      "ok": true,
+      "detail": "已走 5%"
+    },
+    {
+      "name": "约 80ms 时处于旧位置与新位置之间（不是瞬移）",
+      "ok": true,
+      "detail": "t=79ms 已走 57%（旧 277 → 新 631）"
+    },
+    {
+      "name": "落位是连续位移而不是一帧到位",
+      "ok": true,
+      "detail": "前 200ms 带位移帧 12"
+    },
+    {
       "name": "其后未点卡片带 data-motion=float-up",
       "ok": true,
       "detail": "float-up 卡片 3 张：stu-v16-3,stu-v16-5,stu-v16-7"
     },
     {
-      "name": "被点卡片早期在最终位置上方（向下落位观感）",
+      "name": "补位动画真实延时约 70ms",
       "ok": true,
-      "detail": "早期 277.19 → 终态 631.19"
+      "detail": "期望 70±15，实际 70"
     },
     {
-      "name": "drop 关键帧从负向 Y 位移归零",
+      "name": "补位动画真实时长约 260ms",
       "ok": true,
-      "detail": "translate3d(-188px, -354px, 0px) | translate3d(0px, 0px, 0px)"
+      "detail": "期望 260±30，实际 260"
     },
     {
-      "name": "补位卡片早期在下方（向上漂浮观感）",
+      "name": "补位用 fill:both 锁住延迟期的位置",
       "ok": true,
-      "detail": "stu-v16-3 395.19→277.19; stu-v16-5 513.19→395.19; stu-v16-7 631.19→513.19"
+      "detail": "期望 both，实际 both"
     },
     {
-      "name": "C 卡片（跨行补位）也在 float-up 名单内",
+      "name": "延迟期内补位卡片基本停在旧位置（不先闪到新位置）",
       "ok": true,
-      "detail": "stu-v16-3,stu-v16-5,stu-v16-7"
+      "detail": "t=46ms 已走 -0%"
     },
     {
-      "name": "动画期间卡片确实带有位移 transform",
+      "name": "之后补位卡片向上移动到新位置",
       "ok": true,
-      "detail": "带 transform 帧 12/33"
+      "detail": "t=195ms 已走 82%；旧 395 → 新 277"
+    },
+    {
+      "name": "动画结束后 DOM 顺序与数据一致",
+      "ok": true,
+      "detail": "期望 stu-v16-2,stu-v16-3,stu-v16-4,stu-v16-5,stu-v16-6,stu-v16-7,stu-v16-8,stu-v16-1，实际 stu-v16-2,stu-v16-3,stu-v16-4,stu-v16-5,stu-v16-6,stu-v16-7,stu-v16-8,stu-v16-1"
+    },
+    {
+      "name": "被点卡片真实落到已点区域末尾（DOM 重排）",
+      "ok": true,
+      "detail": "期望 stu-v16-1，实际 stu-v16-1"
+    },
+    {
+      "name": "被点卡片布局坐标真的下移（不是只做 transform）",
+      "ok": true,
+      "detail": "布局位移 354px"
+    },
+    {
+      "name": "补位卡片布局坐标真的上移",
+      "ok": true,
+      "detail": "布局位移 118px"
     },
     {
       "name": "动画结束后无 data-motion 残留",
@@ -126,14 +291,9 @@
       "detail": "true"
     },
     {
-      "name": "动画结束后 DOM 顺序与数据一致",
+      "name": "动画结束后没有遗留 WAAPI 动画对象",
       "ok": true,
-      "detail": "期望 stu-v16-2,stu-v16-3,stu-v16-4,stu-v16-5,stu-v16-6,stu-v16-7,stu-v16-8,stu-v16-1，实际 stu-v16-2,stu-v16-3,stu-v16-4,stu-v16-5,stu-v16-6,stu-v16-7,stu-v16-8,stu-v16-1"
-    },
-    {
-      "name": "被点卡片落到已点区域末尾",
-      "ok": true,
-      "detail": "期望 stu-v16-1，实际 stu-v16-1"
+      "detail": "0 条"
     },
     {
       "name": "本轮只有一张卡片写入记录",
@@ -206,6 +366,11 @@
       "detail": "true"
     },
     {
+      "name": "快速连点后没有遗留 WAAPI 动画对象",
+      "ok": true,
+      "detail": "0 条"
+    },
+    {
       "name": "撤销后排序回到真实顺序",
       "ok": true,
       "detail": "stu-v16-4,stu-v16-5,stu-v16-6,stu-v16-7,stu-v16-8,stu-v16-1,stu-v16-2,stu-v16-3"
@@ -273,7 +438,7 @@
     {
       "name": "重载后没有正在运行的卡片动画",
       "ok": true,
-      "detail": "true"
+      "detail": "0 条"
     },
     {
       "name": "首屏加载不播入场动画",
@@ -308,12 +473,17 @@
     {
       "name": "减少动态效果时卡片全程无位移 transform",
       "ok": true,
-      "detail": "带 transform 帧 0/30"
+      "detail": "带 transform 帧 0/33"
     },
     {
       "name": "减少动态效果时关键帧里没有 translate3d 位移",
       "ok": true,
       "detail": " | "
+    },
+    {
+      "name": "减少动态效果时只重排、不做动画位移（布局确实变了但无 transform 位移）",
+      "ok": true,
+      "detail": "布局位移 354px"
     },
     {
       "name": "减少动态效果时重排立即完成",
@@ -341,7 +511,7 @@
       "detail": "true"
     },
     {
-      "name": "点名页 390×844 无横向滚动",
+      "name": "点名页 390×844 无横向滚动（含动画期间）",
       "ok": true,
       "detail": "390/390/390"
     },
@@ -356,19 +526,35 @@
       "detail": "外部资源 0 个"
     },
     {
+      "name": "落位期间被点卡片不被补位卡片遮住（中心点命中的是自己）",
+      "ok": true,
+      "detail": "命中 stu-v16-5（目标 stu-v16-5）z=6 vs 补位 z=2"
+    },
+    {
+      "name": "落位期间被点卡片层级高于补位卡片",
+      "ok": true,
+      "detail": "drop z-index 6 / float-up z-index 2"
+    },
+    {
       "name": "截图状态为部分已点、未点在上",
       "ok": true,
-      "detail": "已点 4 / 未点 4"
+      "detail": "已点 5 / 未点 3"
+    },
+    {
+      "name": "截图截在动画进行中（约 120ms 仍有 data-motion）",
+      "ok": true,
+      "detail": "截图后仍有 8 张卡片带 data-motion"
     }
   ],
   "fatal": null,
   "screenshots": [
-    "C:\\Users\\James\\Documents\\ChatGPT\\培训\\午托点名\\screenshots\\v16-roll-motion.png"
+    "C:\\Users\\James\\Documents\\ChatGPT\\培训\\午托点名\\screenshots\\v161-roll-motion.png",
+    "C:\\Users\\James\\Documents\\ChatGPT\\培训\\午托点名\\screenshots\\v161-roll-settled.png"
   ],
-  "version": "1.6.0",
+  "version": "1.6.1",
   "summary": {
-    "total": 72,
-    "passed": 72,
+    "total": 109,
+    "passed": 109,
     "failed": 0
   }
 }

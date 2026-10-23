@@ -1,9 +1,13 @@
 /* =====================================================================
-   午托点名 —— Service Worker（cache-first 预缓存外壳）
+   午托点名 —— Service Worker
+   取用策略（v1.6.1）：
+     · 导航请求（打开 / 刷新页面）走 network-first：在线先取最新 index.html
+       并写回缓存，网络失败才回退缓存 —— 断网照样能打开，在线优先拿到新版。
+     · 静态资源仍走 cache-first（图标、manifest 等变化少）。
    升级方式：改动 index.html 等文件后，把 VERSION 改一个号再部署。
    ===================================================================== */
 
-var VERSION = "wudian-v1.6.0";
+var VERSION = "wudian-v1.6.1";
 var CACHE = "wudian-shell-" + VERSION;
 
 /* 外壳资源：断网也要能打开，所以 index.html 必须进预缓存 */
@@ -46,7 +50,8 @@ self.addEventListener("activate", function (event) {
   );
 });
 
-/* 取用：cache-first；导航请求回落 index.html，保证断网刷新可用 */
+/* 取用：导航 network-first（在线拿最新页面，失败回退缓存）；
+   其它同源静态资源 cache-first */
 self.addEventListener("fetch", function (event) {
   var req = event.request;
   if (req.method !== "GET") return;
@@ -56,8 +61,25 @@ self.addEventListener("fetch", function (event) {
 
   if (req.mode === "navigate") {
     event.respondWith(
-      caches.match("./index.html").then(function (hit) {
-        return hit || fetch(req).catch(function () { return caches.match("./"); });
+      fetch(req).then(function (res) {
+        /* 在线：先给用户最新页面，同时把新壳写回缓存，供断网时使用 */
+        if (res && res.ok) {
+          var copy = res.clone();
+          caches.open(CACHE).then(function (c) {
+            return c.put("./index.html", copy).catch(function () { return null; });
+          });
+        }
+        return res;
+      }).catch(function () {
+        /* 离线：回退到缓存里的壳，保证仍能打开、仍能点名 */
+        return caches.match("./index.html").then(function (hit) {
+          return hit || caches.match("./");
+        }).then(function (hit) {
+          return hit || new Response(
+            "<!doctype html><meta charset=\"utf-8\"><title>离线</title>" +
+            "<p style=\"font:16px/1.6 system-ui;padding:24px\">当前没有网络，且本机还没有缓存页面。请联网后再打开一次。</p>",
+            { status: 200, headers: { "Content-Type": "text/html; charset=utf-8" } });
+        });
       })
     );
     return;

@@ -1,9 +1,9 @@
 {
   "checks": [
     {
-      "name": "版本号为 1.6.0",
+      "name": "版本号为 1.6.1",
       "ok": true,
-      "detail": "1.6.0"
+      "detail": "1.6.1"
     },
     {
       "name": "造数完成：4 科目 3 老师 2 学生 1 旧文本课程",
@@ -173,7 +173,7 @@
     {
       "name": "subjectIds 含数学奥数美术",
       "ok": true,
-      "detail": "[\"subj-mvko0bz9-mgcl81\",\"subj-mvko0bz9-62oiux\",\"subj-mvko0bza-qq3cb4\"]"
+      "detail": "[\"subj-mvkp358i-33pz98\",\"subj-mvkp358i-zxvw0x\",\"subj-mvkp358k-uwyt4i\"]"
     },
     {
       "name": "subject 文本与所选一致（按档案排序）",
@@ -188,7 +188,7 @@
     {
       "name": "新增老师挂两科",
       "ok": true,
-      "detail": "[\"subj-mvko0bz9-62oiux\",\"subj-mvko0bza-f3txr6\"]"
+      "detail": "[\"subj-mvkp358i-zxvw0x\",\"subj-mvkp358j-71fbee\"]"
     },
     {
       "name": "新增老师行显示“数学、英语”",
@@ -228,7 +228,7 @@
     {
       "name": "唯一任教科目自动预选",
       "ok": true,
-      "detail": "期望 subj-mvko0bz9-62oiux，实际 subj-mvko0bz9-62oiux"
+      "detail": "期望 subj-mvkp358i-zxvw0x，实际 subj-mvkp358i-zxvw0x"
     },
     {
       "name": "赵老师候选含停用美术共 3+1",
@@ -258,7 +258,7 @@
     {
       "name": "课程写 subjectId",
       "ok": true,
-      "detail": "期望 subj-mvko0bz9-mgcl81，实际 subj-mvko0bz9-mgcl81"
+      "detail": "期望 subj-mvkp358i-33pz98，实际 subj-mvkp358i-33pz98"
     },
     {
       "name": "课程写名称快照",
@@ -328,7 +328,7 @@
     {
       "name": "文本组保留旧文本名称",
       "ok": true,
-      "detail": "{\"txt:冷门旧文本\":\"冷门旧文本\",\"id:subj-mvko0bz9-mgcl81\":\"奥数\"}"
+      "detail": "{\"txt:冷门旧文本\":\"冷门旧文本\",\"id:subj-mvkp358i-33pz98\":\"奥数\"}"
     },
     {
       "name": "改名后历史课程快照不变",
@@ -343,7 +343,7 @@
     {
       "name": "统计组名用科目现名",
       "ok": true,
-      "detail": "{\"txt:冷门旧文本\":\"冷门旧文本\",\"id:subj-mvko0bz9-mgcl81\":\"奥数培优\"}"
+      "detail": "{\"txt:冷门旧文本\":\"冷门旧文本\",\"id:subj-mvkp358i-33pz98\":\"奥数培优\"}"
     },
     {
       "name": "老师统计 1 节",
@@ -376,9 +376,9 @@
       "detail": "390/390/390"
     },
     {
-      "name": "刷新后版本仍 1.6.0",
+      "name": "刷新后版本仍 1.6.1",
       "ok": true,
-      "detail": "期望 1.6.0，实际 1.6.0"
+      "detail": "期望 1.6.1，实际 1.6.1"
     },
     {
       "name": "刷新后科目仍 5 个（冷门旧文本文本被归档）",
@@ -393,7 +393,7 @@
     {
       "name": "刷新后旧文本课程挂上归档科目",
       "ok": true,
-      "detail": "subj-mvko0ljo-4cizto"
+      "detail": "subj-mvkp3esg-ev42x5"
     },
     {
       "name": "刷新后旧课程文本保留",

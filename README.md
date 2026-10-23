@@ -1,8 +1,10 @@
-# 午托点名 PWA v1.6.0（宇才教育 · 午托点名 + 培训签到）
+# 午托点名 PWA v1.6.1（宇才教育 · 午托点名 + 培训签到）
 
 iPhone 优先的单机网页应用：午托点名和培训签到分成两套独立档案、两套底部导航（模式切换互不干扰）。断网可用，数据只保存在当前浏览器的 IndexedDB 中，不依赖账号或业务服务器。
 
-**v1.6 新增手机桌面品牌名与点名重排动画**：添加到主屏幕后的应用名称统一显示「宇才教育」（`manifest` 的 `name` / `short_name` 与 `apple-mobile-web-app-title`），页面内部业务标题仍是「午托点名」；午托点名点击学生后，卡片按真实重排位置播放 200ms 的位移动画——被点的卡片向下进入已点名区域，其后的未点卡片向上补位；开启「减少动态效果」时不做上下位移，只保留极轻微反馈。
+**v1.6.1 两段式落位动画 + 在线更新**：点名点击后的落位从 200ms 拉长到 320ms，曲线换成前段平缓的 `cubic-bezier(0.22, 0.61, 0.36, 1)`，起手约 10% 时长停在原格并轻微放大 1.035 倍，让眼睛先看清"就是这张"再下落；未点卡片的补位延后 70ms 启动、260ms 走完（`fill: "both"` 把延迟期锁在旧位置），"先落、后补"的主次看得清；落位期间被点卡片层级抬高，不会被补位卡片盖住。Service Worker 的导航请求改为 **network-first**：在线打开 / 刷新优先拿最新页面并写回缓存，断网回退缓存照常点名；页面在"旧控制器被新控制器顶掉"时自动刷新一次（带防循环保护）；培训「概况」页最底部新增 `v1.6.1` 小版本标记，用来确认手机拿到的是新版。
+
+**v1.6 手机桌面品牌名与点名重排动画**：添加到主屏幕后的应用名称统一显示「宇才教育」（`manifest` 的 `name` / `short_name` 与 `apple-mobile-web-app-title`），页面内部业务标题仍是「午托点名」；午托点名点击学生后，卡片按真实重排位置播放位移动画——被点的卡片向下进入已点名区域，其后的未点卡片向上补位；开启「减少动态效果」时不做上下位移，只保留极轻微反馈。
 
 **v1.5 新增科目档案**：科目独立建档（名称 / 备注 / 启用状态），一位老师可任教多个科目；签到新建课程必须从科目档案选科目（老师任教科目优先，没配置科目时回退全部启用科目）；课程卡片、明细、统计和 CSV 都显示科目名称；旧版本的科目文本会在升级时自动迁移成科目档案。
 
@@ -28,7 +30,7 @@ iPhone 优先的单机网页应用：午托点名和培训签到分成两套独�
 | 培训档案 | 「学生 / 老师 / 科目」三个内部页签；培训学生、培训老师（一师多科）与科目档案（搜索、只看启用、启停、删除保护）；与午托名单完全隔离 |
 | 培训统计 | 按当日 / 本周 / 本月；按学生看上课次数与状态；按老师看上课节数、授课人次和状态；按科目归并（优先按科目 ID，旧文本回退）；导出 CSV |
 
-## 手机桌面名称与点名重排动画（v1.6）
+## 手机桌面名称与点名重排动画（v1.6 / v1.6.1）
 
 ### 桌面名称
 
@@ -37,15 +39,23 @@ iPhone 优先的单机网页应用：午托点名和培训签到分成两套独�
 - 图标继续用本地 `icons/180·192·512`，没有新增品牌图片。
 - 已经装到桌面的旧图标要改名字，需要在手机上先删除图标，再重新「添加到主屏幕」（浏览器按安装时的清单缓存名称）。
 
-### 重排动画
+### 重排动画（v1.6.1 两段式）
 
 - 只在**用户操作导致卡片真实换位**时播放：标记状态、长按改状态、撤销、清除记录。
 - **不播**：首次加载、搜索、筛选、切换日期、切换模式、来回切页签。
 - 做法是原生 WAAPI + FLIP：重建前用 `offsetLeft / offsetTop` 记录布局（纯布局值，不受正在跑的 transform 干扰），重建后以新布局为终点反向算出位移，从 `translate3d(dx, dy, 0)` 回到 `translate3d(0, 0, 0)`；只用 `transform`，不动 `top/left/margin/尺寸`。
-- 时长 200ms，曲线 `cubic-bezier(0.23, 1, 0.32, 1)`：被点的卡片向下落进已点名区域，其后的未点卡片向上补位，克制、不庆祝。
+- **被点卡片（落位，`data-motion="drop"`）总时长 320ms**，曲线 `cubic-bezier(0.22, 0.61, 0.36, 1)`（前段平缓，不再几十毫秒走完大半距离）；关键帧为：起手 10% 停在原格 → 轻微放大到 1.035 并下落 → 到达新位置后收回 `scale(1)`。
+- **未点卡片（补位，`data-motion="float-up"`）延后 70ms 启动、260ms 走完**，用 `fill: "both"` 把延迟期锁在旧位置——不会先闪到新位置再动画；纯横向移动用 `shift`（240ms）。
+- 落位期间被点卡片 `z-index` 抬高并带投影，补位卡片在低层级，主次分明；动画结束立即移除 `data-motion` 与 WAAPI 动画对象，transform 与层级随之复原（动画期间 CSS transform 过渡临时关闭，避免和 WAAPI 抢场）。
 - 快速连点不等上一轮结束：每轮按当时真实布局重新算，业务写入不排队、不阻塞。
-- 动画中的卡片带临时标记 `data-motion="drop" / "float-up" / "shift"`，动画结束或取消即清除，不影响样式和点击。
-- 系统开启「减少动态效果」（`prefers-reduced-motion: reduce`）时不做上下位移，卡片瞬间换位。
+- 系统开启「减少动态效果」（`prefers-reduced-motion: reduce`）时不做上下位移，卡片瞬间换位，只留 ≤150ms 的透明度反馈。
+
+### 在线页面更新（v1.6.1）
+
+- `sw.js` 版本 `wudian-v1.6.1`；**导航请求 network-first**：在线时先取最新 `index.html` 并写回缓存，网络失败才回退缓存（断网仍能打开、照常点名）；静态资源仍是 cache-first。
+- 保留 `skipWaiting` / `clients.claim` 与旧版本缓存清理。
+- 页面监听 `controllerchange`：**只有"本来就有旧控制器、被新控制器顶掉"时自动刷新一次**；首次安装只接管不刷新，且有 reloading 标志防循环。
+- 培训「概况」页内容最底部有 `#appVerBadge`（`data-app-version`）小版本标记，字号 11px 不抢主内容，用来肉眼确认缓存是否已更新。
 
 ## 科目档案与一师多科
 
@@ -126,7 +136,7 @@ C:\Users\James\.workbuddy\binaries\python\envs\default\Scripts\python.exe tests\
 
 五套端到端测试覆盖：数据隔离、档案 CRUD、科目档案与一师多科、签到选科（必选 / 自动预选 / 交集候选）、旧数据迁移、备份兼容、签到三状态、未标状态拦截、学生时段冲突、调课、统计按科目归并、CSV BOM、刷新持久化、午托回归，以及 390×844 手机视口无横向滚动、无乱码、无外部资源。
 
-`e2e_v16_animation.py` 另外覆盖：桌面名称与 `apple-mobile-web-app-title` 精确为「宇才教育」、版本 1.6.0 与 SW 缓存版本、DB_VER 仍为 3；点击后逐帧采样验证被点卡片向下落位（`data-motion=drop`，起点在终点上方）、其后未点卡片向上补位（`data-motion=float-up`，起点在终点下方）；动画结束后 transform 归零、DOM 顺序与数据一致；同状态幂等点击不播动画、不重复写；快速连点三人不丢数据；搜索 / 筛选 / 切日期 / 切模式 / 首屏加载一律不播动画；`prefers-reduced-motion: reduce` 下无上下位移。
+`e2e_v16_animation.py` 另外覆盖（v1.6.1）：桌面名称与 `apple-mobile-web-app-title` 精确为「宇才教育」、版本 1.6.1 与 SW 缓存版本 `wudian-v1.6.1`、DB_VER 仍为 3；从真实 DOM 动画读取时序——被点卡片落位 320ms、曲线前段平缓、关键帧含"停留 → 轻放大 → 收回 scale(1)"、约 80ms 时仍处于旧位置与新位置之间（不瞬移）；补位卡片 delay 70ms / 260ms / `fill:both`，延迟期停在旧位置之后向上移动；DOM 顺序与布局坐标真实变化（不是纯 CSS 假动画）；动画结束后无 `data-motion`、transform 归零、无遗留 WAAPI 动画对象；同状态幂等点击不播动画、不重复写；快速连点三人不丢数据；撤销真实重排；搜索 / 筛选 / 切日期 / 切模式 / 首屏加载一律不播动画；`prefers-reduced-motion: reduce` 下无动画位移；落位期间被点卡片层级高于补位卡片、中心点命中自己（不被遮挡）；培训概况底部可见 `v1.6.1` 标记；`sw.js` 源码为导航 network-first（`fetch` 在前、`caches.match` 回退在后）并保留 `skipWaiting` / `clients.claim` 与旧缓存清理；页面 `controllerchange` 自动刷新带防循环保护；并输出动画进行中截图 `screenshots/v161-roll-motion.png`（约 120ms）。
 
 > 无头 Edge 的 `prefers-reduced-motion` 默认就是 `reduce`，测试脚本会先用 `Emulation.setEmulatedMedia` 显式设成 `no-preference` 再验证正常动画。
 
@@ -134,7 +144,8 @@ C:\Users\James\.workbuddy\binaries\python\envs\default\Scripts\python.exe tests\
 
 界面截图（390×844）：
 
-- `screenshots/v16-roll-motion.png` 午托点名（部分已点，未点在上）
+- `screenshots/v161-roll-motion.png` 午托点名（v1.6.1 两段式落位动画进行中，约 120ms）
+- `screenshots/v161-roll-settled.png` 午托点名（动画结束态，未点在上 / 已点在下）
 - `screenshots/v15-training-signin.png` 培训签到
 - `screenshots/v15-training-subjects.png` 培训档案 - 科目
 - `screenshots/v15-training-stats.png` 培训统计
@@ -172,7 +183,7 @@ C:\Users\James\.workbuddy\binaries\python\envs\default\Scripts\python.exe tests\
 午托点名/
 ├── index.html            应用主体（CSS / JS 全内联，零外链）
 ├── manifest.webmanifest  PWA 清单
-├── sw.js                 Service Worker（cache-first 外壳缓存）
+├── sw.js                 Service Worker（导航 network-first + 静态 cache-first）
 ├── icons/                180 / 192 / 512 三种图标
 ├── tests/                端到端测试、测试报告和截图
 ├── screenshots/          历史截图
@@ -182,10 +193,10 @@ C:\Users\James\.workbuddy\binaries\python\envs\default\Scripts\python.exe tests\
 
 ## 技术说明
 
-- 数据存储：IndexedDB。午托使用 `students / records / avatars`；培训使用 `trTeachers / trStudents / trSubjects / trCourses / trAttendance`。数据库只做加法升级（v1.4→v1.5 自动新增 `trSubjects` 并迁移旧科目文本；v1.6 不动表结构，DB_VER 仍为 3）。
-- 点名重排动画：原生 WAAPI + FLIP，`renderGridOnly()` 只在用户操作导致重排时接收 `{clickedId}` 参数并播放；曲线与时长见上文，无动画库、无外部资源。`window.__test.motion` 只读暴露时长 / 曲线 / 当前标记数，供自测观测。
+- 数据存储：IndexedDB。午托使用 `students / records / avatars`；培训使用 `trTeachers / trStudents / trSubjects / trCourses / trAttendance`。数据库只做加法升级（v1.4→v1.5 自动新增 `trSubjects` 并迁移旧科目文本；v1.6.1 不动表结构，DB_VER 仍为 3）。
+- 点名重排动画：原生 WAAPI + FLIP，`renderGridOnly()` 只在用户操作导致重排时接收 `{clickedId}` 参数并播放；落位 320ms / 补位延迟 70ms + 260ms，曲线 `cubic-bezier(0.22, 0.61, 0.36, 1)`，无动画库、无外部资源。`window.__test.motion` 只读暴露各段时长 / 曲线 / 当前标记数，供自测观测。
 - 培训科目：老师挂 `subjectIds` 数组（一师多科）；课程保存 `subjectId + subjectName` 名称快照，科目改名不改历史。
 - 签到明细主键为 `courseId|studentId`，同一课程内幂等，同一学生一天可跨多节课记录。
 - 培训对外 API：`window.Training`，含档案、课程、签到明细、快照恢复等接口。
-- 离线：`sw.js` cache-first 预缓存；无 CDN、无第三方统计、无外部图片。
+- 离线：`sw.js` 导航请求 network-first（在线优先拿新页面，失败回退缓存），静态资源 cache-first 预缓存；无 CDN、无第三方统计、无外部图片。
 - 隐私：业务数据不出设备；静态页面本身可由任何 HTTPS 静态托管提供。
