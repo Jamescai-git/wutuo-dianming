@@ -113,7 +113,7 @@
     {
       "name": "动画期间卡片确实带有位移 transform",
       "ok": true,
-      "detail": "带 transform 帧 14/33"
+      "detail": "带 transform 帧 12/33"
     },
     {
       "name": "动画结束后无 data-motion 残留",
@@ -308,7 +308,7 @@
     {
       "name": "减少动态效果时卡片全程无位移 transform",
       "ok": true,
-      "detail": "带 transform 帧 0/29"
+      "detail": "带 transform 帧 0/30"
     },
     {
       "name": "减少动态效果时关键帧里没有 translate3d 位移",

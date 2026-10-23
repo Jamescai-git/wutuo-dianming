@@ -173,7 +173,7 @@
     {
       "name": "subjectIds 含数学奥数美术",
       "ok": true,
-      "detail": "[\"subj-mvknuv0w-s05g75\",\"subj-mvknuv0v-vgb1z6\",\"subj-mvknuv11-e1lxjl\"]"
+      "detail": "[\"subj-mvko0bz9-mgcl81\",\"subj-mvko0bz9-62oiux\",\"subj-mvko0bza-qq3cb4\"]"
     },
     {
       "name": "subject 文本与所选一致（按档案排序）",
@@ -188,7 +188,7 @@
     {
       "name": "新增老师挂两科",
       "ok": true,
-      "detail": "[\"subj-mvknuv0v-vgb1z6\",\"subj-mvknuv10-my81cu\"]"
+      "detail": "[\"subj-mvko0bz9-62oiux\",\"subj-mvko0bza-f3txr6\"]"
     },
     {
       "name": "新增老师行显示“数学、英语”",
@@ -228,7 +228,7 @@
     {
       "name": "唯一任教科目自动预选",
       "ok": true,
-      "detail": "期望 subj-mvknuv0v-vgb1z6，实际 subj-mvknuv0v-vgb1z6"
+      "detail": "期望 subj-mvko0bz9-62oiux，实际 subj-mvko0bz9-62oiux"
     },
     {
       "name": "赵老师候选含停用美术共 3+1",
@@ -258,7 +258,7 @@
     {
       "name": "课程写 subjectId",
       "ok": true,
-      "detail": "期望 subj-mvknuv0w-s05g75，实际 subj-mvknuv0w-s05g75"
+      "detail": "期望 subj-mvko0bz9-mgcl81，实际 subj-mvko0bz9-mgcl81"
     },
     {
       "name": "课程写名称快照",
@@ -328,7 +328,7 @@
     {
       "name": "文本组保留旧文本名称",
       "ok": true,
-      "detail": "{\"txt:冷门旧文本\":\"冷门旧文本\",\"id:subj-mvknuv0w-s05g75\":\"奥数\"}"
+      "detail": "{\"txt:冷门旧文本\":\"冷门旧文本\",\"id:subj-mvko0bz9-mgcl81\":\"奥数\"}"
     },
     {
       "name": "改名后历史课程快照不变",
@@ -343,7 +343,7 @@
     {
       "name": "统计组名用科目现名",
       "ok": true,
-      "detail": "{\"txt:冷门旧文本\":\"冷门旧文本\",\"id:subj-mvknuv0w-s05g75\":\"奥数培优\"}"
+      "detail": "{\"txt:冷门旧文本\":\"冷门旧文本\",\"id:subj-mvko0bz9-mgcl81\":\"奥数培优\"}"
     },
     {
       "name": "老师统计 1 节",
@@ -393,7 +393,7 @@
     {
       "name": "刷新后旧文本课程挂上归档科目",
       "ok": true,
-      "detail": "subj-mvknv4qq-2zm0vz"
+      "detail": "subj-mvko0ljo-4cizto"
     },
     {
       "name": "刷新后旧课程文本保留",
